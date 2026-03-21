@@ -617,22 +617,17 @@
     position: relative;
 }
 
-.cspc-dashboard {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 30px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: fit-content;
-
-    top: 150px; /* Navigasyon menüsünün hemen altında başlaması için ideal değer */
-    align-self: start; 
-    margin-top: 0 !important;
-    width: 100%;
-    max-width: 500px;
-}
+.cspc-dashboard { 
+        background: rgba(0,0,0,0.5) !important; 
+        border: 1px solid rgba(255,255,255,0.05) !important; 
+        padding: 20px !important; 
+        margin: 20px 0 !important; /* Yukarıdan ve aşağıdan nefes aldırır */
+        border-radius: 8px; 
+        
+        /* İŞTE HAYAT KURTARAN NÜKLEER KOD: */
+        top: 0 !important; /* Masaüstündeki aşağı itme komutunu SIFIRLAR */
+        position: static !important; /* Elemanın zorla yer değiştirmesini engeller, akışa oturtur */
+    }
 
 .cspc-header {
     display: flex;
