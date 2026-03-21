@@ -846,25 +846,60 @@ nav {
 
     /* --- SORUN 3: EAS TABLE ÇOK KÖTÜ VE PURE SALES MASLA SIKIŞIYOR --- */
     /* --- SORUN 3: KUSURSUZ CSPC TABLOSU (INLINE STİLLERİ EZEN KOD) --- */
-    .analytics-row { 
-        width: 100vw !important; /* Ekranın tamamına yayıl */
+    /* --- KUSURSUZ CSPC TABLOSU (SALLANMA ENGELLENDİ) --- */
+    html, body { 
+        overflow-x: hidden !important; /* Sayfanın sağa sola kaymasını KESİN engeller */
+        width: 100%; 
         position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw !important; /* Mobilde paddingleri delip tam ekran olması için hile */
-        margin-right: -50vw !important;
-        overflow-x: auto !important; /* Sağa sola kusursuz kaydırma */
+    }
+
+    .analytics-row { 
+        width: 100% !important; /* -50vw hilesini çöpe attık */
+        position: static !important;
+        margin: 20px 0 !important;
+        overflow-x: auto !important; /* Sadece tablo kayacak */
         -webkit-overflow-scrolling: touch !important; 
-        padding: 0 15px 20px 15px !important; 
+        padding: 0 !important; 
         background: transparent !important;
         border: none !important;
     }
     
     .analytics-row table { 
-        min-width: 800px !important; /* Asla sıkışmayacak, yana kayacak */
+        min-width: 750px !important; /* Tablo sıkışmayacak */
         width: 100% !important; 
         border-collapse: collapse !important; 
         margin: 0 !important; 
+    }
+
+    .analytics-row th, 
+    .analytics-row td { 
+        white-space: nowrap !important; 
+        padding: 15px 10px !important; 
+        font-size: 0.8rem !important; 
+    }
+
+    /* ALBÜM SÜTUNUNU MÜHÜRLE */
+    .analytics-row th:first-child, 
+    .analytics-row td:first-child { 
+        position: sticky !important; 
+        left: 0 !important; 
+        background-color: #0c0c0e !important; /* Yazılar üst üste binmesin diye opak siyah */
+        z-index: 20 !important; 
+        border-right: 1px solid rgba(255,255,255,0.1) !important;
+        box-shadow: 4px 0 8px rgba(0,0,0,0.6) !important; /* Sağında daha belirgin gölge */
+    }
+    .analytics-row th:first-child { z-index: 21 !important; }
+
+    /* Grand Total Satırı */
+    .analytics-row tbody tr:last-child td {
+        background-color: #1a150a !important; 
+        border-top: 2px solid #d4a853 !important;
+        color: #d4a853 !important;
+        font-weight: 800 !important;
+    }
+    .analytics-row tbody tr:last-child td:first-child {
+        background-color: #1a150a !important; 
+        z-index: 21 !important;
     }
 
     /* JS içindeki inline padding ve fontları zorla ezme */
@@ -932,7 +967,9 @@ nav {
     .hero-card { width: 100% !important; box-sizing: border-box !important; }
     
     /* Lifetime Gross yazısı telefona sığsın */
-    #lifetime-gross { font-size: 15vw !important; }
+    #lifetime-gross { font-size: 11vw !important;
+                    letter-spacing: -1px !important;
+    }
 
     /* --- TOURS.HTML ÖZEL --- */
     /* Konser satırlarını (4 sütunlu ızgara) tek sütuna indir ve alt alta diz */
