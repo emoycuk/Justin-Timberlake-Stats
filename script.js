@@ -282,9 +282,25 @@ async function playAlbum(albumName) {
     animateValue(document.getElementById('eas-total'), 0, stats.totalEAS, 1000);
     animateValue(document.getElementById('spotify-total'), 0, stats.spotifyStreams, 1000);
 
-
-
     updateEraTheme(albumName); // Tema motorunu ateşler
+
+    // ==========================================
+    // 📱 MOBİL UX: OTOMATİK PANEL KAYDIRMA MOTORU
+    // ==========================================
+    if (window.innerWidth < 768) {
+        // Hedefimiz verilerin güncellendiği sağ panel
+        const dashboardPanel = document.querySelector('.cspc-dashboard'); 
+        if (dashboardPanel) {
+            const navHeight = 140; // Sabit navbar'ın yüksekliğini hesaba katıyoruz ki yazının üstüne binmesin
+            const panelPosition = dashboardPanel.getBoundingClientRect().top + window.scrollY - navHeight;
+            
+            // Jilet gibi yumuşak kaydırma
+            window.scrollTo({
+                top: panelPosition,
+                behavior: 'smooth' 
+            });
+        }
+    }
 }
 
 // YouTube API
