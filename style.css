@@ -775,7 +775,7 @@ nav {
     html, body { overflow-x: hidden !important; width: 100vw; max-width: 100vw; position: relative; margin: 0; padding: 0; }
     section { padding: 30px 15px !important; box-sizing: border-box !important; }
 
-    /* --- SORUN 1: NAV BAR GÖZÜKMÜYOR --- */
+    /* --- SORUN 1: NAV BAR GÖZÜKMÜYOR & RENK DÜZELTMESİ --- */
     nav { 
         padding: 10px; 
         flex-direction: column; 
@@ -797,7 +797,16 @@ nav {
         margin: 0; 
         display: flex !important; 
     }
-    .nav-links li a { font-size: 0.8rem; padding: 5px; }
+    
+    /* NAVBAR UX: Tüm linkleri gri yapıp aynı hizada tut */
+    .nav-links li a { 
+        font-size: 0.8rem; 
+        padding: 5px; 
+        color: var(--text-secondary) !important; /* Her şey gri tonda oldu */
+        font-weight: 400 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.1em !important;
+    }
     body { padding-top: 140px; }
 
     /* Hero Kısmı */
@@ -822,36 +831,23 @@ nav {
     .album-grid { grid-template-columns: 1fr !important; gap: 15px !important; width: 100% !important; }
 
     /* =========================================
-       📱 KUSURSUZ UX: TABLE-TO-CARDS TASARIMI
-       (INDEX.HTML İÇİN)
+       📱 KUSURSUZ UX: TABLE-TO-CARDS TASARIMI (INDEX.HTML İÇİN)
        ========================================= */
     .analytics-row { 
         width: 100% !important; 
-        overflow-x: hidden !important; /* Yana kaydırmayı tamamen kapat */
+        overflow-x: hidden !important; 
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    /* Tablo Mimarisi Yıkılıyor */
-    .analytics-row table, 
-    .analytics-row thead, 
-    .analytics-row tbody, 
-    .analytics-row tr, 
-    .analytics-row th, 
-    .analytics-row td { 
+    .analytics-row table, .analytics-row thead, .analytics-row tbody, .analytics-row tr, .analytics-row th, .analytics-row td { 
         display: block !important; 
         width: 100% !important; 
         box-sizing: border-box !important;
     }
 
-    /* Başlıklar Gizleniyor */
-    .analytics-row thead tr { 
-        position: absolute !important; 
-        top: -9999px !important; 
-        left: -9999px !important; 
-    }
+    .analytics-row thead tr { position: absolute !important; top: -9999px !important; left: -9999px !important; }
 
-    /* Her Satır Şık Bir Kart Oluyor */
     .analytics-row tbody tr { 
         background: rgba(255,255,255,0.03) !important; 
         border: 1px solid rgba(255,255,255,0.08) !important; 
@@ -860,7 +856,6 @@ nav {
         margin-bottom: 20px !important;
     }
 
-    /* Hücreler Veri Etiketli Alt Alta Diziliyor */
     .analytics-row td { 
         position: relative !important; 
         padding: 10px 10px 10px 50% !important; 
@@ -871,28 +866,7 @@ nav {
     }
     .analytics-row td:last-child { border-bottom: none !important; }
 
-    /* Manuel Veri Başlıkları */
-    .analytics-row td::before { 
-        position: absolute !important; 
-        left: 10px !important; 
-        width: 45% !important; 
-        text-align: left !important;
-        white-space: nowrap !important; 
-        font-weight: 700 !important; 
-        color: #888 !important; 
-        text-transform: uppercase !important;
-        font-size: 0.75rem !important;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .analytics-row td:nth-of-type(1)::before { content: "Albüm"; }
-    .analytics-row td:nth-of-type(2)::before { content: "Pure Sales"; }
-    .analytics-row td:nth-of-type(3)::before { content: "Singles EAS"; }
-    .analytics-row td:nth-of-type(4)::before { content: "Audio EAS"; color: #3498db !important; }
-    .analytics-row td:nth-of-type(5)::before { content: "TOTAL EAS"; color: #d4a853 !important; }
-
-    /* Albüm İsmi ve Total EAS Rakamlarını Vurgula */
+    /* İsim Ezilmesini Önleyen UX (Albüm İsmi) */
     .analytics-row td:first-child { 
         font-family: 'Playfair Display', serif !important; 
         font-size: 1.4rem !important; 
@@ -902,84 +876,87 @@ nav {
         margin-bottom: 10px !important;
         padding: 10px 0 15px 0 !important;
         text-align: center !important;
+        white-space: normal !important; /* Taşmayı Engeller! */
+        line-height: 1.2 !important;
     }
     .analytics-row td:first-child::before { display: none !important; }
 
-    .analytics-row td:last-child { 
-        color: #d4a853 !important; 
-        font-weight: 800 !important; 
-        font-size: 1.1rem !important;
-        margin-top: 5px;
-    }
+    .analytics-row td:last-child { color: #d4a853 !important; font-weight: 800 !important; font-size: 1.1rem !important; margin-top: 5px; }
 
-    /* GRAND TOTAL KARTINI ÖZEL KIL */
-    .analytics-row tbody tr:last-child { 
-        border: 2px solid #d4a853 !important; 
-        background: rgba(212, 168, 83, 0.1) !important; 
-        margin-top: 30px !important; 
-    }
-    .analytics-row tbody tr:last-child td:first-child {
-        color: #d4a853 !important;
-    }
-
-    /* Guestbook */
-    .guestbook > div > div { display: flex !important; flex-direction: column !important; gap: 30px !important; }
-
+    .analytics-row tbody tr:last-child { border: 2px solid #d4a853 !important; background: rgba(212, 168, 83, 0.1) !important; margin-top: 30px !important; }
+    .analytics-row tbody tr:last-child td:first-child { color: #d4a853 !important; }
 
     /* =========================================
-       📱 TOURS & STREAMS GERÇEK MOBİL KODU
+       🚨 STREAMS.HTML & TOURS.HTML (KÜFÜR DÜZELTMESİ BURADA) 🚨
        ========================================= */
-    .analytics-container { 
-        padding: 100px 15px 30px 15px !important; 
-        width: 100vw !important;
-        box-sizing: border-box !important;
-    }
-
+    .analytics-container { padding: 100px 15px 30px 15px !important; width: 100vw !important; box-sizing: border-box !important; }
     .hero-stats { display: flex !important; flex-direction: column !important; gap: 20px !important; }
     .hero-card { width: 100% !important; box-sizing: border-box !important; }
-    
     #lifetime-gross { font-size: 11vw !important; letter-spacing: -1px !important; }
 
     /* TOURS.HTML ÖZEL */
-    .tour-row { 
-        display: flex !important; 
-        flex-direction: column !important; 
-        text-align: center; 
-        gap: 15px !important;
-        padding: 20px !important;
-    }
+    .tour-row { display: flex !important; flex-direction: column !important; text-align: center; gap: 15px !important; padding: 20px !important; }
     .stat-box { align-items: center !important; text-align: center !important; }
 
-    /* STREAMS.HTML ÖZEL */
+    /* STREAMS.HTML ÖZEL - Şarkı Kartları */
     .prediction-grid { display: flex !important; flex-direction: column !important; }
+    
     .song-table { 
         display: block !important; 
         width: 100% !important; 
-        overflow-x: auto !important; 
-        -webkit-overflow-scrolling: touch; 
-        white-space: nowrap !important; 
     }
-    canvas#albumShareChart { min-width: 400px !important; height: auto !important; }
-}
 
-/* =========================================
-       🚨 STREAMS.HTML KÜFÜR YEDİĞİMİZ YERİN DÜZELTMESİ 🚨
-       (Spotify tablolarına kendi etiketlerini geri verme)
-       ========================================= */
-    
-    /* 1. Şarkı (Top Tracks) Tablosu Etiketleri */
-    .song-table td:nth-of-type(1)::before { content: "Track" !important; color: #888 !important; }
+    .song-table table, .song-table thead, .song-table tbody, .song-table tr, .song-table th, .song-table td { 
+        display: block !important; 
+        width: 100% !important; 
+        box-sizing: border-box !important;
+    }
+
+    .song-table thead tr { position: absolute !important; top: -9999px !important; left: -9999px !important; }
+
+    .song-table tbody tr { 
+        background: rgba(255,255,255,0.03) !important; 
+        border: 1px solid rgba(255,255,255,0.08) !important; 
+        border-radius: 12px !important; 
+        padding: 15px !important; 
+        margin-bottom: 20px !important;
+    }
+
+    .song-table td { 
+        position: relative !important; 
+        padding: 10px 10px 10px 50% !important; 
+        border: none !important; 
+        text-align: right !important; 
+        border-bottom: 1px solid rgba(255,255,255,0.03) !important;
+        font-size: 0.9rem !important;
+    }
+
+    .song-table td::before { 
+        position: absolute !important; left: 10px !important; width: 45% !important; text-align: left !important;
+        white-space: nowrap !important; font-weight: 700 !important; color: #888 !important; 
+        text-transform: uppercase !important; font-size: 0.75rem !important; top: 50%; transform: translateY(-50%);
+    }
+
+    /* Şarkı İsim Taşması Düzeltmesi (UX!) */
+    .song-table td:first-child { 
+        font-family: 'Playfair Display', serif !important; 
+        font-size: 1.3rem !important; 
+        color: #fff !important; 
+        background: transparent !important; 
+        border-bottom: 2px solid rgba(255,255,255,0.08) !important;
+        margin-bottom: 10px !important;
+        padding: 10px 0 15px 0 !important;
+        text-align: center !important;
+        white-space: normal !important; /* İsim Uzunsa Alt Satıra Geçer! */
+        line-height: 1.2 !important;
+    }
+    .song-table td:first-child::before { display: none !important; }
+
+    /* SPOTIFY RENKLİ ETİKETLER - SCOPED YAPILDI */
     .song-table td:nth-of-type(2)::before { content: "Total Streams" !important; color: #888 !important; }
     .song-table td:nth-of-type(3)::before { content: "Live Daily" !important; color: #4ade80 !important; }
     .song-table td:nth-of-type(4)::before { content: "Est. Weekly" !important; color: #d4a853 !important; }
-    
-    /* Varsa 5. sütunu gizle (Çünkü şarkı tablosu 4 sütunlu) */
-    .song-table td:nth-of-type(5)::before { display: none !important; }
     .song-table td:nth-of-type(5) { display: none !important; }
 
-    /* 2. Albüm Leaderboard Tablosu Etiketleri */
-    #album-leaderboard-table td:nth-of-type(1)::before { content: "Album" !important; }
-    #album-leaderboard-table td:nth-of-type(2)::before { content: "Year" !important; color: #888 !important; }
-    #album-leaderboard-table td:nth-of-type(3)::before { content: "Total Streams" !important; color: #888 !important; }
-    #album-leaderboard-table td:nth-of-type(4)::before { content: "Daily Streams" !important; color: #4ade80 !important; }
-    #album-leaderboard-table td:nth-of-type(5)::before { content: "% of Daily" !important; color: #d4a853 !important; display: block !important; }
+    canvas#albumShareChart { min-width: 100% !important; height: auto !important; margin: 0 auto; }
+}

@@ -293,28 +293,44 @@ async function initStreamsDashboard() {
                     hoverOffset: 10 // Üzerine gelince dilim dışarı fırlar
                 }]
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: { color: '#aaa', font: { family: 'Space Grotesk' } }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            // Rakamları virgüllü formata çevirir (Örn: 3,288,975,953)
-                            label: function(context) {
-                                let label = context.label || '';
-                                if (label) { label += ': '; }
-                                if (context.parsed !== null) {
-                                    label += context.parsed.toLocaleString('en-US') + ' Streams';
-                                }
-                                return label;
-                            }
-                        }
+            // Chart.js Options Kısmı - Mobilde legend'ı aşağıya alan responsive çözüm
+options: {
+    responsive: true,
+    maintainAspectRatio: false, // Konteynerin boyunu almasını sağlar, ezilmeyi önler
+    plugins: {
+        legend: {
+            // İŞTE HAYAT KURTARAN NÜKLEER JS KODU:
+            // Tarayıcı genişliği 768px'den küçükse (telefon), legend'ı 'bottom' (aşağı) al;
+            // yoksa 'right' (sağ) olarak bırak.
+            position: window.innerWidth < 768 ? 'bottom' : 'right',
+            
+            labels: {
+                color: '#fff',
+                font: {
+                    family: "'Space Grotesk', sans-serif",
+                    size: 11 // Mobilde yazıları biraz küçültelim ki sığsın
+                },
+                padding: 15 // Legend öğeleri arasına nefes aldırmalık boşluk
+            }
+        },
+        tooltip: {
+            // Şarkı isimlerinin sığması için tooltip'i de responsive yapıyoruz
+            callbacks: {
+                label: function(context) {
+                    let label = context.label || '';
+                    if (label.length > 20 && window.innerWidth < 768) {
+                        label = label.substring(0, 17) + '...'; // Mobilde şarkı ismini kısalt
                     }
+                    if (label) { label += ': '; }
+                    if (context.parsed.y !== null) {
+                        label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                    }
+                    return label;
                 }
             }
+        }
+    }
+}
         });
         // ... (catch bloğu devam ediyor)
     } catch (e) {
