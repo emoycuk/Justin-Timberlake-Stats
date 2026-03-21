@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin Timberlake | Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <nav>
+        <div class="logo">Timberlake</div>
+        <ul class="nav-links">
+            <li><a href="#discography">Discography</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="tours.html">Box Office</a></li>
+            <li><a href="streams.html" style="color: #d4a853; font-weight: 700;">Live Streaming Stats</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-subtitle">The Prince of Pop</div>
+            <h1 class="hero-title">
+                <span>JUSTIN</span>
+                <span>TIMBERLAKE</span>
+            </h1>
+        </div>
+        <div class="hero-year">EST. 1981 // MEMPHIS, TN</div>
+        <div class="scroll-indicator">
+            <span style="font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;">Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <section class="discography" id="discography">
+    <div class="section-header">
+        <h2 class="section-title">Discography</h2>
+        
+    </div>
+    
+    <div class="discography-layout">
+        
+        <div class="album-grid">
+            <div class="album-card" onclick="playAlbum('Justified')">
+                <div class="album-cover" style="background-image: url('assets/justified.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
+    </div>
+                <div class="album-info">
+                    <div class="album-year">2002</div>
+                    <div class="album-name">Justified</div>
+                    <div class="album-tracks">Like I Love You • Cry Me a River • Rock Your Body</div>
+                </div>
+            </div>
+
+            <div class="album-card" onclick="playAlbum('FutureSex/LoveSounds')">
+                <div class="album-cover" style="background-image: url('assets/fsls.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
+    </div>
+                <div class="album-info">
+                    <div class="album-year">2006</div>
+                    <div class="album-name">FutureSex/LoveSounds</div>
+                    <div class="album-tracks">SexyBack • My Love • What Goes Around</div>
+                </div>
+            </div>
+
+            <div class="album-card" onclick="playAlbum('The 20/20 Experience')">
+                <div class="album-cover" style="background-image: url('assets/the20.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
+    </div>
+                <div class="album-info">
+                    <div class="album-year">2013</div>
+                    <div class="album-name">The 20/20 Experience</div>
+                    <div class="album-tracks">Suit & Tie • Mirrors • Tunnel Vision</div>
+                </div>
+            </div>
+
+            <div class="album-card" onclick="playAlbum('Man of the Woods')">
+                <div class="album-cover" style="background-image: url('assets/motw.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
+    </div>
+                <div class="album-info">
+                    <div class="album-year">2018</div>
+                    <div class="album-name">Man of the Woods</div>
+                    <div class="album-tracks">Filthy • Say Something • Man of the Woods</div>
+                </div>
+            </div>
+
+            <div class="album-card" onclick="playAlbum('Everything I Thought It Was')">
+                <div class="album-cover" style="background-image: url('assets/eitiw.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
+    </div>
+                <div class="album-info">
+                    <div class="album-year">2024</div>
+                    <div class="album-name">Everything I Thought It Was</div>
+                    <div class="album-tracks">Selfish • No Angels • Drown</div>
+                </div>
+            </div>
+
+            <div class="album-card" onclick="playAlbum('Orphan / Features')">
+    <div class="album-cover" style="background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); border: 1px solid rgba(255,255,255,0.05);">
+        <div class="vinyl-record" style="background: repeating-radial-gradient(#050505 0, #050505 2px, #111 3px, #111 4px);"></div>
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk'; font-size: 0.8rem; color: rgba(212, 168, 83, 0.3); text-transform: uppercase; letter-spacing: 0.3em; transform: rotate(-15deg);">Feat // OST</div>
+    </div>
+    <div class="album-info">
+        <div class="album-year">Various Years</div>
+        <div class="album-name" style="color: var(--accent-bronze);">Orphan / Features</div>
+        <div class="album-tracks">Where Is The Love • Trolls Tracks • Rehab • Collaborations</div>
+    </div>
+</div>
+        </div>
+
+      <div class="cspc-dashboard">
+        <div class="cspc-header">
+            <h3 class="cspc-title" id="dashboard-title">Career Totals</h3> <div class="live-indicator">
+                
+                
+            </div>
+
+            <div class="stat-group" style="margin-top: 20px; text-align: center; border-left: none;">
+            <a href="streams.html" class="era-btn">
+                View Deep Analytics & Predictions ➔
+            </a>
+        </div>
+        </div>
+
+        <div class="stat-group">
+            <div class="stat-label">Total EAS (Equivalent Album Sales)</div>
+            <div class="stat-value" id="eas-total">0</div> <div class="stat-sub" id="eas-sub">All eras combined</div>
+        </div>
+
+        <div class="stat-group">
+            <div class="stat-label">Total Spotify Streams</div>
+            <div class="stat-value" id="spotify-total">0</div>
+            <div class="stat-sub">Across all credits</div>
+        </div>
+
+        <div class="stat-group">
+            <div class="stat-label">Best Selling Era</div>
+            <div class="stat-value" id="best-era-name" style="font-size: 1.8rem;">---</div>
+            <div class="stat-sub" id="best-era-val">Calculating...</div>
+        </div>
+    </div>
+
+    <div class="analytics-row" style="margin-top: 50px; background: rgba(255,255,255,0.02); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); grid-column: 1 / -1;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
+                <div>
+                    <h2 style="font-family: 'Playfair Display'; color: #d4a853; margin-bottom: 5px;">CSPC Analysis & Total Sales</h2>
+                    <p style="color: #888; font-size: 0.9rem;">Commensurate Sales to Popularity Concept. <span style="color:#fff;">Click column headers to sort.</span></p>
+                </div>
+            </div>
+            
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #888; font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; text-transform: uppercase;">
+                        <th onclick="sortEasTable('album')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Album ⇕</th>
+                        <th onclick="sortEasTable('pure')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Pure Sales ⇕</th>
+                        <th onclick="sortEasTable('singles')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Singles EAS ⇕</th>
+                        <th onclick="sortEasTable('audio')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Audio EAS ⇕</th>
+                        <th onclick="sortEasTable('total')" style="cursor:pointer; padding-bottom: 10px; color: #d4a853;">Total EAS ⇕</th>
+                    </tr>
+                </thead>
+                <tbody id="eas-table-body" style="font-family: 'Space Grotesk', sans-serif;">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <section class="guestbook" style="padding: 80px 4rem; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <h2 style="font-family: 'Playfair Display'; font-size: 3rem; margin-bottom: 10px; color: #d4a853;">Fan Insights</h2>
+        <p style="color: #888; margin-bottom: 40px; font-family: 'Space Grotesk'; letter-spacing: 1px;">LEAVE A SUGGESTION OR A COMMENT ABOUT THE DATA</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
+            <div class="comment-form">
+                <input type="text" id="guest-name" placeholder="Your Name" style="width: 100%; padding: 15px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: #fff; font-family: 'Space Grotesk'; outline: none; border-radius: 4px;">
+                <textarea id="guest-msg" placeholder="What's on your mind?" rows="5" style="width: 100%; padding: 15px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: #fff; font-family: 'Space Grotesk'; outline: none; border-radius: 4px; resize: none;"></textarea>
+                <button onclick="sendComment()" class="era-btn" style="width: 100%; border: 1px solid #d4a853; background: transparent; color: #d4a853; padding: 15px; cursor: pointer; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;">
+                    Post to Guestbook
+                </button>
+            </div>
+
+            <div id="comments-flow" style="max-height: 400px; overflow-y: auto; padding-right: 15px; font-family: 'Space Grotesk';">
+                <p style="color: #555;">Connecting to live database...</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); font-family: 'Space Grotesk';">
+        <span style="font-size: 1.5rem;">👁️</span>
+        <span id="visitor-count" style="color: #d4a853; font-size: 1.5rem; font-weight: 700; margin: 0 10px;">...</span>
+        <span style="color: #888; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Fans Entered The Era</span>
+    </div>
+</section>
+
+    </section>
+
+    <script src="config.js"></script>
+
+    <script type="module">
+  // 1. İhtiyacımız olan tüm Firebase v12 modüllerini (Sayaç için doc, setDoc, increment dahil) içe aktarıyoruz
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, increment } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+  // 2. config.js içindeki GİZLİ anahtarımızı kullanarak Firebase'i başlatıyoruz
+  const app = initializeApp(CONFIG.FIREBASE);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  // 3. Yorum Gönderme Fonksiyonu
+  window.sendComment = async function() {
+      const nameEl = document.getElementById('guest-name');
+      const msgEl = document.getElementById('guest-msg');
+
+      if(!nameEl.value || !msgEl.value) {
+          alert("Lütfen adını ve mesajını yaz! 🙏");
+          return;
+      }
+
+      try {
+          await addDoc(collection(db, "comments"), {
+              name: nameEl.value,
+              message: msgEl.value,
+              timestamp: serverTimestamp()
+          });
+          msgEl.value = ""; 
+          console.log("Mesaj başarıyla uçtu!");
+      } catch (error) {
+          console.error("Veritabanı hatası: ", error);
+          alert("Gönderilemedi. Firebase Rules ayarlarını yaptın mı?");
+      }
+  };
+
+  // 4. Canlı Yorumları Dinleme
+  const commentsFlow = document.getElementById('comments-flow');
+  if (commentsFlow) {
+      const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+      
+      onSnapshot(q, (snapshot) => {
+          commentsFlow.innerHTML = "";
+          snapshot.forEach((docSnap) => {
+              const data = docSnap.data();
+              const date = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleDateString() : "Just now";
+
+              commentsFlow.innerHTML += `
+                  <div style="background: rgba(255,255,255,0.02); padding: 15px; margin-bottom: 15px; border-radius: 4px; border-left: 2px solid #d4a853;">
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                          <span style="color: #d4a853; font-weight: 700; font-size: 0.8rem;">${data.name}</span>
+                          <span style="font-size: 0.7rem; color: #555;">${date}</span>
+                      </div>
+                      <p style="color: #ccc; font-size: 0.9rem; line-height: 1.5;">${data.message}</p>
+                  </div>
+              `;
+          });
+      });
+  }
+
+  // 5. ZİYARETÇİ SAYACI MOTORU (V12 Modular Syntax)
+  const statsRef = doc(db, "analytics", "visitor_stats");
+
+  // Sayfa açıldığında sayacı 1 artır (merge: true dosyayı sıfırdan oluşturmasını sağlar)
+  setDoc(statsRef, { count: increment(1) }, { merge: true })
+    .then(() => {
+        // Artırdıktan sonra güncel rakamı canlı olarak dinle
+        onSnapshot(statsRef, (docSnap) => {
+            if (docSnap.exists() && document.getElementById('visitor-count')) {
+                // Sayıyı al ve virgüllü formatta ekrana bas
+                document.getElementById('visitor-count').innerText = docSnap.data().count.toLocaleString('en-US');
+            }
+        });
+    })
+    .catch(err => console.error("Sayaç hatası:", err));
+
+</script>
+
+    <script src="script.js"></script>
+</body>
+</html>

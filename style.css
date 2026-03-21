@@ -1,0 +1,779 @@
+:root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --accent-gold: #d4a853;
+            --accent-bronze: #8b6f47;
+            --text-primary: #f5f5f5;
+            --text-secondary: #888;
+            --Memphis-orange: #ff6b35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Grain Texture Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: 'TM';
+            position: absolute;
+            font-size: 0.4em;
+            top: 0;
+            right: -1.5em;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Hem karartma filtresi hem de fotoğrafı aynı anda veriyoruz */
+    background-image: linear-gradient(to right, rgba(10, 10, 15, 0.9) 0%, rgba(10, 10, 15, 0.3) 100%), 
+                      url('assets/jt-hero.jpg'); 
+    background-size: cover;
+    /* Yüzün çok yakınlaşmasını engeller, üst kısımdan hizalar */
+    background-position: center 20%; 
+    z-index: -1;
+}
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.5s;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title span {
+            display: block;
+            transform: translateY(100%);
+            animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-title span:nth-child(2) {
+            animation-delay: 0.2s;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--text-primary);
+        }
+
+        .hero-year {
+            position: absolute;
+            bottom: 10%;
+            right: 10%;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            color: var(--text-secondary);
+            transform: rotate(90deg);
+            transform-origin: right center;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 2s;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--accent-gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        /* Discography Section */
+        .discography {
+            padding: 10rem 4rem;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '01';
+            position: absolute;
+            top: -2rem;
+            left: -1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            opacity: 0.5;
+        }
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+            margin-top: 0;
+        }
+
+        .album-card {
+            position: relative;
+            group: pointer;
+            cursor: pointer;
+            .album-card {
+    
+    position: relative; /* z-index için gerekli */
+    z-index: 2; /* Tablodan (1) yüksek, panelden (10) düşük */
+    transition: transform 0.3s ease, z-index 0s; /* Hoverda sorun olmasın diye */
+}
+
+.album-card:hover {
+    /* Hover yapınca kartın diğer kartların üzerine çıkması için */
+    z-index: 5;
+    transform: translateY(-10px) scale(1.02);
+}
+        }
+
+        .album-cover {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .album-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212,168,83,0.2) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 2;
+        }
+
+        .vinyl-record {
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            width: 90%;
+            height: 90%;
+            background: repeating-radial-gradient(
+                #111 0,
+                #111 2px,
+                #222 3px,
+                #222 4px
+            );
+            border-radius: 50%;
+            transform: translateY(-50%) translateX(0);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+
+        .vinyl-record::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30%;
+            height: 30%;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            border: 8px solid #111;
+        }
+
+        .album-card:hover .vinyl-record {
+            transform: translateY(-50%) translateX(30%);
+        }
+
+        .album-card:hover .album-cover {
+            transform: scale(0.95);
+        }
+
+        .album-card:hover .album-cover::before {
+            opacity: 1;
+        }
+
+        .album-info {
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .album-year {
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .album-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .album-card:hover .album-name {
+            color: var(--accent-gold);
+        }
+
+        .album-tracks {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+
+        .album-card:hover .album-tracks {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Timeline Section */
+        .timeline {
+            padding: 10rem 4rem;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--accent-gold), transparent);
+            opacity: 0.3;
+        }
+
+        .timeline-title::before {
+            content: '02';
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            position: relative;
+        }
+
+        .timeline-item {
+            padding: 3rem;
+            border: 1px solid rgba(212,168,83,0.1);
+            border-radius: 8px;
+            position: relative;
+            transition: all 0.4s ease;
+            background: rgba(10,10,10,0.5);
+        }
+
+        .timeline-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(212,168,83,0.1);
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-top: 6rem;
+        }
+
+        .timeline-item:nth-child(even):hover {
+            transform: translateX(-10px);
+        }
+
+        .timeline-date {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .timeline-event {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .timeline-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Interactive Player Widget */
+        .player-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(20,20,20,0.95);
+            border: 1px solid rgba(212,168,83,0.2);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .player-widget.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .player-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--accent-gold);
+            background: transparent;
+            color: var(--accent-gold);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .player-btn:hover {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        .player-info {
+            min-width: 200px;
+        }
+
+        .player-track {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .player-artist {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .player-progress {
+            width: 100px;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .player-bar {
+            height: 100%;
+            width: 30%;
+            background: var(--accent-gold);
+            animation: progress 20s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .player-widget.playing .player-bar {
+            animation-play-state: running;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scaleY(0.5);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .discography, .timeline {
+                padding: 6rem 2rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .timeline-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item:nth-child(even) {
+                margin-top: 0;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .player-widget {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-bronze);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold);
+        }
+
+        /* --- YENİ EKLENEN CSS KODLARI --- */
+
+.discography-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Sol 2 birim, Sağ 1 birim */
+    gap: 4rem;
+    align-items: start; /* Elemanları en tepeye hizalar */
+    margin-top: 0; /* Boşluğu tamamen sıfırla */
+    position: relative;
+}
+
+.cspc-dashboard {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: fit-content;
+
+    top: 150px; /* Navigasyon menüsünün hemen altında başlaması için ideal değer */
+    align-self: start; 
+    margin-top: 0 !important;
+    width: 100%;
+    max-width: 500px;
+}
+
+.cspc-header {
+    display: flex;
+    flex-direction: column; /* Elemanları yan yana değil, alt alta koy */
+    align-items: flex-start; /* Sola yasla */
+    gap: 15px; /* Başlık ve buton arasına nefes alacak boşluk bırak */
+    margin-bottom: 25px;
+}
+
+.cspc-title {
+    font-size: 2rem;
+    line-height: 1.2;
+    word-wrap: break-word; /* İsim çok uzunsa bir alt satıra kırılsın */
+    max-width: 100%;
+}
+
+.cspc-header a {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff3333;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+.stat-group {
+    margin-bottom: 2rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1;
+}
+
+.stat-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.3);
+    margin-top: 0.3rem;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 51, 51, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); }
+}
+
+/* Mobil Uyumluluk Güncellemesi */
+@media (max-width: 1024px) {
+    .discography-layout {
+        grid-template-columns: 1fr; /* Mobilde alt alta geçsin */
+    }
+    .cspc-dashboard {
+        position: relative;
+        top: 0;
+    }
+}
+
+/* --- Z-INDEX KATMAN YÖNETİMİ (KESİN ÇÖZÜM) --- */
+
+/* Navigasyon Menüsü En Üstte Kalmalı */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999 !important; /* En yüksek katman */
+    background: rgba(10, 10, 15, 0.95); /* Arkası görünmesin diye opaklaştırdık */
+    backdrop-filter: blur(10px);
+}
+
+/* Sağdaki Veri Paneli (CSPC Dashboard) Ortada Kalmalı */
+.cspc-dashboard {
+    position: relative;
+    z-index: 10; /* Tablodan daha yüksek */
+}
+
+/* Yeni Eklediğimiz Tablo ve Grid Yapısı En Altta Kalmalı */
+.discography-layout {
+    display: grid;
+    z-index: 1; /* En düşük katman */
+    position: relative;
+}
+
+/* --- AMANSIZ HİZALAMA MOTORU --- */
+
+/* 1. Tüm bölümün üst boşluğunu daraltıyoruz */
+.discography {
+    padding-top: 5rem !important; /* 10rem'den 5'e çektik */
+}
+
+/* 2. Başlık ve Grid arasındaki devasa boşluğu yok ediyoruz */
+.section-header {
+    margin-bottom: 2rem !important; /* 6rem'den 2'ye düştü */
+}
+
+/* 3. Panel ve Albümleri milimetrik hizalıyoruz */
+.discography-layout {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr !important;
+    gap: 4rem !important;
+    align-items: start !important; /* En üste yaslar */
+    margin-top: 0 !important;
+}
+
+/* 4. Sağ paneli albüm kapaklarının üst çizgisine sabitliyoruz */
+.cspc-dashboard {
+   
+    top: 120px !important; /* Menünün hemen altı */
+    margin-top: 0 !important;
+    padding: 25px !important;
+    align-self: start !important;
+}
+
+/* 5. Sol taraftaki albüm ızgarasını en tepeye çekiyoruz */
+.album-grid {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JT | Streaming Analytics Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Sadece bu sayfaya özel dashboard stilleri */
+        .analytics-container { padding: 120px 5% 50px; color: #fff; max-width: 1300px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+        .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        .hero-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; }
+        .hero-value { font-size: 3.5rem; font-weight: 700; color: var(--accent-bronze, #d4a853); font-family: 'Space Grotesk', sans-serif; }
+        .hero-sub { color: #888; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; margin-bottom: 10px; }
+        .trend-icon { color: #4ade80; font-size: 1.5rem; margin-left: 10px; }
+
+        .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .prediction-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .milestone-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border-left: 4px solid var(--accent-bronze, #d4a853); border: 1px solid rgba(255,255,255,0.08); }
+        .song-table { width: 100%; border-collapse: collapse; font-family: 'Space Grotesk', sans-serif; background: rgba(255,255,255,0.02); border-radius: 12px; }
+        .song-table th, .song-table td { padding: 18px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .song-table th { color: var(--accent-bronze, #d4a853); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+        .positive-trend { color: #4ade80; }
+        .mini-cover { width: 40px; height: 40px; border-radius: 4px; margin-right: 15px; vertical-align: middle; }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <nav>
+        <div class="logo">Timberlake Analytics</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Back to Home</a></li>
+        </ul>
+    </nav>
+
+    <div class="analytics-container">
+        
+        <h2 class="hero-sub" style="margin-bottom: 0;">JT | Live Pulse</h2>
+        <div class="hero-stats">
+            <div class="hero-card">
+                <div class="hero-sub">Total Spotify Streams</div>
+                <div class="hero-value" id="jt-total-career">Calculating...</div>
+                <div style="font-size: 1.2rem; color: #555;">(Lead + Feature Credits)</div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-sub">Spotify Daily Streams</div>
+                <div class="hero-value" id="jt-daily-career">+0</div>
+                <div style="font-size: 1.2rem; color: #555;">(24h Pulse) <span class="trend-icon">↑</span></div>
+            </div>
+        </div>
+
+        <div class="analytics-row" style="margin-top: 40px; background: rgba(255,255,255,0.02); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+            <h2 style="font-family: 'Playfair Display'; text-align: center; margin-bottom: 20px;">Career Stream Distribution</h2>
+            <div style="max-width: 500px; margin: 0 auto;">
+                <canvas id="albumShareChart"></canvas>
+            </div>
+        </div>
+
+        <div class="analytics-row" style="margin-top: 40px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-family: 'Playfair Display';">Album Leaderboard</h2>
+                <div style="font-size: 0.9rem; color: #aaa;">Data from Kworb (Live)</div>
+            </div>
+
+            
+            <table class="song-table" id="album-leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Album</th>
+                        <th>Year</th>
+                        <th>Total Streams</th>
+                        <th>Daily Streams</th>
+                        <th>% of Daily</th>
+                    </tr>
+                </thead>
+                <tbody id="album-table-body">
+                    <tr><td colspan="5" style="text-align: center;">Loading albums...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analytics-row" style="margin-top: 40px;">
+            <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Top Tracks Tracker (Top 15)</h2>
+            <table class="song-table">
+                <thead>
+                    <tr>
+                        <th>Track Title</th>
+                        <th>Total Streams</th>
+                        <th>Live Daily</th>
+                        <th>Est. Weekly (Smart)</th>
+                    </tr>
+                </thead>
+                <tbody id="streams-table-body">
+                    <tr><td colspan="4" style="text-align: center;">Loading tracks...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analytics-row" style="margin-top: 60px;">
+            <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Milestone Radar (Next 1B / 500M)</h2>
+            <p style="color: #aaa; margin-bottom: 20px;">Predicted using smart weekly fluctuation logic.</p>
+            <div class="prediction-grid" id="milestone-radar">
+                Loading predictions...
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="streams.js"></script>
+</body>
+</html>

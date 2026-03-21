@@ -1,0 +1,70 @@
+{
+  "careerTotals": {
+    "physicalSingles": 5430000,
+    "digitalSingles": 109530000
+  },
+  "albums": {
+    "Justified": {
+      "year": 2002,
+      "pureSales": 10572000,
+      "physicalSinglesEAS": 450000,
+      "digitalSinglesEAS": 750000,
+      "streams": { 
+          "spotify": 0, 
+          "youtubeVideoIds": ["DksSPZTZES0", "NSyVVVf6u2Y", "3nUovJpY0Yc", "H64QG_YSn_U"] 
+      }
+    },
+    "FutureSex/LoveSounds": {
+      "year": 2006,
+      "pureSales": 10840000,
+      "physicalSinglesEAS": 600000,
+      "digitalSinglesEAS": 5250000,
+      "streams": { 
+          "spotify": 0, 
+          "youtubeVideoIds": ["3gOHvDP_vCs", "xjvwPExf1mI", "TOrnUquxtwA", "8X_XGq1knaM", "GE7_S1U8S_0"] 
+      }
+    },
+    "The 20/20 Experience": {
+      "year": 2013,
+      "pureSales": 8370000,
+      "physicalSinglesEAS": 60000,
+      "digitalSinglesEAS": 3750000,
+      "streams": { 
+          "spotify": 0, 
+          "youtubeVideoIds": ["uLS_qe-W88E", "IsUsVbTj2AY", "07FYdnEawAQ", "6S0In7_fIgs"] 
+      }
+    },
+    "Man of the Woods": {
+      "year": 2018,
+      "pureSales": 1000000,
+      "physicalSinglesEAS": 15000,
+      "digitalSinglesEAS": 750000,
+      "streams": { 
+          "spotify": 0, 
+          "youtubeVideoIds": ["8mp7G17aj6A", "gA-NDZb29I4", "vXf6M-TuvX0", "M66fWjZ0fEY"] 
+      }
+    },
+
+    "Everything I Thought It Was": {
+      "year": 2024,
+      "pureSales": 150000,
+      "physicalSinglesEAS": 100,
+      "digitalSinglesEAS": 5000,
+      "streams": { 
+          "spotify": 0, 
+          "youtubeVideoIds": ["0D26K8YqR2k", "Q1YxM1e5P2k", "1D_s659u4Hw"] 
+      }
+    },
+    
+    "Orphan / Features": {
+      "year": "Various",
+      "pureSales": 10000,
+      "physicalSinglesEAS": 900000,
+      "digitalSinglesEAS": 7650000,
+      "streams": { 
+          "spotify": 0, 
+          "youtubeVideoIds": ["rtOvBOTyX00", "p5R0fHn9L6I", "i7S_R3m8S-c", "lHjNmyzrVvM", "Y_mXByiMIsE"] 
+      }
+    }
+  }
+}
