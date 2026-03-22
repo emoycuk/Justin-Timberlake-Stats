@@ -888,29 +888,28 @@ nav {
     }
 
     /* =========================================
-       CHARTMASTERS-STYLE SCROLLABLE TABLES
-       Geleneksel tablo yapısı korunur, yatayda kaydırılır.
+       MOBİL TABLOLAR: Küçük ama tam görünüm
+       Geleneksel tablo yapısı korunur, %100 genişlikte sığar.
        ========================================= */
 
-    /* Tablo kapsayıcısı: yatay kaydırma etkin */
+    /* Kapsayıcı: normal akış, kaydırma yok */
     .analytics-row,
     #song-table-container {
         display: block !important;
         width: 100% !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
+        overflow-x: hidden !important;
         padding: 0 !important;
         margin: 0 !important;
         background: transparent !important;
         border: none !important;
     }
 
-    /* Tablo: orijinal <table> yapısı korunur */
+    /* Tablo %100 genişlikte, orijinal HTML yapısı korunur */
     table {
         display: table !important;
-        width: max-content !important;
-        min-width: 100% !important;
+        width: 100% !important;
         border-collapse: collapse !important;
+        table-layout: fixed !important;
     }
 
     thead {
@@ -931,49 +930,40 @@ nav {
 
     th, td {
         display: table-cell !important;
-        padding: 12px 15px !important;
+        padding: 8px 4px !important;
         text-align: right !important;
         border: none !important;
-        font-size: 0.85rem !important;
-        white-space: nowrap !important;
+        font-size: 0.65rem !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        line-height: 1.3 !important;
     }
 
     th {
         color: var(--accent-gold) !important;
         text-transform: uppercase !important;
-        font-size: 0.7rem !important;
-        border-bottom: 2px solid rgba(212, 168, 83, 0.3) !important;
+        font-size: 0.6rem !important;
+        letter-spacing: 0 !important;
+        border-bottom: 1px solid rgba(212, 168, 83, 0.3) !important;
+        padding-bottom: 6px !important;
     }
 
-    /* İlk sütun: sola sabitli (sticky), yazılar üst üste binmez */
+    /* İlk sütun: sola hizalı, biraz daha geniş */
     th:first-child,
     td:first-child {
         text-align: left !important;
-        font-family: 'Playfair Display', serif !important;
         color: #fff !important;
-        font-size: 1rem !important;
-        position: sticky !important;
-        left: 0 !important;
-        background: #0a0a0a !important;
-        z-index: 10 !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-    }
-
-    th:first-child {
-        z-index: 11 !important;
-        background: #0a0a0a !important;
+        font-size: 0.7rem !important;
+        font-weight: 600 !important;
+        padding-left: 0 !important;
     }
 
     /* Grand Total satırı vurgusu */
     tr:last-child td {
         font-weight: 800 !important;
         color: var(--accent-gold) !important;
-        border-top: 2px solid var(--accent-gold) !important;
-        background: rgba(212, 168, 83, 0.1) !important;
-    }
-
-    tr:last-child td:first-child {
-        background: #1a150a !important;
+        border-top: 1px solid var(--accent-gold) !important;
+        background: rgba(212, 168, 83, 0.08) !important;
     }
 
     /* Sahte td::before etiketleri hiçbir şekilde gösterilmez */
