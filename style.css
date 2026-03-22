@@ -1,646 +1,401 @@
+/* =========================================
+   ROOT VARIABLES
+   ========================================= */
 :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #141414;
-            --accent-gold: #d4a853;
-            --accent-bronze: #8b6f47;
-            --text-primary: #f5f5f5;
-            --text-secondary: #888;
-            --Memphis-orange: #ff6b35;
-        }
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --accent-gold: #d4a853;
+    --accent-bronze: #8b6f47;
+    --text-primary: #f5f5f5;
+    --text-secondary: #888;
+    --Memphis-orange: #ff6b35;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* =========================================
+   RESET & BASE
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            cursor: default;
-        }
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    cursor: default;
+}
 
-        /* Grain Texture Overlay */
-        .grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+/* =========================================
+   GRAIN TEXTURE OVERLAY
+   ========================================= */
+.grain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 2rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
-            backdrop-filter: blur(10px);
-        }
+/* =========================================
+   NAVIGATION
+   ========================================= */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(10px);
+}
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
 
-        .logo::after {
-            content: 'TM';
-            position: absolute;
-            font-size: 0.4em;
-            top: 0;
-            right: -1.5em;
-            color: var(--text-secondary);
-        }
+.logo::after {
+    content: 'TM';
+    position: absolute;
+    font-size: 0.4em;
+    top: 0;
+    right: -1.5em;
+    color: var(--text-secondary);
+}
 
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            list-style: none;
-        }
+.nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+}
 
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            transition: all 0.3s ease;
-            position: relative;
-        }
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: all 0.3s ease;
+    position: relative;
+}
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent-gold);
-            transition: width 0.3s ease;
-        }
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent-gold);
+    transition: width 0.3s ease;
+}
 
-        .nav-links a:hover {
-            color: var(--accent-gold);
-        }
+.nav-links a:hover {
+    color: var(--accent-gold);
+}
 
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+.nav-links a:hover::after {
+    width: 100%;
+}
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
 
-        .hero-bg {
+.hero-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Hem karartma filtresi hem de fotoğrafı aynı anda veriyoruz */
-    background-image: linear-gradient(to right, rgba(10, 10, 15, 0.9) 0%, rgba(10, 10, 15, 0.3) 100%), 
-                      url('assets/jt-hero.jpg'); 
+    background-image: linear-gradient(to right, rgba(10, 10, 15, 0.9) 0%, rgba(10, 10, 15, 0.3) 100%),
+                      url('assets/jt-hero.jpg');
     background-size: cover;
-    /* Yüzün çok yakınlaşmasını engeller, üst kısımdan hizalar */
-    background-position: center 20%; 
+    background-position: center 20%;
     z-index: -1;
 }
 
-        .hero-content {
-            text-align: center;
-            z-index: 2;
-            position: relative;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: var(--accent-gold);
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 0.5s;
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 15vw, 12rem);
-            font-weight: 900;
-            line-height: 0.85;
-            letter-spacing: -0.04em;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-title span {
-            display: block;
-            transform: translateY(100%);
-            animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .hero-title span:nth-child(2) {
-            animation-delay: 0.2s;
-            color: transparent;
-            -webkit-text-stroke: 2px var(--text-primary);
-        }
-
-        .hero-year {
-            position: absolute;
-            bottom: 10%;
-            right: 10%;
-            font-size: 0.8rem;
-            letter-spacing: 0.3em;
-            color: var(--text-secondary);
-            transform: rotate(90deg);
-            transform-origin: right center;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 2s;
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, var(--accent-gold), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        /* Discography Section */
-        .discography {
-            padding: 10rem 4rem;
-            position: relative;
-        }
-
-        .section-header {
-            margin-bottom: 6rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::before {
-            content: '01';
-            position: absolute;
-            top: -2rem;
-            left: -1rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            color: var(--accent-gold);
-            opacity: 0.5;
-        }
-
-        .album-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 4rem;
-            margin-top: 0;
-        }
-
-        .album-card {
-            position: relative;
-            group: pointer;
-            cursor: pointer;
-            .album-card {
-    
-    position: relative; /* z-index için gerekli */
-    z-index: 2; /* Tablodan (1) yüksek, panelden (10) düşük */
-    transition: transform 0.3s ease, z-index 0s; /* Hoverda sorun olmasın diye */
-}
-
-.album-card:hover {
-    /* Hover yapınca kartın diğer kartların üzerine çıkması için */
-    z-index: 5;
-    transform: translateY(-10px) scale(1.02);
-}
-        }
-
-        .album-cover {
-            width: 100%;
-            aspect-ratio: 1;
-            background: var(--bg-secondary);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .album-cover::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(212,168,83,0.2) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 2;
-        }
-
-        .vinyl-record {
-            position: absolute;
-            top: 50%;
-            right: 10%;
-            width: 90%;
-            height: 90%;
-            background: repeating-radial-gradient(
-                #111 0,
-                #111 2px,
-                #222 3px,
-                #222 4px
-            );
-            border-radius: 50%;
-            transform: translateY(-50%) translateX(0);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 1;
-        }
-
-        .vinyl-record::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30%;
-            height: 30%;
-            background: var(--accent-gold);
-            border-radius: 50%;
-            border: 8px solid #111;
-        }
-
-        .album-card:hover .vinyl-record {
-            transform: translateY(-50%) translateX(30%);
-        }
-
-        .album-card:hover .album-cover {
-            transform: scale(0.95);
-        }
-
-        .album-card:hover .album-cover::before {
-            opacity: 1;
-        }
-
-        .album-info {
-            margin-top: 1.5rem;
-            position: relative;
-            z-index: 3;
-        }
-
-        .album-year {
-            font-size: 0.8rem;
-            color: var(--accent-gold);
-            letter-spacing: 0.2em;
-            margin-bottom: 0.5rem;
-        }
-
-        .album-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .album-card:hover .album-name {
-            color: var(--accent-gold);
-        }
-
-        .album-tracks {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s ease;
-        }
-
-        .album-card:hover .album-tracks {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Timeline Section */
-        .timeline {
-            padding: 10rem 4rem;
-            background: var(--bg-secondary);
-            position: relative;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, var(--accent-gold), transparent);
-            opacity: 0.3;
-        }
-
-        .timeline-title::before {
-            content: '02';
-        }
-
-        .timeline-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            position: relative;
-        }
-
-        .timeline-item {
-            padding: 3rem;
-            border: 1px solid rgba(212,168,83,0.1);
-            border-radius: 8px;
-            position: relative;
-            transition: all 0.4s ease;
-            background: rgba(10,10,10,0.5);
-        }
-
-        .timeline-item:hover {
-            border-color: var(--accent-gold);
-            transform: translateX(10px);
-            box-shadow: 0 10px 40px rgba(212,168,83,0.1);
-        }
-
-        .timeline-item:nth-child(even) {
-            margin-top: 6rem;
-        }
-
-        .timeline-item:nth-child(even):hover {
-            transform: translateX(-10px);
-        }
-
-        .timeline-date {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            margin-bottom: 1rem;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .timeline-event {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .timeline-desc {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Interactive Player Widget */
-        .player-widget {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: rgba(20,20,20,0.95);
-            border: 1px solid rgba(212,168,83,0.2);
-            border-radius: 50px;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            z-index: 99;
-            backdrop-filter: blur(10px);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
-
-        .player-widget.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .player-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid var(--accent-gold);
-            background: transparent;
-            color: var(--accent-gold);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .player-btn:hover {
-            background: var(--accent-gold);
-            color: var(--bg-primary);
-            transform: scale(1.1);
-        }
-
-        .player-info {
-            min-width: 200px;
-        }
-
-        .player-track {
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .player-artist {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .player-progress {
-            width: 100px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .player-bar {
-            height: 100%;
-            width: 30%;
-            background: var(--accent-gold);
-            animation: progress 20s linear infinite;
-            animation-play-state: paused;
-        }
-
-        .player-widget.playing .player-bar {
-            animation-play-state: running;
-        }
-
-        /* Animations */
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-        }
-
-        @keyframes slideUp {
-            to {
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% {
-                transform: scaleY(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scaleY(0.5);
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes progress {
-            from { width: 0%; }
-            to { width: 100%; }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav {
-                padding: 1.5rem 2rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .discography, .timeline {
-                padding: 6rem 2rem;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .timeline-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .timeline-item:nth-child(even) {
-                margin-top: 0;
-            }
-            
-            .timeline::before {
-                left: 20px;
-            }
-            
-            .player-widget {
-                left: 1rem;
-                right: 1rem;
-                bottom: 1rem;
-            }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-bronze);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-gold);
-        }
-
-        /* --- YENİ EKLENEN CSS KODLARI --- */
-
-.discography-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* Sol 2 birim, Sağ 1 birim */
-    gap: 4rem;
-    align-items: start; /* Elemanları en tepeye hizalar */
-    margin-top: 0; /* Boşluğu tamamen sıfırla */
+.hero-content {
+    text-align: center;
+    z-index: 2;
     position: relative;
 }
 
-.cspc-dashboard { 
-        background: rgba(0,0,0,0.5) !important; 
-        border: 1px solid rgba(255,255,255,0.05) !important; 
-        padding: 20px !important; 
-        margin: 20px 0 !important; /* Yukarıdan ve aşağıdan nefes aldırır */
-        border-radius: 8px; 
-        
-        /* İŞTE HAYAT KURTARAN NÜKLEER KOD: */
-        top: 0 !important; /* Masaüstündeki aşağı itme komutunu SIFIRLAR */
-        position: static !important; /* Elemanın zorla yer değiştirmesini engeller, akışa oturtur */
-    }
+.hero-subtitle {
+    font-size: 1rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 15vw, 12rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title span {
+    display: block;
+    transform: translateY(100%);
+    animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-title span:nth-child(2) {
+    animation-delay: 0.2s;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--text-primary);
+}
+
+.hero-year {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+    transform: rotate(90deg);
+    transform-origin: right center;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 2s;
+}
+
+.scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--accent-gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* =========================================
+   DISCOGRAPHY SECTION
+   ========================================= */
+.discography {
+    padding: 5rem 4rem 10rem;
+    position: relative;
+}
+
+.section-header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::before {
+    content: '01';
+    position: absolute;
+    top: -2rem;
+    left: -1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    color: var(--accent-gold);
+    opacity: 0.5;
+}
+
+.discography-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================================
+   ALBUM GRID & CARDS
+   ========================================= */
+.album-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 4rem;
+}
+
+.album-card {
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.album-card:hover {
+    z-index: 5;
+    transform: translateY(-10px) scale(1.02);
+}
+
+.album-cover {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.album-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212, 168, 83, 0.2) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+}
+
+.album-card:hover .album-cover {
+    transform: scale(0.95);
+}
+
+.album-card:hover .album-cover::before {
+    opacity: 1;
+}
+
+.vinyl-record {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    width: 90%;
+    height: 90%;
+    background: repeating-radial-gradient(#111 0, #111 2px, #222 3px, #222 4px);
+    border-radius: 50%;
+    transform: translateY(-50%) translateX(0);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.vinyl-record::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 30%;
+    background: var(--accent-gold);
+    border-radius: 50%;
+    border: 8px solid #111;
+}
+
+.album-card:hover .vinyl-record {
+    transform: translateY(-50%) translateX(30%);
+}
+
+.album-info {
+    margin-top: 1.5rem;
+    position: relative;
+    z-index: 3;
+}
+
+.album-year {
+    font-size: 0.8rem;
+    color: var(--accent-gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+}
+
+.album-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.album-card:hover .album-name {
+    color: var(--accent-gold);
+}
+
+.album-tracks {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+}
+
+.album-card:hover .album-tracks {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================
+   CSPC DASHBOARD (RIGHT PANEL)
+   ========================================= */
+.cspc-dashboard {
+    position: relative;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 8px;
+    align-self: start;
+}
 
 .cspc-header {
     display: flex;
-    flex-direction: column; /* Elemanları yan yana değil, alt alta koy */
-    align-items: flex-start; /* Sola yasla */
-    gap: 15px; /* Başlık ve buton arasına nefes alacak boşluk bırak */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
     margin-bottom: 25px;
 }
 
 .cspc-title {
     font-size: 2rem;
     line-height: 1.2;
-    word-wrap: break-word; /* İsim çok uzunsa bir alt satıra kırılsın */
+    word-wrap: break-word;
     max-width: 100%;
 }
 
@@ -690,8 +445,241 @@
 
 .stat-sub {
     font-size: 0.8rem;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255, 255, 255, 0.3);
     margin-top: 0.3rem;
+}
+
+/* =========================================
+   ERA BUTTON
+   ========================================= */
+.era-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: transparent;
+}
+
+.era-btn:hover {
+    background: var(--accent-gold);
+    color: var(--bg-primary);
+}
+
+/* =========================================
+   TIMELINE SECTION
+   ========================================= */
+.timeline {
+    padding: 10rem 4rem;
+    background: var(--bg-secondary);
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--accent-gold), transparent);
+    opacity: 0.3;
+}
+
+.timeline-title::before {
+    content: '02';
+}
+
+.timeline-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    position: relative;
+}
+
+.timeline-item {
+    padding: 3rem;
+    border: 1px solid rgba(212, 168, 83, 0.1);
+    border-radius: 8px;
+    position: relative;
+    transition: all 0.4s ease;
+    background: rgba(10, 10, 10, 0.5);
+}
+
+.timeline-item:hover {
+    border-color: var(--accent-gold);
+    transform: translateX(10px);
+    box-shadow: 0 10px 40px rgba(212, 168, 83, 0.1);
+}
+
+.timeline-item:nth-child(even) {
+    margin-top: 6rem;
+}
+
+.timeline-item:nth-child(even):hover {
+    transform: translateX(-10px);
+}
+
+.timeline-date {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.timeline-event {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.timeline-desc {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* =========================================
+   PLAYER WIDGET
+   ========================================= */
+.player-widget {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(212, 168, 83, 0.2);
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 99;
+    backdrop-filter: blur(10px);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.player-widget.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.player-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--accent-gold);
+    background: transparent;
+    color: var(--accent-gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.player-btn:hover {
+    background: var(--accent-gold);
+    color: var(--bg-primary);
+    transform: scale(1.1);
+}
+
+.player-info {
+    min-width: 200px;
+}
+
+.player-track {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.player-artist {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.player-progress {
+    width: 100px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.player-bar {
+    height: 100%;
+    width: 30%;
+    background: var(--accent-gold);
+    animation: progress 20s linear infinite;
+    animation-play-state: paused;
+}
+
+.player-widget.playing .player-bar {
+    animation-play-state: running;
+}
+
+/* =========================================
+   ANALYTICS ROW (DESKTOP TABLE WRAPPER)
+   ========================================= */
+.analytics-row {
+    margin-top: 50px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    grid-column: 1 / -1;
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scrollPulse {
+    0%, 100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scaleY(0.5);
+        opacity: 0.5;
+    }
+}
+
+@keyframes progress {
+    from { width: 0%; }
+    to { width: 100%; }
 }
 
 @keyframes pulse {
@@ -700,420 +688,305 @@
     100% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); }
 }
 
-/* Mobil Uyumluluk Güncellemesi */
+/* =========================================
+   CUSTOM SCROLLBAR
+   ========================================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-bronze);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-gold);
+}
+
+/* =========================================
+   TABLET (max-width: 1024px)
+   ========================================= */
 @media (max-width: 1024px) {
     .discography-layout {
-        grid-template-columns: 1fr; /* Mobilde alt alta geçsin */
-    }
-    .cspc-dashboard {
-        position: relative;
-        top: 0;
+        grid-template-columns: 1fr;
     }
 }
 
-/* --- Z-INDEX KATMAN YÖNETİMİ (KESİN ÇÖZÜM) --- */
-
-/* Navigasyon Menüsü En Üstte Kalmalı */
-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 999 !important; /* En yüksek katman */
-    background: rgba(10, 10, 15, 0.95); /* Arkası görünmesin diye opaklaştırdık */
-    backdrop-filter: blur(10px);
-}
-
-/* Sağdaki Veri Paneli (CSPC Dashboard) Ortada Kalmalı */
-.cspc-dashboard {
-    position: relative;
-    z-index: 10; /* Tablodan daha yüksek */
-}
-
-/* Yeni Eklediğimiz Tablo ve Grid Yapısı En Altta Kalmalı */
-.discography-layout {
-    display: grid;
-    z-index: 1; /* En düşük katman */
-    position: relative;
-}
-
-/* --- AMANSIZ HİZALAMA MOTORU --- */
-
-/* 1. Tüm bölümün üst boşluğunu daraltıyoruz */
-.discography {
-    padding-top: 5rem !important; /* 10rem'den 5'e çektik */
-}
-
-/* 2. Başlık ve Grid arasındaki devasa boşluğu yok ediyoruz */
-.section-header {
-    margin-bottom: 2rem !important; /* 6rem'den 2'ye düştü */
-}
-
-/* 3. Panel ve Albümleri milimetrik hizalıyoruz */
-.discography-layout {
-    display: grid !important;
-    grid-template-columns: 2fr 1fr !important;
-    gap: 4rem !important;
-    align-items: start !important; /* En üste yaslar */
-    margin-top: 0 !important;
-}
-
-/* 4. Sağ paneli albüm kapaklarının üst çizgisine sabitliyoruz */
-.cspc-dashboard {
-   
-    top: 120px !important; /* Menünün hemen altı */
-    margin-top: 0 !important;
-    padding: 25px !important;
-    align-self: start !important;
-}
 /* =========================================
-   📱 MOBILE RESPONSIVE (ANA NÜKLEER BLOK)
+   MOBILE (max-width: 768px)
    ========================================= */
 @media screen and (max-width: 768px) {
-    
-    /* GENEL DÜZELTME: Sayfa kaymasını zorla engelle */
-    html, body { overflow-x: hidden !important; width: 100vw; max-width: 100vw; position: relative; margin: 0; padding: 0; }
-    section { padding: 30px 15px !important; box-sizing: border-box !important; }
 
-    /* --- SORUN 1: NAV BAR GÖZÜKMÜYOR & RENK DÜZELTMESİ --- */
-    nav { 
-        padding: 10px; 
-        flex-direction: column; 
-        align-items: center; 
-        background: rgba(10,10,15,0.95); 
-        position: fixed; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        z-index: 1000; 
-        box-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+    /* Base */
+    html, body {
+        overflow-x: hidden;
+        width: 100vw;
+        max-width: 100vw;
     }
-    .logo { margin-bottom: 8px; font-size: 1.2rem; }
-    .nav-links { 
-        flex-direction: column; 
-        gap: 8px; 
-        align-items: center; 
-        padding: 0; 
-        margin: 0; 
-        display: flex !important; 
+
+    body {
+        padding-top: 140px;
     }
-    
-    /* NAVBAR UX: Tüm linkleri gri yapıp aynı hizada tut */
-    .nav-links li a { 
-        font-size: 0.8rem; 
-        padding: 5px; 
-        color: var(--text-secondary) !important; /* Her şey gri tonda oldu */
+
+    section {
+        padding: 30px 15px;
+        box-sizing: border-box;
+    }
+
+    /* Navigation */
+    nav {
+        padding: 10px;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo {
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+    }
+
+    .nav-links {
+        display: flex !important;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-links li a {
+        font-size: 0.8rem;
+        padding: 5px;
+        color: var(--text-secondary) !important;
         font-weight: 400 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.1em !important;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
     }
-    body { padding-top: 140px; }
 
-    /* Hero Kısmı */
-    .hero-title { font-size: 13vw !important; text-align: center; line-height: 1.1; }
-    .hero-title span { display: block; }
-
-    /* --- SORUN 2: ALBÜM TEMA VE SİYAHLIK --- */
-    .discography-layout { 
-        display: flex !important; 
-        flex-direction: column !important; 
-        gap: 20px !important; 
-        padding: 0 10px !important; 
+    .nav-links li a:hover {
+        color: var(--text-secondary) !important;
     }
-    .cspc-dashboard { 
-        background: rgba(0,0,0,0.5) !important; 
-        border: 1px solid rgba(255,255,255,0.05) !important; 
-        padding: 20px !important; 
-        margin: 0; 
-        border-radius: 8px; 
-    }
-    .stat-group { border-left: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-    .album-grid { grid-template-columns: 1fr !important; gap: 15px !important; width: 100% !important; }
 
-    /* =========================================
-       📱 KUSURSUZ UX: TABLE-TO-CARDS TASARIMI (INDEX.HTML İÇİN)
-       ========================================= */
-    .analytics-row { 
-        width: 100% !important; 
-        overflow-x: hidden !important; 
-        margin: 0 !important;
+    /* Hero */
+    .hero-title {
+        font-size: 13vw;
+        text-align: center;
+        line-height: 1.1;
+    }
+
+    .hero-title span {
+        display: block;
+    }
+
+    /* Discography Layout */
+    .discography, .timeline {
+        padding: 30px 15px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .discography-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
         padding: 0 !important;
     }
 
-    .analytics-row table, .analytics-row thead, .analytics-row tbody, .analytics-row tr, .analytics-row th, .analytics-row td { 
-        display: block !important; 
-        width: 100% !important; 
+    .album-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        width: 100% !important;
+    }
+
+    .cspc-dashboard {
+        position: static !important;
+        padding: 15px !important;
+        margin: 0 !important;
+    }
+
+    .stat-group {
+        border-left: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 15px;
+    }
+
+    /* Timeline */
+    .timeline-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-item:nth-child(even) {
+        margin-top: 0;
+    }
+
+    .timeline::before {
+        left: 20px;
+    }
+
+    /* Player Widget */
+    .player-widget {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    /* Other Pages */
+    .analytics-container {
+        padding: 100px 15px 30px 15px !important;
+        width: 100vw !important;
         box-sizing: border-box !important;
     }
 
-    .analytics-row thead tr { position: absolute !important; top: -9999px !important; left: -9999px !important; }
-
-    .analytics-row tbody tr { 
-        background: rgba(255,255,255,0.03) !important; 
-        border: 1px solid rgba(255,255,255,0.08) !important; 
-        border-radius: 12px !important; 
-        padding: 15px !important; 
-        margin-bottom: 20px !important;
+    .hero-stats {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
     }
 
-    .analytics-row td { 
-        position: relative !important; 
-        padding: 10px 10px 10px 50% !important; 
-        border: none !important; 
-        text-align: right !important; 
-        border-bottom: 1px solid rgba(255,255,255,0.03) !important;
-        font-size: 0.9rem !important;
-    }
-    .analytics-row td:last-child { border-bottom: none !important; }
-
-    /* İsim Ezilmesini Önleyen UX (Albüm İsmi) */
-    .analytics-row td:first-child { 
-        font-family: 'Playfair Display', serif !important; 
-        font-size: 1.4rem !important; 
-        color: #fff !important; 
-        background: transparent !important; 
-        border-bottom: 2px solid rgba(212,168,83,0.3) !important;
-        margin-bottom: 10px !important;
-        padding: 10px 0 15px 0 !important;
-        text-align: center !important;
-        white-space: normal !important; /* Taşmayı Engeller! */
-        line-height: 1.2 !important;
-    }
-    .analytics-row td:first-child::before { display: none !important; }
-
-    .analytics-row td:last-child { color: #d4a853 !important; font-weight: 800 !important; font-size: 1.1rem !important; margin-top: 5px; }
-
-    .analytics-row tbody tr:last-child { border: 2px solid #d4a853 !important; background: rgba(212, 168, 83, 0.1) !important; margin-top: 30px !important; }
-    .analytics-row tbody tr:last-child td:first-child { color: #d4a853 !important; }
-
-    /* =========================================
-       🚨 STREAMS.HTML & TOURS.HTML (KÜFÜR DÜZELTMESİ BURADA) 🚨
-       ========================================= */
-    .analytics-container { padding: 100px 15px 30px 15px !important; width: 100vw !important; box-sizing: border-box !important; }
-    .hero-stats { display: flex !important; flex-direction: column !important; gap: 20px !important; }
-    .hero-card { width: 100% !important; box-sizing: border-box !important; }
-    #lifetime-gross { font-size: 11vw !important; letter-spacing: -1px !important; }
-
-    /* TOURS.HTML ÖZEL */
-    .tour-row { display: flex !important; flex-direction: column !important; text-align: center; gap: 15px !important; padding: 20px !important; }
-    .stat-box { align-items: center !important; text-align: center !important; }
-
-    /* STREAMS.HTML ÖZEL - Şarkı Kartları */
-    .prediction-grid { display: flex !important; flex-direction: column !important; }
-    
-    .song-table { 
-        display: block !important; 
-        width: 100% !important; 
-    }
-
-    .song-table table, .song-table thead, .song-table tbody, .song-table tr, .song-table th, .song-table td { 
-        display: block !important; 
-        width: 100% !important; 
+    .hero-card {
+        width: 100% !important;
         box-sizing: border-box !important;
     }
 
-    .song-table thead tr { position: absolute !important; top: -9999px !important; left: -9999px !important; }
-
-    .song-table tbody tr { 
-        background: rgba(255,255,255,0.03) !important; 
-        border: 1px solid rgba(255,255,255,0.08) !important; 
-        border-radius: 12px !important; 
-        padding: 15px !important; 
-        margin-bottom: 20px !important;
+    #lifetime-gross {
+        font-size: 11vw !important;
+        letter-spacing: -1px !important;
     }
 
-    .song-table td { 
-        position: relative !important; 
-        padding: 10px 10px 10px 50% !important; 
-        border: none !important; 
-        text-align: right !important; 
-        border-bottom: 1px solid rgba(255,255,255,0.03) !important;
-        font-size: 0.9rem !important;
+    .tour-row {
+        display: flex !important;
+        flex-direction: column !important;
+        text-align: center;
+        gap: 15px !important;
+        padding: 20px !important;
     }
 
-    .song-table td::before { 
-        position: absolute !important; left: 10px !important; width: 45% !important; text-align: left !important;
-        white-space: nowrap !important; font-weight: 700 !important; color: #888 !important; 
-        text-transform: uppercase !important; font-size: 0.75rem !important; top: 50%; transform: translateY(-50%);
-    }
-
-    /* Şarkı İsim Taşması Düzeltmesi (UX!) */
-    .song-table td:first-child { 
-        font-family: 'Playfair Display', serif !important; 
-        font-size: 1.3rem !important; 
-        color: #fff !important; 
-        background: transparent !important; 
-        border-bottom: 2px solid rgba(255,255,255,0.08) !important;
-        margin-bottom: 10px !important;
-        padding: 10px 0 15px 0 !important;
+    .stat-box {
+        align-items: center !important;
         text-align: center !important;
-        white-space: normal !important; /* İsim Uzunsa Alt Satıra Geçer! */
-        line-height: 1.2 !important;
     }
-    .song-table td:first-child::before { display: none !important; }
 
-    /* SPOTIFY RENKLİ ETİKETLER - SCOPED YAPILDI */
-    .song-table td:nth-of-type(2)::before { content: "Total Streams" !important; color: #888 !important; }
-    .song-table td:nth-of-type(3)::before { content: "Live Daily" !important; color: #4ade80 !important; }
-    .song-table td:nth-of-type(4)::before { content: "Est. Weekly" !important; color: #d4a853 !important; }
-    .song-table td:nth-of-type(5) { display: none !important; }
+    .prediction-grid {
+        display: flex !important;
+        flex-direction: column !important;
+    }
 
-    canvas#albumShareChart { min-width: 100% !important; height: auto !important; margin: 0 auto; }
-}
-
-/* =========================================
-       🚨 ALBÜM LEADERBOARD TABLOSU HAYAT KURTARMA YAMASI 🚨
-       (Sınıf çakışmasını ezen spesifik ID kodu)
-       ========================================= */
-    
-    #album-leaderboard-table td:nth-of-type(2)::before { content: "Year" !important; color: #888 !important; }
-    #album-leaderboard-table td:nth-of-type(3)::before { content: "Total Streams" !important; color: #888 !important; }
-    #album-leaderboard-table td:nth-of-type(4)::before { content: "Live Daily" !important; color: #4ade80 !important; }
-    
-    /* Yanlışlıkla gizlenen 5. sütunu (% of Daily) geri getir ve etiketini bas */
-    #album-leaderboard-table td:nth-of-type(5) { display: block !important; } 
-    #album-leaderboard-table td:nth-of-type(5)::before { content: "% of Daily" !important; color: #d4a853 !important; }
-
-    /* =========================================
-       🚨 MASAÜSTÜ HAYAT KURTARMA KALKANI 🚨
-       (Yanlışlıkla dışarı sızan mobil etiketleri masaüstünde yok eder)
-       ========================================= */
-    @media screen and (min-width: 769px) {
-        /* Masaüstünde td::before (mobil etiketleri) ASLA gözükemez */
-        .analytics-row td::before,
-        .song-table td::before,
-        #song-table-container td::before,
-        #album-leaderboard-table td::before {
-            display: none !important;
-        }
-        
-        /* Masaüstünde tablo hücreleri (td) normal padding'ine dönsün */
-        .analytics-row td,
-        .song-table td {
-            padding: 18px !important;
-        }
-        
-        /* Yanlışlıkla display:block olan 5. sütunu tablo hücresine çevir */
-        #album-leaderboard-table td:nth-of-type(5) {
-            display: table-cell !important;
-        }
+    canvas#albumShareChart {
+        min-width: 100% !important;
+        height: auto !important;
+        margin: 0 auto;
     }
 
     /* =========================================
-   📱 MOBİL RESPONSIVE (CHARTMASTERS VERİ TABLOSU MİMARİSİ)
-   ========================================= */
-@media screen and (max-width: 768px) {
-    
-    /* 1. GENEL DÜZELTME & NAVBAR */
-    html, body { overflow-x: hidden !important; width: 100vw; max-width: 100vw; position: relative; margin: 0; padding: 0; }
-    section, .discography, .timeline, .analytics-container { padding: 30px 15px !important; box-sizing: border-box !important; }
-    nav { padding: 10px; flex-direction: column; align-items: center; background: rgba(10,10,15,0.95); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-    .logo { margin-bottom: 8px; font-size: 1.2rem; }
-    .nav-links { flex-direction: column; gap: 8px; align-items: center; padding: 0; margin: 0; display: flex !important; }
-    .nav-links li a { font-size: 0.8rem; padding: 5px; color: var(--text-secondary) !important; font-weight: 400 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; }
-    body { padding-top: 140px; }
-
-    /* 2. DİĞER KARTLAR VE DÜZENLER */
-    .hero-title { font-size: 13vw !important; text-align: center; line-height: 1.1; }
-    .hero-title span { display: block; }
-    .discography-layout { display: flex !important; flex-direction: column !important; gap: 20px !important; padding: 0 !important; }
-    .cspc-dashboard { margin: 0; border-radius: 8px; position: static !important; padding: 15px !important; }
-    .stat-group { border-left: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-    .album-grid { grid-template-columns: 1fr !important; gap: 15px !important; width: 100% !important; }
-    .hero-stats { display: flex !important; flex-direction: column !important; gap: 20px !important; }
-    .hero-card { width: 100% !important; box-sizing: border-box !important; }
-    #lifetime-gross { font-size: 11vw !important; letter-spacing: -1px !important; }
-    .tour-row { display: flex !important; flex-direction: column !important; text-align: center; gap: 15px !important; padding: 20px !important; }
-    .stat-box { align-items: center !important; text-align: center !important; }
-    .prediction-grid { display: flex !important; flex-direction: column !important; }
-    canvas#albumShareChart { min-width: 100% !important; height: auto !important; margin: 0 auto; }
-
-    /* =========================================
-       🔥 CHARTMASTERS VERİ TABLOSU (SAĞA KAYDIRMALI KOMPAKT)
+       CHARTMASTERS-STYLE SCROLLABLE TABLES
+       Geleneksel tablo yapısı korunur, yatayda kaydırılır.
        ========================================= */
-    
-    /* Tablo kapsayıcılarını yana kaydırılabilir yap (Scrollbar açılır) */
-    .analytics-row, .song-table, #index-table, #album-leaderboard-table, #song-table-container {
+
+    /* Tablo kapsayıcısı: yatay kaydırma etkin */
+    .analytics-row,
+    #song-table-container {
         display: block !important;
         width: 100% !important;
         overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important; /* iOS için akıcı yağ gibi kaydırma */
-        margin: 0 !important;
+        -webkit-overflow-scrolling: touch !important;
         padding: 0 !important;
+        margin: 0 !important;
         background: transparent !important;
         border: none !important;
     }
 
-    /* Tablonun orijinal HTML mimarisini KORU (Kart mimarisi iptal!) */
+    /* Tablo: orijinal <table> yapısı korunur */
     table {
         display: table !important;
-        width: max-content !important; /* İçeriğe göre genişle, dar ekranlarda sıkışma! */
+        width: max-content !important;
         min-width: 100% !important;
         border-collapse: collapse !important;
     }
 
-    /* BAŞLIKLAR GERİ GELDİ! (Chartmasters vizyonu) */
-    thead { display: table-header-group !important; }
-    tbody { display: table-row-group !important; }
-    
+    thead {
+        display: table-header-group !important;
+    }
+
+    tbody {
+        display: table-row-group !important;
+    }
+
     tr {
         display: table-row !important;
         background: transparent !important;
-        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    /* Sütunlar yan yana, Chartmasters tarzı veri odaklı */
     th, td {
         display: table-cell !important;
         padding: 12px 15px !important;
-        text-align: right !important; /* Rakamlar sağa hizalı */
+        text-align: right !important;
         border: none !important;
         font-size: 0.85rem !important;
-        white-space: nowrap !important; /* Yazılar alt satıra inip tabloyu bozmasın */
+        white-space: nowrap !important;
     }
 
-    /* İLK SÜTUNU SOLA SABİTLE (Kaydırırken isimler hep gözüksün, borsa ekranı gibi!) */
-    th:first-child, td:first-child {
-        text-align: left !important;
-        font-family: 'Playfair Display', serif !important;
-        color: #fff !important;
-        font-size: 1rem !important;
-        position: sticky !important; 
-        left: 0 !important;
-        background: #0a0a0f !important; /* Arkasından yazılar kayarken birbirine girmesin */
-        z-index: 10 !important;
-        border-right: 1px solid rgba(255,255,255,0.05) !important;
-    }
-    th:first-child { z-index: 11 !important; }
-
-    /* Başlık tasarımları */
     th {
-        color: #d4a853 !important;
+        color: var(--accent-gold) !important;
         text-transform: uppercase !important;
         font-size: 0.7rem !important;
         border-bottom: 2px solid rgba(212, 168, 83, 0.3) !important;
     }
 
-    /* Benim uydurduğum o saçma sapan mobil etiketlerini TAMAMEN siliyoruz */
-    td::before { display: none !important; }
+    /* İlk sütun: sola sabitli (sticky), yazılar üst üste binmez */
+    th:first-child,
+    td:first-child {
+        text-align: left !important;
+        font-family: 'Playfair Display', serif !important;
+        color: #fff !important;
+        font-size: 1rem !important;
+        position: sticky !important;
+        left: 0 !important;
+        background: #0a0a0a !important;
+        z-index: 10 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
 
-    /* Grand Total Satırı Parıldasın */
+    th:first-child {
+        z-index: 11 !important;
+        background: #0a0a0a !important;
+    }
+
+    /* Grand Total satırı vurgusu */
     tr:last-child td {
         font-weight: 800 !important;
-        color: #d4a853 !important;
-        border-top: 2px solid #d4a853 !important;
+        color: var(--accent-gold) !important;
+        border-top: 2px solid var(--accent-gold) !important;
         background: rgba(212, 168, 83, 0.1) !important;
     }
+
     tr:last-child td:first-child {
-        background: #1a150a !important; /* Sola sabitlenen kısmı da aynı tonda olsun */
+        background: #1a150a !important;
+    }
+
+    /* Sahte td::before etiketleri hiçbir şekilde gösterilmez */
+    td::before {
+        display: none !important;
     }
 }
 
 /* =========================================
-   🚨 MASAÜSTÜ KALKANI
+   DESKTOP GUARD: td::before etiketleri masaüstünde kesinlikle gizli
    ========================================= */
 @media screen and (min-width: 769px) {
-    td::before { display: none !important; }
+    td::before {
+        display: none !important;
+    }
 }
