@@ -817,10 +817,7 @@ window.generateShareCard = function() {
         return;
     }
 
-    const totalEl = document.getElementById('jt-total-career');
     const dailyEl = document.getElementById('jt-daily-career');
-
-    document.getElementById('sc-total').textContent = totalEl ? totalEl.textContent : '—';
     document.getElementById('sc-daily').textContent = dailyEl ? dailyEl.textContent : '—';
 
     // Top Daily Track — o gün en yüksek daily stream'e sahip şarkı
@@ -829,10 +826,6 @@ window.generateShareCard = function() {
         document.getElementById('sc-top-track').textContent = topDaily.title;
         document.getElementById('sc-top-track-total').textContent = '+' + topDaily.daily.toLocaleString('en-US');
     }
-
-    // YTD
-    const ytdEl = document.getElementById('jt-ytd-growth');
-    document.getElementById('sc-ytd').textContent = ytdEl ? ytdEl.textContent : '—';
 
     // Tarih
     document.getElementById('sc-date').textContent = new Date().toLocaleDateString('en-US', {

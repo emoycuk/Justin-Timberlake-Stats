@@ -37,6 +37,7 @@ const songToAlbumMap = {
     "What Goes Around...Comes Around - Radio Edit": "FutureSex/LoveSounds",
     "LoveStoned / I Think She Knows - Radio Edit": "FutureSex/LoveSounds",
     "SexyBack (feat. Timbaland) - Linus Loves Remix (Edit)": "FutureSex/LoveSounds",
+    "Damn Girl": "FutureSex/LoveSounds",
 
     // --- THE 20/20 EXPERIENCE (Pt 1 & 2) ---
     "Mirrors": "The 20/20 Experience",
@@ -302,6 +303,10 @@ async function playAlbum(albumName) {
     animateValue(document.getElementById('eas-total'), 0, stats.totalEAS, 1000);
     animateValue(document.getElementById('spotify-total'), 0, stats.spotifyStreams, 1000);
 
+    // "View Deep Analytics" butonunu seçili albüme yönlendir
+    const btn = document.getElementById('deep-analytics-btn');
+    if (btn) btn.href = 'album.html?id=' + encodeURIComponent(albumName);
+
     updateEraTheme(albumName); // Tema motorunu ateşler
 
     // ==========================================
@@ -456,7 +461,7 @@ function renderEasTable() {
         const TD = `padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.02);`;
         let tr = document.createElement('tr');
         tr.innerHTML = `
-            <td style="${TD}">
+            <td style="${TD} white-space:nowrap;">
                 <div style="display:flex;align-items:center;gap:12px;">
                     ${albumThumbHTML(row.album)}
                     <span style="font-weight:700;color:#fff;">${row.album}</span>
@@ -481,7 +486,7 @@ function renderEasTable() {
     footerTr.style.background = "rgba(212, 168, 83, 0.1)";
     footerTr.style.borderTop = "2px solid #d4a853";
     footerTr.innerHTML = `
-        <td style="padding: 20px 0; font-weight: 900; color: #d4a853; text-transform: uppercase;">Grand Total</td>
+        <td style="padding: 20px 0; font-weight: 900; color: #d4a853; text-transform: uppercase; white-space:nowrap;">Grand Total</td>
         <td style="padding: 20px 0; font-weight: 700; color: #fff;">${fmtNum(grandPure)}</td>
         <td style="padding: 20px 0; font-weight: 700; color: #fff;">${fmtNum(grandPhys)}</td>
         <td style="padding: 20px 0; font-weight: 700; color: #fff;">${fmtNum(grandDl)}</td>

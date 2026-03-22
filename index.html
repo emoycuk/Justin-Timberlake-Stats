@@ -49,7 +49,7 @@
     <div class="discography-layout">
         
         <div class="album-grid">
-            <div class="album-card" onclick="playAlbum('Justified')">
+            <div class="album-card" onclick="playAlbum('Justified')" style="cursor:pointer;">
                 <div class="album-cover" style="background-image: url('assets/justified.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
     </div>
                 <div class="album-info">
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="album-card" onclick="playAlbum('FutureSex/LoveSounds')">
+            <div class="album-card" onclick="playAlbum('FutureSex/LoveSounds')" style="cursor:pointer;">
                 <div class="album-cover" style="background-image: url('assets/fsls.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
     </div>
                 <div class="album-info">
@@ -69,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="album-card" onclick="playAlbum('The 20/20 Experience')">
+            <div class="album-card" onclick="playAlbum('The 20/20 Experience')" style="cursor:pointer;">
                 <div class="album-cover" style="background-image: url('assets/the20.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
     </div>
                 <div class="album-info">
@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <div class="album-card" onclick="playAlbum('Man of the Woods')">
+            <div class="album-card" onclick="playAlbum('Man of the Woods')" style="cursor:pointer;">
                 <div class="album-cover" style="background-image: url('assets/motw.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
     </div>
                 <div class="album-info">
@@ -89,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="album-card" onclick="playAlbum('Everything I Thought It Was')">
+            <div class="album-card" onclick="playAlbum('Everything I Thought It Was')" style="cursor:pointer;">
                 <div class="album-cover" style="background-image: url('assets/eitiw.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
     </div>
                 <div class="album-info">
@@ -120,7 +120,7 @@
             </div>
 
             <div class="stat-group" style="margin-top: 20px; text-align: center; border-left: none;">
-            <a href="streams.html" class="era-btn">
+            <a href="streams.html" id="deep-analytics-btn" class="era-btn">
                 View Deep Analytics & Predictions ➔
             </a>
         </div>
@@ -153,20 +153,22 @@
                 </div>
             </div>
 
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+            <table style="width: 100%; min-width: 620px; border-collapse: collapse; text-align: left;">
                 <thead>
                     <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #888; font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; text-transform: uppercase;">
-                        <th onclick="sortEasTable('album')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Album ⇕</th>
-                        <th onclick="sortEasTable('pure')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Pure Sales ⇕</th>
-                        <th onclick="sortEasTable('physSingles')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Physical Singles ⇕</th>
-                        <th onclick="sortEasTable('dlSingles')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Download Singles ⇕</th>
-                        <th onclick="sortEasTable('audio')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Audio EAS ⇕</th>
-                        <th onclick="sortEasTable('total')" style="cursor:pointer; padding-bottom: 10px; color: #d4a853;">Total EAS ⇕</th>
+                        <th onclick="sortEasTable('album')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s; min-width:140px; white-space:nowrap;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Album ⇕</th>
+                        <th onclick="sortEasTable('pure')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s; white-space:nowrap;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Pure Sales ⇕</th>
+                        <th onclick="sortEasTable('physSingles')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s; white-space:nowrap;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Physical Singles ⇕</th>
+                        <th onclick="sortEasTable('dlSingles')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s; white-space:nowrap;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Download Singles ⇕</th>
+                        <th onclick="sortEasTable('audio')" style="cursor:pointer; padding-bottom: 10px; transition: color 0.3s; white-space:nowrap;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">Audio EAS ⇕</th>
+                        <th onclick="sortEasTable('total')" style="cursor:pointer; padding-bottom: 10px; color: #d4a853; white-space:nowrap;">Total EAS ⇕</th>
                     </tr>
                 </thead>
                 <tbody id="eas-table-body" style="font-family: 'Space Grotesk', sans-serif;">
                     </tbody>
             </table>
+            </div>
         </div>
 
     <section class="guestbook" style="padding: 80px 4rem; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05);">
