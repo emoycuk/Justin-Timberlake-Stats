@@ -256,6 +256,11 @@ function updateCareerOverview(liveStats) {
     animateValue(document.getElementById('eas-total'), 0, careerTotalEAS, 2000);
     animateValue(document.getElementById('spotify-total'), 0, liveStats.TotalSpotify, 2000);
 
+    const bestEraNameEl = document.getElementById('best-era-name');
+    const bestEraValEl  = document.getElementById('best-era-val');
+    if (bestEraNameEl) bestEraNameEl.textContent = bestEra.name;
+    if (bestEraValEl)  bestEraValEl.textContent  = (bestEra.eas / 1_000_000).toFixed(2) + 'M EAS';
+
     // Eğer sayfada tablo varsa, hemen 'Total'a göre sıralayıp ekrana bas
     if (document.getElementById('eas-table-body')) {
         sortEasTable('total');

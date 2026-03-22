@@ -64,15 +64,15 @@ const songToAlbumMap = {
     "Love & War": "Everything I Thought It Was", "Alone": "Everything I Thought It Was",
     "Conditions": "Everything I Thought It Was", "Paradise": "Everything I Thought It Was",
 
-    "CAN'T STOP THE FEELING!": "Orphan / Features", "4 Minutes": "Orphan / Features",
-    "Give It To Me": "Orphan / Features", "Ayo Technology": "Orphan / Features",
-    "Holy Grail": "Orphan / Features", "Dead And Gone": "Orphan / Features",
-    "Love Never Felt So Good": "Orphan / Features", "Carry Out": "Orphan / Features"
+    "CAN'T STOP THE FEELING!": "Orphan", "4 Minutes": "Orphan",
+    "Give It To Me": "Orphan", "Ayo Technology": "Orphan",
+    "Holy Grail": "Orphan", "Dead And Gone": "Orphan",
+    "Love Never Felt So Good": "Orphan", "Carry Out": "Orphan"
 };
 
 const allAlbums = [
     "Justified", "FutureSex/LoveSounds", "The 20/20 Experience",
-    "Man of the Woods", "Everything I Thought It Was", "Orphan / Features"
+    "Man of the Woods", "Everything I Thought It Was", "Orphan"
 ];
 
 // ── HTML Parser ─────────────────────────────────────────────────
@@ -99,7 +99,7 @@ function analyzeKworbData(htmlInput) {
         "The 20/20 Experience": { total: 0, daily: 0 },
         "Man of the Woods": { total: 0, daily: 0 },
         "Everything I Thought It Was": { total: 0, daily: 0 },
-        "Orphan / Features": { total: 0, daily: 0 },
+        "Orphan": { total: 0, daily: 0 },
         tracks: []
     };
 
@@ -133,8 +133,8 @@ function analyzeKworbData(htmlInput) {
                 }
             }
             if (!matched) {
-                stats["Orphan / Features"].total += valTotal;
-                stats["Orphan / Features"].daily += valDaily;
+                stats["Orphan"].total += valTotal;
+                stats["Orphan"].daily += valDaily;
             }
         }
     });

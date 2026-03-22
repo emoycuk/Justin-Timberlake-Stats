@@ -26,7 +26,7 @@ const songToAlbumMap = {
     "Conditions": "Everything I Thought It Was", "Paradise" : "Everything I Thought It Was",
 
     // --- ORPHAN / FEATURES ---
-    "CAN'T STOP THE FEELING!": "Orphan / Features", "4 Minutes": "Orphan / Features", "Give It To Me": "Orphan / Features", "Ayo Technology": "Orphan / Features", "Holy Grail": "Orphan / Features", "Dead And Gone": "Orphan / Features", "Love Never Felt So Good": "Orphan / Features", "Carry Out": "Orphan / Features"
+    "CAN'T STOP THE FEELING!": "Orphan", "4 Minutes": "Orphan", "Give It To Me": "Orphan", "Ayo Technology": "Orphan", "Holy Grail": "Orphan", "Dead And Gone": "Orphan", "Love Never Felt So Good": "Orphan", "Carry Out": "Orphan"
 };
 
 const albumMetData = {
@@ -35,7 +35,7 @@ const albumMetData = {
     "The 20/20 Experience": { year: 2013 },
     "Man of the Woods": { year: 2018 },
     "Everything I Thought It Was": { year: 2024 },
-    "Orphan / Features": { year: "Various" }
+    "Orphan": { year: "Various" }
 };
 
 // ── 2026 YTD Baseline ──────────────────────────────────────────
@@ -84,13 +84,13 @@ let albumSort = { col: 'total', asc: false };
 const eraColors = {
     "Justified": "#5dade2", "FutureSex/LoveSounds": "#e74c3c",
     "The 20/20 Experience": "#fce98a", "Man of the Woods": "#ca6f1e",
-    "Everything I Thought It Was": "#f39c12", "Orphan / Features": "#bdc3c7"
+    "Everything I Thought It Was": "#f39c12", "Orphan": "#bdc3c7"
 };
 
 const albumCovers = {
     "Justified": "assets/justified.jpg", "FutureSex/LoveSounds": "assets/fsls.jpg",
     "The 20/20 Experience": "assets/the20.jpg", "Man of the Woods": "assets/motw.jpg",
-    "Everything I Thought It Was": "assets/eitiw.jpg", "Orphan / Features": null
+    "Everything I Thought It Was": "assets/eitiw.jpg", "Orphan": null
 };
 
 // --- 2. YARDIMCI FONKSİYONLAR ---
@@ -229,7 +229,7 @@ function analyzeKworbData(htmlInput) {
         "The 20/20 Experience": { total: 0, daily: 0 },
         "Man of the Woods": { total: 0, daily: 0 },
         "Everything I Thought It Was": { total: 0, daily: 0 },
-        "Orphan / Features": { total: 0, daily: 0 },
+        "Orphan": { total: 0, daily: 0 },
         tracks: []
     };
 
@@ -262,8 +262,8 @@ function analyzeKworbData(htmlInput) {
                 }
             }
             if (!matched) {
-                stats["Orphan / Features"].total += valTotal;
-                stats["Orphan / Features"].daily += valDaily;
+                stats["Orphan"].total += valTotal;
+                stats["Orphan"].daily += valDaily;
             }
         }
     });
@@ -366,6 +366,8 @@ function renderAlbumsTable() {
 
     tbody.innerHTML = '';
     sorted.forEach(album => {
+        if (album.id === 'Orphan') return; // Leaderboard'da gösterme, pie chart'ta kalır
+
         const barColor  = eraColors[album.id] || "#d4a853";
         const imgSrc    = albumCovers[album.id];
         const thumbHTML = imgSrc
@@ -575,7 +577,7 @@ async function initStreamsDashboard() {
         const jtDailyCareer  = document.getElementById('jt-daily-career');
         const radarGrid      = document.getElementById('milestone-radar');
 
-        const allAlbums = ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "Man of the Woods", "Everything I Thought It Was", "Orphan / Features"];
+        const allAlbums = ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "Man of the Woods", "Everything I Thought It Was", "Orphan"];
 
         // TOP SECTION — canlı rakamlar
         _jtTotalDaily = 0;
@@ -746,7 +748,7 @@ async function initStreamsDashboard() {
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "Man of the Woods", "EITIW", "Orphan / Features"],
+                    labels: ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "Man of the Woods", "EITIW", "Orphan"],
                     datasets: [{
                         data: allAlbums.map(id => liveStats[id].total),
                         backgroundColor: allAlbums.map(id => eraColors[id]),

@@ -873,8 +873,8 @@ nav {
         word-break: break-word !important;
     }
 
-    /* Grand Total satırı vurgusu */
-    tr:last-child td {
+    /* Grand Total satırı vurgusu — sadece EAS tablosunda */
+    #eas-table-body tr:last-child td {
         font-weight: 800 !important;
         color: var(--accent-gold) !important;
         border-top: 1px solid var(--accent-gold) !important;
