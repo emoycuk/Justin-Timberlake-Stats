@@ -222,60 +222,80 @@
             <div id="share-card-wrapper" style="display:none; margin-top: 28px;">
                 <div id="share-card" style="
                     display: inline-block;
-                    background: #0a0a0a;
-                    border: 1px solid rgba(212,168,83,0.3);
                     border-radius: 16px;
-                    padding: 36px 40px 28px;
                     width: 380px;
                     text-align: left;
                     font-family: 'Space Grotesk', sans-serif;
                     position: relative;
-                    overflow: hidden;">
+                    overflow: hidden;
+                    background: #0a0a0a;">
 
-                    <!-- Accent line -->
-                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#d4a853,#f0c878,#d4a853);"></div>
+                    <!-- Arka plan fotoğraf -->
+                    <img id="sc-photo" src="" alt="" style="
+                        display:none;
+                        position:absolute; top:0; left:0;
+                        width:100%; height:100%;
+                        object-fit:cover; object-position:center top;">
 
-                    <!-- Header -->
-                    <div style="font-size:0.65rem;color:#555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;">Timberlake Analytics · Live Pulse</div>
-
-                    <!-- Fotoğraf -->
-                    <img id="sc-photo" src="" alt="" style="display:none;width:100%;height:160px;object-fit:cover;object-position:top;border-radius:8px;margin-bottom:16px;">
-
-                    <!-- Artist -->
-                    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:#fff;margin-bottom:4px;">Justin Timberlake</div>
-                    <div style="font-size:0.75rem;color:#555;margin-bottom:24px;">Spotify Streaming Stats</div>
-
-                    <!-- Main stats -->
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
-                        <div style="background:rgba(255,255,255,0.03);padding:14px;border-radius:8px;">
-                            <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Total Streams</div>
-                            <div id="sc-total" style="font-size:1.4rem;font-weight:700;color:#d4a853;">—</div>
-                        </div>
-                        <div style="background:rgba(255,255,255,0.03);padding:14px;border-radius:8px;">
-                            <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Today</div>
-                            <div id="sc-daily" style="font-size:1.4rem;font-weight:700;color:#4ade80;">—</div>
-                        </div>
+                    <!-- Fotoğraf üstü koyu gradient overlay -->
+                    <div id="sc-overlay" style="
+                        display:none;
+                        position:absolute; top:0; left:0; width:100%; height:100%;
+                        background: linear-gradient(
+                            to bottom,
+                            rgba(0,0,0,0.25) 0%,
+                            rgba(0,0,0,0.55) 40%,
+                            rgba(0,0,0,0.92) 100%
+                        );">
                     </div>
 
-                    <!-- Top track -->
-                    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;margin-bottom:16px;">
-                        <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Top Daily Track</div>
+                    <!-- İçerik (overlay üstünde) -->
+                    <div style="position:relative; z-index:1; padding: 36px 32px 28px;">
+
+                        <!-- Accent line -->
+                        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#d4a853,#f0c878,#d4a853);"></div>
+
+                        <!-- Header -->
+                        <div style="font-size:0.6rem;color:rgba(255,255,255,0.45);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:100px;" id="sc-header-gap">
+                            Timberlake Analytics · Live Pulse
+                        </div>
+
+                        <!-- Artist -->
+                        <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;margin-bottom:2px;text-shadow:0 2px 8px rgba(0,0,0,0.8);">Justin Timberlake</div>
+                        <div style="font-size:0.7rem;color:rgba(255,255,255,0.45);margin-bottom:22px;">Spotify Streaming Stats</div>
+
+                        <!-- Main stats -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+                            <div style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+                                <div style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Total Streams</div>
+                                <div id="sc-total" style="font-size:1.3rem;font-weight:700;color:#d4a853;">—</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+                                <div style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Today</div>
+                                <div id="sc-daily" style="font-size:1.3rem;font-weight:700;color:#4ade80;">—</div>
+                            </div>
+                        </div>
+
+                        <!-- Top Daily Track -->
+                        <div style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);margin-bottom:12px;">
+                            <div style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">Top Daily Track</div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <div id="sc-top-track" style="font-size:0.9rem;font-weight:600;color:#fff;">—</div>
+                                <div id="sc-top-track-total" style="font-size:0.85rem;color:#4ade80;font-weight:700;">—</div>
+                            </div>
+                        </div>
+
+                        <!-- YTD -->
+                        <div style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);margin-bottom:20px;">
+                            <div style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">2026 Streams (YTD)</div>
+                            <div id="sc-ytd" style="font-size:1rem;font-weight:700;color:#a78bfa;">—</div>
+                        </div>
+
+                        <!-- Footer -->
                         <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <div id="sc-top-track" style="font-size:0.95rem;font-weight:600;color:#fff;">—</div>
-                            <div id="sc-top-track-total" style="font-size:0.85rem;color:#d4a853;">—</div>
+                            <div id="sc-date" style="font-size:0.6rem;color:rgba(255,255,255,0.3);">—</div>
+                            <div style="font-size:0.6rem;color:rgba(255,255,255,0.25);letter-spacing:0.05em;">timberlakeanalytics</div>
                         </div>
-                    </div>
-
-                    <!-- YTD -->
-                    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;margin-bottom:20px;">
-                        <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">2026 Streams (YTD)</div>
-                        <div id="sc-ytd" style="font-size:1rem;font-weight:700;color:#a78bfa;">—</div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div id="sc-date" style="font-size:0.65rem;color:#444;">—</div>
-                        <div style="font-size:0.65rem;color:#333;letter-spacing:0.05em;">timberlakeanalytics</div>
                     </div>
                 </div>
 

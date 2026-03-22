@@ -839,12 +839,17 @@ window.generateShareCard = function() {
         month: 'long', day: 'numeric', year: 'numeric'
     });
 
-    // Rastgele fotoğraf
+    // Rastgele fotoğraf — arka plan olarak göster
     const randomPic = RANDOM_PICS[Math.floor(Math.random() * RANDOM_PICS.length)];
     const scImg = document.getElementById('sc-photo');
+    const scOverlay = document.getElementById('sc-overlay');
+    const scHeaderGap = document.getElementById('sc-header-gap');
     if (scImg) {
         scImg.src = randomPic;
         scImg.style.display = 'block';
+        if (scOverlay) scOverlay.style.display = 'block';
+        // Fotoğraf varsa üst boşluğu artır (resmin görünmesi için)
+        if (scHeaderGap) scHeaderGap.style.marginBottom = '130px';
     }
 
     wrapper.style.display = 'block';
