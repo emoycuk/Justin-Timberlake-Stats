@@ -5,127 +5,8 @@ const ARTIST_RATIO = 1.65;
 let YOUTUBE_API_KEY = typeof CONFIG !== 'undefined' ? CONFIG.YOUTUBE_API_KEY : "";
 let MY_DYNAMIC_API = typeof CONFIG !== 'undefined' ? CONFIG.MY_DYNAMIC_API : "";
 
-const songToAlbumMap = {
-    // --- JUSTIFIED (2002) ---
-    "Like I Love You": "Justified",
-    "Cry Me a River": "Justified",
-    "Rock Your Body": "Justified",
-    "Señorita": "Justified",
-    "Last Night": "Justified",
-    "Take It From Here": "Justified",
-    "Still On My Brain": "Justified",
-    "(And She Said) Take Me Now": "Justified",
-    "Right For Me": "Justified",
-    "Nothin' Else": "Justified",
-    "Never Again": "Justified",
-    "Like I Love You - Basement Jaxx Vocal Mix": "Justified",
-    "Rock Your Body - Paul Oakenfold Mix": "Justified",
-    "Señorita - Radio Edit": "Justified",
-
-    // --- FUTURESEX / LOVESOUNDS (2006) ---
-    "SexyBack (feat. Timbaland)": "FutureSex/LoveSounds",
-    "My Love (feat. T.I.)": "FutureSex/LoveSounds",
-    "What Goes Around.../...Comes Around (Interlude)": "FutureSex/LoveSounds",
-    "Summer Love": "FutureSex/LoveSounds",
-    "Until The End Of Time (with Beyoncé)": "FutureSex/LoveSounds",
-    "LoveStoned / I Think She Knows Interlude": "FutureSex/LoveSounds",
-    "Chop Me Up (feat. Timbaland & Three-6 Mafia)": "FutureSex/LoveSounds",
-    "FutureSex / LoveSound": "FutureSex/LoveSounds",
-    "Losing My Way": "FutureSex/LoveSounds",
-    "Sexy Ladies": "FutureSex/LoveSounds",
-    "Boutique In Heaven": "FutureSex/LoveSounds",
-    "What Goes Around...Comes Around - Radio Edit": "FutureSex/LoveSounds",
-    "LoveStoned / I Think She Knows - Radio Edit": "FutureSex/LoveSounds",
-    "SexyBack (feat. Timbaland) - Linus Loves Remix (Edit)": "FutureSex/LoveSounds",
-    "Damn Girl": "FutureSex/LoveSounds",
-
-    // --- THE 20/20 EXPERIENCE (Pt 1 & 2) ---
-    "Mirrors": "The 20/20 Experience",
-    "Suit & Tie (feat. JAY-Z)": "The 20/20 Experience",
-    "Not a Bad Thing": "The 20/20 Experience",
-    "TKO": "The 20/20 Experience",
-    "Drink You Away": "The 20/20 Experience",
-    "Pusher Love Girl": "The 20/20 Experience",
-    "Tunnel Vision": "The 20/20 Experience",
-    "Take Back the Night": "The 20/20 Experience",
-    "Murder (feat. JAY-Z)": "The 20/20 Experience",
-    "Strawberry Bubblegum": "The 20/20 Experience",
-    "Don't Hold the Wall": "The 20/20 Experience",
-    "Let the Groove Get In": "The 20/20 Experience",
-    "Blue Ocean Floor": "The 20/20 Experience",
-    "Amnesia": "The 20/20 Experience",
-    "True Blood": "The 20/20 Experience",
-    "Only When I Walk Away": "The 20/20 Experience",
-    "Cabaret (feat. Drake)": "The 20/20 Experience",
-    "You Got It On": "The 20/20 Experience",
-    "Gimme What I Don't Know (I Want)": "The 20/20 Experience",
-    "Dress On": "The 20/20 Experience",
-    "That Girl": "The 20/20 Experience",
-    "Spaceship Coupe": "The 20/20 Experience",
-    "TKO (Black Friday Remix) (feat. J. Cole, A$AP Rocky & Pusha T)": "The 20/20 Experience",
-    "Mirrors - Radio Edit": "The 20/20 Experience",
-
-    // --- MAN OF THE WOODS (2018) ---
-    "Say Something (feat. Chris Stapleton)": "Man of the Woods",
-    "Filthy": "Man of the Woods",
-    "Man of the Woods": "Man of the Woods",
-    "Supplies": "Man of the Woods",
-    "Morning Light (feat. Alicia Keys)": "Man of the Woods",
-    "Higher Higher": "Man of the Woods",
-    "Midnight Summer Jam": "Man of the Woods",
-    "Sauce": "Man of the Woods",
-    "Wave": "Man of the Woods",
-    "Montana": "Man of the Woods",
-    "Flannel": "Man of the Woods",
-    "Young Man": "Man of the Woods",
-    "Breeze Off the Pond": "Man of the Woods",
-    "The Hard Stuff": "Man of the Woods",
-    "Hers (interlude)": "Man of the Woods",
-    "Livin' Off the Land": "Man of the Woods",
-
-    // YENİ: EITIW ERASI EKLENDİ
-    "Memphis": "Everything I Thought It Was",
-    "Selfish": "Everything I Thought It Was",
-    "No Angels": "Everything I Thought It Was",
-    "Drown": "Everything I Thought It Was",
-    "F**kin' Up The Disco": "Everything I Thought It Was",
-    "Play": "Everything I Thought It Was",
-    "Technicolor": "Everything I Thought It Was",
-    "Sanctified": "Everything I Thought It Was",
-    "Liar": "Everything I Thought It Was",
-    "Imagination": "Everything I Thought It Was",
-    "What Lovers Do": "Everything I Thought It Was",
-    "My Favorite Drug": "Everything I Thought It Was",
-    "Flame": "Everything I Thought It Was",
-    "Infinity Sex": "Everything I Thought It Was",
-    "Love & War": "Everything I Thought It Was",
-    "Alone": "Everything I Thought It Was",
-    "Conditions": "Everything I Thought It Was",
-    "Paradise" : "Everything I Thought It Was",
-
-    // --- ORPHAN / FEATURES / NEW (EITIW) ---
-    "CAN'T STOP THE FEELING! (from DreamWorks Animation's \"TROLLS\")": "Orphan / Features",
-    "Give It To Me": "Orphan / Features",
-    "4 Minutes (feat. Justin Timberlake & Timbaland)": "Orphan / Features",
-    "Love Never Felt So Good": "Orphan / Features",
-    "Ayo Technology": "Orphan / Features",
-    "Holy Grail": "Orphan / Features",
-    "Dead And Gone": "Orphan / Features",
-    "Carry Out (Featuring Justin Timberlake)": "Orphan / Features",
-    "True Colors": "Orphan / Features",
-    "The Other Side (from Trolls World Tour)": "Orphan / Features",
-    "Signs": "Orphan / Features",
-    "Stay With Me (with Justin Timberlake, Halsey, & Pharrell)": "Orphan / Features",
-    "Better Place (From TROLLS Band Together)": "Orphan / Features",
-    "Love Sex Magic (feat. Justin Timberlake)": "Orphan / Features",
-    "Motherlover": "Orphan / Features",
-    "Bounce - Album Version (Edited)": "Orphan / Features",
-    "Sin Fin": "Orphan / Features",
-    "SoulMate": "Orphan / Features",
-    "Keep Going Up (with Nelly Furtado & Justin Timberlake)": "Orphan / Features",
-    "I'm Lovin' It": "Orphan / Features",
-    "ICU (with Justin Timberlake) - Remix": "Orphan / Features",
-    };
+// songToAlbumMap: song-map.js'ten geliyor (SONG_TO_ALBUM_MAP)
+const songToAlbumMap = typeof SONG_TO_ALBUM_MAP !== 'undefined' ? SONG_TO_ALBUM_MAP : {};
 
 // --- 2. MOTORLAR ---
 
@@ -210,8 +91,8 @@ async function fetchAllData() {
         });
 
         // Orphan özel durumu
-        if (jtData.albums["Orphan / Features"]) {
-            jtData.albums["Orphan / Features"].streams.spotify = liveStats.Orphan;
+        if (jtData.albums["Orphan"]) {
+            jtData.albums["Orphan"].streams.spotify = liveStats.Orphan;
         }
 
         // Tüm albümlerin YouTube verilerini paralel çek
@@ -227,7 +108,11 @@ async function fetchAllData() {
         updateCareerOverview(liveStats);
         console.log("DİNAMİK GÜNCELLEME TAMAMLANDI! EITIW aktif.");
 
-    } catch (e) { console.error("Hata:", e); }
+    } catch (e) {
+        console.error("Hata:", e);
+        const errBanner = document.getElementById('api-error-banner');
+        if (errBanner) errBanner.style.display = 'block';
+    }
 }
 
 // --- GLOBAL TABLO DEĞİŞKENLERİ ---
@@ -367,7 +252,7 @@ function updateEraTheme(albumName) {
         "The 20/20 Experience": { color: "#d4a853", bg: "rgba(212, 168, 83, 1)" }, 
         "Man of the Woods": { color: "#e67e22", bg: "rgba(230, 126, 34, 1)" }, 
         "Everything I Thought It Was": { color: "#ca510f", bg: "rgb(225, 86, 22)" }, 
-        "Orphan / Features": { color: "#bdc3c7", bg: "rgba(189, 195, 199, 1)" } 
+        "Orphan": { color: "#bdc3c7", bg: "rgba(189, 195, 199, 1)" } 
     };
     
     let t = themes[albumName] || themes["The 20/20 Experience"];
@@ -424,7 +309,7 @@ const albumCovers = {
     "The 20/20 Experience": "assets/the20.jpg",
     "Man of the Woods": "assets/motw.jpg",
     "Everything I Thought It Was": "assets/eitiw.jpg",
-    "Orphan / Features": null
+    "Orphan": null
 };
 
 function albumThumbHTML(name) {

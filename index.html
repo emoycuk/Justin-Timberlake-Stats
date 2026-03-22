@@ -48,7 +48,10 @@
     
     <div class="discography-layout">
         
-        <div class="album-grid">
+        <div id="api-error-banner" style="display:none;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.4);color:#e74c3c;font-family:'Space Grotesk',sans-serif;font-size:0.8rem;padding:12px 20px;border-radius:8px;margin-bottom:20px;">
+        ⚠ Live stream data could not be loaded. Showing cached values only.
+    </div>
+    <div class="album-grid">
             <div class="album-card" onclick="playAlbum('Justified')" style="cursor:pointer;">
                 <div class="album-cover" style="background-image: url('assets/justified.jpg'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);">
     </div>
@@ -99,14 +102,14 @@
                 </div>
             </div>
 
-            <div class="album-card" onclick="playAlbum('Orphan / Features')">
+            <div class="album-card" onclick="playAlbum('Orphan')">
     <div class="album-cover" style="background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); border: 1px solid rgba(255,255,255,0.05);">
         <div class="vinyl-record" style="background: repeating-radial-gradient(#050505 0, #050505 2px, #111 3px, #111 4px);"></div>
         <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk'; font-size: 0.8rem; color: rgba(212, 168, 83, 0.3); text-transform: uppercase; letter-spacing: 0.3em; transform: rotate(-15deg);">Feat // OST</div>
     </div>
     <div class="album-info">
         <div class="album-year">Various Years</div>
-        <div class="album-name" style="color: var(--accent-bronze);">Orphan / Features</div>
+        <div class="album-name" style="color: var(--accent-bronze);">Orphan</div>
         <div class="album-tracks">Where Is The Love • Trolls Tracks • Rehab • Collaborations</div>
     </div>
 </div>
@@ -201,6 +204,7 @@
     </section>
 
     <script src="config.js"></script>
+    <script src="song-map.js"></script>
 
     <script type="module">
   // 1. İhtiyacımız olan tüm Firebase v12 modüllerini (Sayaç için doc, setDoc, increment dahil) içe aktarıyoruz

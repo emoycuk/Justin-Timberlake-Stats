@@ -1,33 +1,8 @@
 // --- 1. AYARLAR VE MAPPING ---
 let MY_DYNAMIC_API = typeof CONFIG !== 'undefined' ? CONFIG.MY_DYNAMIC_API : "";
 
-const songToAlbumMap = {
-    // --- JUSTIFIED ---
-    "Like I Love You": "Justified", "Cry Me a River": "Justified", "Rock Your Body": "Justified", "Señorita": "Justified",
-    "Last Night": "Justified", "Take It From Here": "Justified", "Still On My Brain": "Justified", "Take Me Now": "Justified", "Right For Me": "Justified", "Nothin' Else": "Justified", "Never Again": "Justified",
-
-    // --- FUTURESEX/LOVESOUNDS ---
-    "SexyBack": "FutureSex/LoveSounds", "My Love": "FutureSex/LoveSounds", "What Goes Around": "FutureSex/LoveSounds", "Summer Love": "FutureSex/LoveSounds", "Until The End Of Time": "FutureSex/LoveSounds", "LoveStoned": "FutureSex/LoveSounds",
-    "Chop Me Up": "FutureSex/LoveSounds", "FutureSex": "FutureSex/LoveSounds", "Losing My Way": "FutureSex/LoveSounds", "Sexy Ladies": "FutureSex/LoveSounds", "Boutique In Heaven": "FutureSex/LoveSounds",
-
-    // --- THE 20/20 EXPERIENCE (PART 1 & 2) ---
-    "Mirrors": "The 20/20 Experience", "Suit & Tie": "The 20/20 Experience", "Not a Bad Thing": "The 20/20 Experience", "TKO": "The 20/20 Experience", "Drink You Away": "The 20/20 Experience",
-    "Pusher Love Girl": "The 20/20 Experience", "Tunnel Vision": "The 20/20 Experience", "Take Back the Night": "The 20/20 Experience", "Murder": "The 20/20 Experience", "Strawberry Bubblegum": "The 20/20 Experience", "Don't Hold the Wall": "The 20/20 Experience", "Let the Groove Get In": "The 20/20 Experience", "Blue Ocean Floor": "The 20/20 Experience", "Amnesia": "The 20/20 Experience", "True Blood": "The 20/20 Experience", "Only When I Walk Away": "The 20/20 Experience", "Cabaret": "The 20/20 Experience", "You Got It On": "The 20/20 Experience", "Gimme What I Don't Know": "The 20/20 Experience", "Dress On": "The 20/20 Experience", "That Girl": "The 20/20 Experience", "Spaceship Coupe": "The 20/20 Experience",
-
-    // --- MAN OF THE WOODS ---
-    "Say Something": "Man of the Woods", "Filthy": "Man of the Woods", "Man of the Woods": "Man of the Woods",
-    "Supplies": "Man of the Woods", "Morning Light": "Man of the Woods", "Higher Higher": "Man of the Woods", "Midnight Summer Jam": "Man of the Woods", "Sauce": "Man of the Woods", "Wave": "Man of the Woods", "Montana": "Man of the Woods", "Flannel": "Man of the Woods", "Young Man": "Man of the Woods", "Breeze Off the Pond": "Man of the Woods", "The Hard Stuff": "Man of the Woods", "Hers (interlude)": "Man of the Woods", "Livin' Off the Land": "Man of the Woods",
-
-    // --- EITIW ---
-    "Memphis": "Everything I Thought It Was", "Selfish": "Everything I Thought It Was", "No Angels": "Everything I Thought It Was", "Drown": "Everything I Thought It Was",
-    "F**kin' Up The Disco": "Everything I Thought It Was", "Play": "Everything I Thought It Was", "Technicolor": "Everything I Thought It Was", "Sanctified": "Everything I Thought It Was",
-    "Liar": "Everything I Thought It Was", "Imagination": "Everything I Thought It Was", "What Lovers Do": "Everything I Thought It Was", "My Favorite Drug": "Everything I Thought It Was",
-    "Flame": "Everything I Thought It Was", "Infinity Sex": "Everything I Thought It Was", "Love & War": "Everything I Thought It Was", "Alone": "Everything I Thought It Was",
-    "Conditions": "Everything I Thought It Was", "Paradise" : "Everything I Thought It Was",
-
-    // --- ORPHAN / FEATURES ---
-    "CAN'T STOP THE FEELING!": "Orphan", "4 Minutes": "Orphan", "Give It To Me": "Orphan", "Ayo Technology": "Orphan", "Holy Grail": "Orphan", "Dead And Gone": "Orphan", "Love Never Felt So Good": "Orphan", "Carry Out": "Orphan"
-};
+// songToAlbumMap: song-map.js'ten geliyor (SONG_TO_ALBUM_MAP)
+const songToAlbumMap = typeof SONG_TO_ALBUM_MAP !== 'undefined' ? SONG_TO_ALBUM_MAP : {};
 
 const albumMetData = {
     "Justified": { year: 2002 },
@@ -38,9 +13,11 @@ const albumMetData = {
     "Orphan": { year: "Various" }
 };
 
-// ── 2026 YTD Baseline ──────────────────────────────────────────
+// ── YTD Baseline — yıl değişince sadece bu objeyi güncelle ────
+const CURRENT_YEAR = new Date().getFullYear();
+const YTD_BASELINE_DATE = `${CURRENT_YEAR}-01-01`;
 const YTD_2026_BASELINE = {
-    date: "2026-01-01",
+    date: YTD_BASELINE_DATE,
     career_total: 16_687_312_167,
     tracks: {
         "CAN'T STOP THE FEELING! (from":  1_997_165_198,
@@ -115,7 +92,7 @@ function fmtNum(n) {
 function fmtDelta(n) { return '+' + fmtNum(n); }
 
 function getYTDDaysElapsed() {
-    const start = new Date('2026-01-01T00:00:00Z');
+    const start = new Date(`${CURRENT_YEAR}-01-01T00:00:00Z`);
     const now   = new Date();
     return Math.max(1, Math.round((now - start) / (1000 * 60 * 60 * 24)));
 }
@@ -881,7 +858,7 @@ window.tweetStats = function() {
         `🌍 Total: ${total}\n` +
         `📈 Today: ${daily}\n` +
         `🔥 Top Daily: ${track}\n` +
-        `📅 2026 YTD: ${ytd}\n\n` +
+        `📅 ${CURRENT_YEAR} YTD: ${ytd}\n\n` +
         `#JustinTimberlake #Spotify`;
 
     window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text), '_blank');
