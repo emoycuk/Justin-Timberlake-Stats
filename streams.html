@@ -204,6 +204,98 @@
         </div>
     </div>
 
+    <!-- Share Stats Section -->
+    <div class="analytics-container" style="padding-top: 0; padding-bottom: 60px;">
+        <div class="analytics-row" style="background: rgba(255,255,255,0.02); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); text-align: center;">
+            <h2 style="font-family: 'Playfair Display'; margin-bottom: 8px;">Share Stats Card</h2>
+            <p style="color: #555; font-size: 0.85rem; margin-bottom: 24px;">Generate a visual card with today's numbers</p>
+
+            <button id="generate-card-btn" onclick="generateShareCard()" style="
+                background: #d4a853; color: #050505; border: none; padding: 12px 28px;
+                border-radius: 8px; font-family: 'Space Grotesk', sans-serif;
+                font-weight: 700; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.05em;
+                transition: opacity 0.2s;">
+                Generate Card
+            </button>
+
+            <!-- Kart (başta gizli, generate sonrası görünür) -->
+            <div id="share-card-wrapper" style="display:none; margin-top: 28px;">
+                <div id="share-card" style="
+                    display: inline-block;
+                    background: #0a0a0a;
+                    border: 1px solid rgba(212,168,83,0.3);
+                    border-radius: 16px;
+                    padding: 36px 40px 28px;
+                    width: 380px;
+                    text-align: left;
+                    font-family: 'Space Grotesk', sans-serif;
+                    position: relative;
+                    overflow: hidden;">
+
+                    <!-- Accent line -->
+                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#d4a853,#f0c878,#d4a853);"></div>
+
+                    <!-- Header -->
+                    <div style="font-size:0.65rem;color:#555;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px;">Timberlake Analytics · Live Pulse</div>
+
+                    <!-- Artist -->
+                    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:#fff;margin-bottom:4px;">Justin Timberlake</div>
+                    <div style="font-size:0.75rem;color:#555;margin-bottom:24px;">Spotify Streaming Stats</div>
+
+                    <!-- Main stats -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+                        <div style="background:rgba(255,255,255,0.03);padding:14px;border-radius:8px;">
+                            <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Total Streams</div>
+                            <div id="sc-total" style="font-size:1.4rem;font-weight:700;color:#d4a853;">—</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03);padding:14px;border-radius:8px;">
+                            <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Today</div>
+                            <div id="sc-daily" style="font-size:1.4rem;font-weight:700;color:#4ade80;">—</div>
+                        </div>
+                    </div>
+
+                    <!-- Top track -->
+                    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;margin-bottom:16px;">
+                        <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Top Track</div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div id="sc-top-track" style="font-size:0.95rem;font-weight:600;color:#fff;">—</div>
+                            <div id="sc-top-track-total" style="font-size:0.85rem;color:#d4a853;">—</div>
+                        </div>
+                    </div>
+
+                    <!-- YTD -->
+                    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;margin-bottom:20px;">
+                        <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">2026 Streams (YTD)</div>
+                        <div id="sc-ytd" style="font-size:1rem;font-weight:700;color:#a78bfa;">—</div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <div id="sc-date" style="font-size:0.65rem;color:#444;">—</div>
+                        <div style="font-size:0.65rem;color:#333;letter-spacing:0.05em;">timberlakeanalytics</div>
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <button onclick="downloadCard()" style="
+                        background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.1);
+                        padding:10px 22px;border-radius:8px;font-family:'Space Grotesk',sans-serif;
+                        font-weight:600;font-size:0.85rem;cursor:pointer;transition:background 0.2s;">
+                        Download PNG
+                    </button>
+                    <button onclick="tweetStats()" style="
+                        background:#000;color:#fff;border:1px solid rgba(255,255,255,0.2);
+                        padding:10px 22px;border-radius:8px;font-family:'Space Grotesk',sans-serif;
+                        font-weight:600;font-size:0.85rem;cursor:pointer;transition:background 0.2s;">
+                        Share on X
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="config.js"></script>
 
     <!-- Firebase Modülü: Firestore'a erişim sağlar ve window'a helper açar -->

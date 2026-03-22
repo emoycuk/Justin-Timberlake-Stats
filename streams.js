@@ -795,4 +795,89 @@ async function initStreamsDashboard() {
     }
 }
 
+// --- 7. SHARE CARD ---
+
+// Canlı veriden share card'ı doldur ve göster
+window.generateShareCard = function() {
+    const btn = document.getElementById('generate-card-btn');
+    const wrapper = document.getElementById('share-card-wrapper');
+
+    // Veri hazır mı kontrol et
+    if (!_tracksData.length) {
+        btn.textContent = 'Loading data...';
+        setTimeout(() => { btn.textContent = 'Generate Card'; }, 2000);
+        return;
+    }
+
+    // Toplam streams
+    const totalEl = document.getElementById('jt-total-career');
+    const dailyEl = document.getElementById('jt-daily-career');
+    const scTotal = document.getElementById('sc-total');
+    const scDaily = document.getElementById('sc-daily');
+    const scTopTrack = document.getElementById('sc-top-track');
+    const scTopTrackTotal = document.getElementById('sc-top-track-total');
+    const scYtd = document.getElementById('sc-ytd');
+    const scDate = document.getElementById('sc-date');
+
+    if (scTotal) scTotal.textContent = totalEl ? totalEl.textContent : '—';
+    if (scDaily) scDaily.textContent = dailyEl ? dailyEl.textContent : '—';
+
+    // En çok dinlenen track
+    const topTrack = _tracksData[0];
+    if (topTrack) {
+        if (scTopTrack) scTopTrack.textContent = topTrack.title;
+        if (scTopTrackTotal) scTopTrackTotal.textContent = (topTrack.total / 1_000_000_000).toFixed(2) + 'B';
+    }
+
+    // YTD
+    const ytdEl = document.getElementById('jt-ytd-growth');
+    if (scYtd && ytdEl) scYtd.textContent = ytdEl.textContent;
+
+    // Tarih
+    if (scDate) {
+        scDate.textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    wrapper.style.display = 'block';
+    wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+window.downloadCard = function() {
+    const card = document.getElementById('share-card');
+    if (!card || typeof html2canvas === 'undefined') return;
+
+    html2canvas(card, {
+        backgroundColor: '#0a0a0a',
+        scale: 2,
+        useCORS: true,
+        logging: false
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'jt-stats-' + new Date().toISOString().split('T')[0] + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+};
+
+window.tweetStats = function() {
+    const totalEl = document.getElementById('jt-total-career');
+    const dailyEl = document.getElementById('jt-daily-career');
+    const topTrack = _tracksData[0];
+    const ytdEl = document.getElementById('jt-ytd-growth');
+
+    const total = totalEl ? totalEl.textContent : '?';
+    const daily = dailyEl ? dailyEl.textContent : '?';
+    const track = topTrack ? `${topTrack.title} (${(topTrack.total / 1_000_000_000).toFixed(2)}B)` : '';
+    const ytd = ytdEl ? ytdEl.textContent : '';
+
+    const text = `Justin Timberlake Spotify Stats 🎵\n\n` +
+        `🌍 Total: ${total}\n` +
+        `📈 Today: ${daily}\n` +
+        `🏆 Top: ${track}\n` +
+        `📅 2026 YTD: ${ytd}\n\n` +
+        `#JustinTimberlake #Spotify`;
+
+    window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text), '_blank');
+};
+
 document.addEventListener('DOMContentLoaded', initStreamsDashboard);
