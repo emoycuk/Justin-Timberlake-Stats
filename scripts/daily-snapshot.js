@@ -154,17 +154,27 @@ async function fetchAndSnapshot() {
 
     console.log(`[${new Date().toISOString()}] Kworb'dan veri çekiliyor...`);
 
-    const res = await fetch(proxyUrl, { timeout: 30000 });
+    const res = await fetch(proxyUrl, {
+        timeout: 30000,
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.9'
+        }
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
     const html = await res.text();
 
-    console.log(`HTML alındı: ${html.length} karakter. İlk 200 char: ${html.substring(0, 200).replace(/\n/g, ' ')}`);
+    console.log(`HTML alındı: ${html.length} karakter`);
+    console.log(`İlk 500 char: ${html.substring(0, 500).replace(/\s+/g, ' ')}`);
     console.log("HTML parse ediliyor...");
     const stats = analyzeKworbData(html);
 
-    // Track listesi boşsa gerçek bir parse hatası var
+    // Track listesi boşsa gerçek bir parse hatası var — HTML'i logla
     if (stats.tracks.length === 0) {
-        throw new Error("Parse başarısız: Track listesi boş. Proxy URL veya HTML yapısı değişmiş olabilir.");
+        console.error("Parse başarısız! HTML dump (ilk 1000 char):");
+        console.error(html.substring(0, 1000).replace(/\s+/g, ' '));
+        throw new Error("Parse başarısız: Track listesi boş. Üstteki HTML dump'a bak.");
     }
 
     // TotalSpotify ilk tablodan alınamazsa track toplamından hesapla (fallback)
