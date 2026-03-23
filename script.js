@@ -118,6 +118,22 @@ async function fetchAllData() {
 // --- GLOBAL TABLO DEĞİŞKENLERİ ---
 let easTableData = [];
 let currentEasSort = { key: 'total', asc: false };
+let careerSnapshot = { totalEAS: 0, totalSpotify: 0, bestEra: { name: '', eas: 0 } };
+
+window.resetToCareer = function () {
+    const s = careerSnapshot;
+    if (!s.totalEAS) return;
+    const title = document.querySelector('.cspc-title');
+    if (title) title.textContent = 'Career Totals';
+    animateValue(document.getElementById('eas-total'), 0, s.totalEAS, 600);
+    animateValue(document.getElementById('spotify-total'), 0, s.totalSpotify, 600);
+    const bestEraNameEl = document.getElementById('best-era-name');
+    const bestEraValEl  = document.getElementById('best-era-val');
+    if (bestEraNameEl) bestEraNameEl.textContent = s.bestEra.name;
+    if (bestEraValEl)  bestEraValEl.textContent  = (s.bestEra.eas / 1_000_000).toFixed(2) + 'M EAS';
+    const btn = document.getElementById('deep-analytics-btn');
+    if (btn) btn.href = 'streams.html';
+};
 
 function updateCareerOverview(liveStats) {
     let careerTotalEAS = 0;
@@ -154,6 +170,7 @@ function updateCareerOverview(liveStats) {
         });
     });
 
+    careerSnapshot = { totalEAS: careerTotalEAS, totalSpotify: liveStats.TotalSpotify, bestEra };
     animateValue(document.getElementById('eas-total'), 0, careerTotalEAS, 600);
     animateValue(document.getElementById('spotify-total'), 0, liveStats.TotalSpotify, 600);
 
@@ -341,8 +358,6 @@ function renderEasTable() {
 
     let footerTr = document.createElement('tr');
     footerTr.className = 'grand-total-row';
-    footerTr.style.background = "rgba(212, 168, 83, 0.1)";
-    footerTr.style.borderTop = "2px solid #d4a853";
     footerTr.innerHTML = `
         <td class="cell-era-total" style="padding: 20px 0; font-weight: 900; color: #d4a853; text-transform: uppercase; white-space:nowrap;">Grand Total</td>
         <td style="padding: 20px 0; font-weight: 700; color: #fff;">${fmtNum(grandPure)}</td>

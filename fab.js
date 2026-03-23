@@ -126,7 +126,9 @@
                 const album = item.dataset.album;
                 closeFAB();
                 window.applyEraTheme(album);
-                if (album !== 'default' && typeof window.playAlbum === 'function') {
+                if (album === 'default') {
+                    if (typeof window.resetToCareer === 'function') window.resetToCareer();
+                } else if (typeof window.playAlbum === 'function') {
                     window.playAlbum(album);
                 }
             });
@@ -207,7 +209,7 @@
             #eas-total, .stat-value, .cspc-title { color: ${c} !important; }
             .cspc-header { border-left: 4px solid ${c} !important; padding-left: 15px; }
             .cell-era-total { color: ${c} !important; }
-            .grand-total-row { background: ${c}15 !important; border-top-color: ${c} !important; }
+            .grand-total-row { background: ${c}15 !important; border-top: 2px solid ${c} !important; }
             .label-figure { color: ${c} !important; }
             .analytics-row h2 { color: ${c} !important; }
             .album-card:hover { box-shadow: none !important; }
@@ -286,9 +288,71 @@
         document.dispatchEvent(new CustomEvent('eraChanged', { detail: { album: albumName, color: c } }));
     };
 
+    // ── Active nav link ──────────────────────────────────────────────
+    function setActiveNav() {
+        const page = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            const href = a.getAttribute('href') || '';
+            const match =
+                (page === 'index.html' && (href === 'index.html' || href.startsWith('#'))) ||
+                (page !== 'index.html' && href === page);
+            if (match) a.classList.add('active');
+        });
+    }
+
+    // ── EAS tablo loading state ──────────────────────────────────────
+    function injectLoadingStyles() {
+        const s = document.createElement('style');
+        s.textContent = `
+            /* Active nav */
+            .nav-links a.active {
+                color: var(--accent-bronze, #d4a853) !important;
+                font-weight: 700;
+            }
+            /* Grand Total base (inline stilsiz çalışır) */
+            .grand-total-row {
+                background: rgba(212,168,83,0.08);
+                border-top: 2px solid #d4a853;
+            }
+            /* EAS tablo loading */
+            .eas-loading-row td {
+                padding: 40px 12px;
+                text-align: center;
+                color: rgba(255,255,255,0.2);
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 0.8rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+            @keyframes eas-pulse {
+                0%, 100% { opacity: 0.2; }
+                50% { opacity: 0.5; }
+            }
+            .eas-loading-row td { animation: eas-pulse 1.4s ease infinite; }
+        `;
+        document.head.appendChild(s);
+    }
+
+    function injectEASLoading() {
+        const tbody = document.getElementById('eas-table-body');
+        if (!tbody) return;
+        const tr = document.createElement('tr');
+        tr.className = 'eas-loading-row';
+        tr.innerHTML = '<td colspan="6">Loading data...</td>';
+        tbody.appendChild(tr);
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', injectFAB);
+        document.addEventListener('DOMContentLoaded', () => {
+            injectFAB();
+            injectLoadingStyles();
+            setActiveNav();
+            injectEASLoading();
+        });
     } else {
         injectFAB();
+        injectLoadingStyles();
+        setActiveNav();
+        injectEASLoading();
     }
 })();
