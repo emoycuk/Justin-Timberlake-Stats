@@ -194,6 +194,30 @@
             transition: opacity 0.08s ease;
         }
 
+        /* ── PINCH PANELS (slide in to morph hourglass → diamond) ── */
+        .trix-pinch-left, .trix-pinch-right {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background: #040c04;
+            transition: transform 0.2s ease;
+            z-index: 7;
+            pointer-events: none;
+        }
+        .trix-pinch-left {
+            left: 0;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 9%, 42% 50%, 100% 91%, 100% 100%, 0% 100%);
+            transform: translateX(-100%);
+        }
+        .trix-pinch-right {
+            right: 0;
+            clip-path: polygon(0% 9%, 0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 91%, 58% 50%);
+            transform: translateX(100%);
+        }
+        .trix-faceplate.pinching .trix-pinch-left  { transform: translateX(0); }
+        .trix-faceplate.pinching .trix-pinch-right { transform: translateX(0); }
+
         /* ── HOURGLASS HALVES ── */
         .hg-wrap {
             position: absolute;
@@ -271,18 +295,41 @@
             animation: dialHide 0.18s ease forwards;
         }
 
-        /* Foto */
-        .trix-album-img {
+        /* ── DIAMOND SELECTION SCREEN ── */
+        .trix-diamond-wrap {
+            position: absolute;
+            inset: 1%;
+        }
+        .trix-diamond-green {
+            position: absolute;
+            inset: 0;
+            background: #00e500;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            box-shadow: 0 0 50px rgba(0,255,0,0.6), inset 0 0 20px rgba(0,150,0,0.5);
+            z-index: 0;
+        }
+        .trix-diamond-img {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: top center;
-            transition: transform 0.4s ease, filter 0.3s;
-            filter: saturate(1.1) brightness(0.85);
+            object-position: center top;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            filter: brightness(0.7) saturate(1.2);
+            transition: filter 0.3s;
+            z-index: 1;
         }
-        .trix-selection:hover .trix-album-img {
-            transform: scale(1.04);
-            filter: saturate(1.3) brightness(1);
+        .trix-diamond-img.cutout {
+            object-fit: contain;
+            object-position: center center;
+            filter: brightness(1) saturate(1.2) drop-shadow(0 0 8px rgba(0,0,0,0.8));
+        }
+        .trix-selection:hover .trix-diamond-img {
+            filter: brightness(0.9) saturate(1.4);
+        }
+        .trix-selection:hover .trix-diamond-img.cutout {
+            filter: brightness(1.05) saturate(1.3) drop-shadow(0 0 12px rgba(0,0,0,0.9));
         }
         .trix-scanline {
             position: absolute;
@@ -667,31 +714,33 @@
 
                     <!-- KAPALI: Faceplate + hourglass iki yarısı -->
                     <div class="trix-faceplate" id="trix-faceplate" onclick="openOmnitrix()">
+                        <!-- Pinch panels: slide in to morph hourglass into diamond -->
+                        <div class="trix-pinch-left"></div>
+                        <div class="trix-pinch-right"></div>
                         <div class="hg-wrap">
                             <!-- Top half -->
                             <div class="hg-half top" id="hg-top">
                                 <svg class="hourglass-svg" viewBox="0 0 100 100" fill="none">
-                                    <!-- Top green section: narrow X cuts (~20° from vertical) -->
-                                    <path d="M 45 50 L 33 3 A 50 50 0 0 0 67 3 L 55 50 Z" fill="#00e500"/>
-                                    <!-- Bottom green section: mirror of top -->
-                                    <path d="M 45 50 L 33 97 A 50 50 0 0 1 67 97 L 55 50 Z" fill="#00e500"/>
+                                    <path d="M 42 50 L 21 9 A 50 50 0 0 1 79 9 L 58 50 Z" fill="#00e500"/>
+                                    <path d="M 42 50 L 21 91 A 50 50 0 0 0 79 91 L 58 50 Z" fill="#00e500"/>
                                 </svg>
                             </div>
                             <!-- Bottom half (same SVG, clip shows bottom) -->
                             <div class="hg-half bottom" id="hg-bottom">
                                 <svg class="hourglass-svg" viewBox="0 0 100 100" fill="none">
-                                    <!-- Top green section: narrow X cuts (~20° from vertical) -->
-                                    <path d="M 45 50 L 33 3 A 50 50 0 0 0 67 3 L 55 50 Z" fill="#00e500"/>
-                                    <!-- Bottom green section: mirror of top -->
-                                    <path d="M 45 50 L 33 97 A 50 50 0 0 1 67 97 L 55 50 Z" fill="#00e500"/>
+                                    <path d="M 42 50 L 21 9 A 50 50 0 0 1 79 9 L 58 50 Z" fill="#00e500"/>
+                                    <path d="M 42 50 L 21 91 A 50 50 0 0 0 79 91 L 58 50 Z" fill="#00e500"/>
                                 </svg>
                             </div>
                         </div>
                     </div>
 
-                    <!-- AÇIK: JT era seçimi -->
+                    <!-- AÇIK: JT era seçimi (diamond style) -->
                     <div class="trix-selection" id="trix-selection">
-                        <img class="trix-album-img" id="trix-img" src="" alt="">
+                        <div class="trix-diamond-wrap">
+                            <div class="trix-diamond-green"></div>
+                            <img class="trix-diamond-img" id="trix-img" src="" alt="">
+                        </div>
                         <div class="trix-scanline"></div>
                     </div>
 
@@ -870,10 +919,14 @@ function buildDots() {
 function updateDisplay() {
     const era = ERAS[current];
     trixImg.src = era.img;
-    // Cutout PNG'ler için contain, normal fotoğraflar için cover
-    trixImg.style.objectFit      = era.cutout ? 'contain' : 'cover';
-    trixImg.style.objectPosition = era.cutout ? 'bottom center' : 'top center';
-    trixImg.style.padding        = era.cutout ? '6px 0 0' : '0';
+    if (era.cutout) {
+        trixImg.classList.add('cutout');
+    } else {
+        trixImg.classList.remove('cutout');
+        trixImg.style.objectFit = 'cover';
+        trixImg.style.objectPosition = 'top center';
+    }
+    trixImg.style.padding = '0';
     eraNameEl.childNodes[0].textContent = era.name;
     eraYearEl.textContent = era.year;
     // Update dots
@@ -903,22 +956,27 @@ function openOmnitrix() {
     SFX.activation.currentTime = 0;
     SFX.activation.play().catch(() => {});
 
-    // ── STEP 1 (0ms): Mechanical pop-out ─────────────────
-    faceplate.classList.add('popping');
-    omnitrix.classList.add('activated');
+    // ── STEP 0 (0ms): PINCH — panels slide in, hourglass → diamond (0.2s) ──
+    faceplate.classList.add('pinching');
 
-    // ── STEP 2 (80ms): Interlocking twist ────────────────
+    // ── STEP 1 (200ms): Mechanical pop-out (diamond fully formed) ──
+    setTimeout(() => {
+        faceplate.classList.add('popping');
+        omnitrix.classList.add('activated');
+    }, 200);
+
+    // ── STEP 2 (280ms): Interlocking twist ────────────────
     setTimeout(() => {
         omnitrix.classList.add('unlocking');
-    }, 80);
+    }, 280);
 
-    // ── STEP 3 (200ms): Hourglass split ──────────────────
+    // ── STEP 3 (400ms): Hourglass/diamond split ──────────
     setTimeout(() => {
         hgTop.classList.add('splitting');
         hgBottom.classList.add('splitting');
-    }, 200);
+    }, 400);
 
-    // ── STEP 4 (370ms): Faceplate fades, dial reveals ────
+    // ── STEP 4 (570ms): Faceplate fades, dial reveals ────
     setTimeout(() => {
         faceplate.classList.add('faded');
         omnitrix.classList.remove('unlocking', 'activated');
@@ -929,7 +987,7 @@ function openOmnitrix() {
         selection.classList.remove('hiding');
         selection.classList.add('visible');
         document.getElementById('trix-cta').textContent = 'Select era · Press to transform';
-    }, 370);
+    }, 570);
 }
 
 function closeOmnitrix() {
@@ -946,7 +1004,7 @@ function closeOmnitrix() {
         selection.classList.remove('hiding');
 
         // Faceplate geri gelir
-        faceplate.classList.remove('faded', 'popping');
+        faceplate.classList.remove('faded', 'popping', 'pinching');
         faceplate.style.transform = 'scale(1)';
         faceplate.style.boxShadow = '';
 
