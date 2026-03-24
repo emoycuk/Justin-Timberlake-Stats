@@ -191,12 +191,19 @@
         <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; color: rgba(255,255,255,0.2); margin-left: auto;">Source: Record Label</div>
     </div>
 
-    <section class="guestbook" style="padding: 80px 4rem; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05);">
+    <style>
+        .guestbook { padding: 80px clamp(1.2rem, 5vw, 4rem) !important; }
+        .guestbook-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        @media (max-width: 700px) {
+            .guestbook-grid { grid-template-columns: 1fr; gap: 32px; }
+        }
+    </style>
+    <section class="guestbook" style="background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05);">
     <div style="max-width: 1200px; margin: 0 auto;">
         <h2 class="section-title" style="margin-bottom: 10px;">Fan Insights</h2>
         <p style="color: #888; margin-bottom: 40px; font-family: 'Space Grotesk'; letter-spacing: 1px;">LEAVE A SUGGESTION OR A COMMENT ABOUT THE DATA</p>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
+
+        <div class="guestbook-grid">
             <div class="comment-form">
                 <input type="text" id="guest-name" placeholder="Your Name" style="width: 100%; padding: 15px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: #fff; font-family: 'Space Grotesk'; outline: none; border-radius: 4px;">
                 <textarea id="guest-msg" placeholder="What's on your mind?" rows="5" style="width: 100%; padding: 15px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: #fff; font-family: 'Space Grotesk'; outline: none; border-radius: 4px; resize: none;"></textarea>

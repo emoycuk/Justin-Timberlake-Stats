@@ -440,6 +440,8 @@ function attachSortHandlers() {
 
 // --- 5. TREND CHART ---
 
+let trendChartInst = null;
+
 function buildTrendChart(snapshots, liveTotal) {
     const canvas = document.getElementById('trendChart');
     if (!canvas) return;
@@ -482,18 +484,22 @@ function buildTrendChart(snapshots, liveTotal) {
     gradient.addColorStop(0,   'rgba(212,168,83,0.35)');
     gradient.addColorStop(1,   'rgba(212,168,83,0.00)');
 
-    new Chart(ctx, {
+    const accentColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent-bronze').trim() || '#d4a853';
+
+    if (trendChartInst) trendChartInst.destroy();
+    trendChartInst = new Chart(ctx, {
         type: 'line',
         data: {
             labels,
             datasets: [{
                 label: 'Career Total Streams',
                 data: values,
-                borderColor: '#d4a853',
+                borderColor: accentColor,
                 backgroundColor: gradient,
                 borderWidth: 2,
                 pointRadius: points.length <= 5 ? 5 : 3,
-                pointBackgroundColor: '#d4a853',
+                pointBackgroundColor: accentColor,
                 pointBorderColor: '#050505',
                 pointBorderWidth: 2,
                 tension: 0.35,
@@ -508,9 +514,9 @@ function buildTrendChart(snapshots, liveTotal) {
                 legend: { display: false },
                 tooltip: {
                     backgroundColor: 'rgba(5,5,5,0.9)',
-                    borderColor: 'rgba(212,168,83,0.4)',
+                    borderColor: accentColor + '66',
                     borderWidth: 1,
-                    titleColor: '#d4a853',
+                    titleColor: accentColor,
                     bodyColor: '#fff',
                     callbacks: {
                         label: ctx => ' ' + ctx.parsed.y.toLocaleString('en-US') + ' streams'
@@ -540,6 +546,21 @@ function buildTrendChart(snapshots, liveTotal) {
         }
     });
 }
+
+// Era değişince chart renklerini güncelle
+document.addEventListener('eraChanged', () => {
+    if (!trendChartInst) return;
+    const c = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent-bronze').trim() || '#d4a853';
+    const ds = trendChartInst.data.datasets[0];
+    ds.borderColor = c;
+    ds.pointBackgroundColor = c;
+    // Gradient yerine solid fill (gradient canvas'a bağlı, renk değişince yeniden oluşturmak gerekir)
+    ds.backgroundColor = c + '33';
+    trendChartInst.options.plugins.tooltip.borderColor = c + '66';
+    trendChartInst.options.plugins.tooltip.titleColor  = c;
+    trendChartInst.update('none');
+});
 
 // --- 6. ANA YÜKLEYİCİ ---
 

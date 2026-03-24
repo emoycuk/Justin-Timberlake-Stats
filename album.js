@@ -118,7 +118,8 @@ function render(albumId, albumData, tracks) {
     const dlSales   = Math.round(dlEAS   * 20 / 3);
     const spotifyStreams = tracks.reduce((s, t) => s + t.total, 0);
     const audioEAS = Math.floor((spotifyStreams * ARTIST_RATIO) / 1166);
-    const totalEAS = (albumData.pureSales || 0) + physEAS + dlEAS + audioEAS;
+    const videoEAS = Math.floor((albumData.streams?.youtube || 0) / 6750);
+    const totalEAS = (albumData.pureSales || 0) + physEAS + dlEAS + audioEAS + videoEAS;
 
     const stats = [
         { label: 'Pure Sales',        value: fmt(albumData.pureSales), sub: 'album units' },
