@@ -304,7 +304,7 @@ const albumCovers = {
 function albumThumbHTML(name) {
     const src = albumCovers[name];
     if (src) {
-        return `<img src="${src}" style="width:40px;height:40px;border-radius:4px;object-fit:cover;flex-shrink:0;display:block;">`;
+        return `<img src="${src}" alt="${name} album cover" style="width:40px;height:40px;border-radius:4px;object-fit:cover;flex-shrink:0;display:block;">`;
     }
     return `<div style="width:40px;height:40px;border-radius:4px;background:repeating-radial-gradient(#050505 0,#050505 2px,#111 3px,#111 4px);flex-shrink:0;"></div>`;
 }
