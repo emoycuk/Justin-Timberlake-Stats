@@ -26,7 +26,7 @@ function smartParseKworb(input) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(input, 'text/html');
 
-    // Kworb'un tepesindeki GERÇEK TOPLAMI çek (17.2B)
+    // Kworb'un tepesindeki GERÇEK TOPLAMI çek 
     const tables = doc.querySelectorAll('table');
     if (tables.length > 0) {
         const totalCell = tables[0].querySelectorAll('td')[1];
