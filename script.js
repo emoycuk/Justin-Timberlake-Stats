@@ -1,6 +1,6 @@
 // --- 1. AYARLAR VE MAPPING ---
 let jtData = null;
-const ARTIST_RATIO = 1.82; 
+const ARTIST_RATIO = 1.82;
 // script.js en üst kısım
 let YOUTUBE_API_KEY = typeof CONFIG !== 'undefined' ? CONFIG.YOUTUBE_API_KEY : "";
 let MY_DYNAMIC_API = typeof CONFIG !== 'undefined' ? CONFIG.MY_DYNAMIC_API : "";
@@ -12,14 +12,14 @@ const songToAlbumMap = typeof SONG_TO_ALBUM_MAP !== 'undefined' ? SONG_TO_ALBUM_
 
 // --- 3. AKILLI PARSER ---
 function smartParseKworb(input) {
-    let stats = { 
+    let stats = {
         TotalSpotify: 0,
-        "Justified": 0, 
-        "FutureSex/LoveSounds": 0, 
-        "The 20/20 Experience": 0, 
-        "Man of the Woods": 0, 
+        "Justified": 0,
+        "FutureSex/LoveSounds": 0,
+        "The 20/20 Experience": 0,
+        "Man of the Woods": 0,
         "Everything I Thought It Was": 0, // KASAMIZ BURADA
-        "Orphan": 0 
+        "Orphan": 0
     };
 
     if (!input) return stats;
@@ -40,9 +40,9 @@ function smartParseKworb(input) {
         if (cols.length >= 2) {
             let title = cols[0].textContent.trim();
             let val = parseInt(cols[1].textContent.replace(/,/g, ''), 10);
-            
+
             let lowerTitle = title.toLowerCase();
-            
+
             for (let key in songToAlbumMap) {
                 if (lowerTitle.includes(key.toLowerCase())) {
                     // Güvenlik kontrolü ile ekle
@@ -66,7 +66,7 @@ function calculateRealCSPC(album) {
     const youtube = album.streams.youtube || 0;
     const audioEAS = (spotify * ARTIST_RATIO) / 1166;
     const videoEAS = youtube / 6750;
-    
+
     return {
         totalEAS: Math.floor((album.pureSales || 0) + singlesEAS + audioEAS + videoEAS),
         spotifyStreams: spotify
@@ -139,9 +139,9 @@ window.resetToCareer = function () {
     animateValue(document.getElementById('eas-total'), 0, s.totalEAS, 600);
     animateValue(document.getElementById('spotify-total'), 0, s.totalSpotify, 600);
     const bestEraNameEl = document.getElementById('best-era-name');
-    const bestEraValEl  = document.getElementById('best-era-val');
+    const bestEraValEl = document.getElementById('best-era-val');
     if (bestEraNameEl) bestEraNameEl.textContent = s.bestEra.name;
-    if (bestEraValEl)  bestEraValEl.textContent  = (s.bestEra.eas / 1_000_000).toFixed(2) + 'M EAS';
+    if (bestEraValEl) bestEraValEl.textContent = (s.bestEra.eas / 1_000_000).toFixed(2) + 'M EAS';
     const btn = document.getElementById('deep-analytics-btn');
     if (btn) btn.href = 'streams.html';
 };
@@ -154,7 +154,7 @@ function updateCareerOverview(liveStats) {
     Object.keys(jtData.albums).forEach(id => {
         const albumData = jtData.albums[id];
         const stats = calculateRealCSPC(albumData);
-        careerTotalEAS += stats.totalEAS; 
+        careerTotalEAS += stats.totalEAS;
 
         if (stats.totalEAS > bestEra.eas) {
             bestEra = { name: id, eas: stats.totalEAS };
@@ -163,10 +163,10 @@ function updateCareerOverview(liveStats) {
         // TABLO İÇİN GERÇEK VERİLERİ (data.json'dan) HAZIRLA
         const pure = albumData.pureSales || 0;
         const physEAS = albumData.physicalSinglesEAS || 0;
-        const dlEAS   = albumData.digitalSinglesEAS  || 0;
+        const dlEAS = albumData.digitalSinglesEAS || 0;
         const physSingles = Math.round(physEAS * (10 / 3));   // EAS → orjinal adet
-        const dlSingles   = Math.round(dlEAS   * (20 / 3));   // EAS → orjinal adet
-        const singlesEAS  = physEAS + dlEAS;
+        const dlSingles = Math.round(dlEAS * (20 / 3));   // EAS → orjinal adet
+        const singlesEAS = physEAS + dlEAS;
         const audio = Math.floor(((albumData.streams.spotify || 0) * ARTIST_RATIO) / 1166);
 
         easTableData.push({
@@ -186,16 +186,16 @@ function updateCareerOverview(liveStats) {
     animateValue(document.getElementById('spotify-total'), 0, liveStats.TotalSpotify, 600);
 
     const bestEraNameEl = document.getElementById('best-era-name');
-    const bestEraValEl  = document.getElementById('best-era-val');
+    const bestEraValEl = document.getElementById('best-era-val');
     if (bestEraNameEl) bestEraNameEl.textContent = bestEra.name;
-    if (bestEraValEl)  bestEraValEl.textContent  = (bestEra.eas / 1_000_000).toFixed(2) + 'M EAS';
+    if (bestEraValEl) bestEraValEl.textContent = (bestEra.eas / 1_000_000).toFixed(2) + 'M EAS';
 
     // Eğer sayfada tablo varsa, hemen 'Total'a göre sıralayıp ekrana bas
     if (document.getElementById('eas-table-body')) {
         sortEasTable('total');
     }
 
-    currentEasSort.asc = true; 
+    currentEasSort.asc = true;
     sortEasTable('album');
 }
 
@@ -228,14 +228,14 @@ async function playAlbum(albumName) {
     if (window.innerWidth < 768) {
         const dashboardPanel = document.querySelector('.cspc-dashboard');
         if (dashboardPanel) {
-            const navEl     = document.querySelector('nav');
+            const navEl = document.querySelector('nav');
             const navHeight = navEl ? navEl.offsetHeight + 10 : 150; // dinamik nav yüksekliği
             const panelPosition = dashboardPanel.getBoundingClientRect().top + window.scrollY - navHeight;
-            
+
             // Jilet gibi yumuşak kaydırma
             window.scrollTo({
                 top: panelPosition,
-                behavior: 'smooth' 
+                behavior: 'smooth'
             });
         }
     }
@@ -248,7 +248,7 @@ async function fetchRealYouTubeViews(ids) {
         const res = await fetch(url);
         const data = await res.json();
         return data.items.reduce((sum, item) => sum + parseInt(item.statistics.viewCount), 0);
-    } catch(e) { return 0; }
+    } catch (e) { return 0; }
 }
 
 function animateValue(obj, start, end, duration) {
@@ -258,7 +258,7 @@ function animateValue(obj, start, end, duration) {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         const current = Math.floor(progress * (end - start) + start);
-        
+
         if (end >= 1000000000 && obj.id === 'spotify-total') {
             obj.innerHTML = (current / 1000000000).toFixed(2) + 'B';
         } else {
@@ -270,12 +270,12 @@ function animateValue(obj, start, end, duration) {
 }
 
 const ALBUM_COLORS = {
-    "Justified":                   "#5dade2",
-    "FutureSex/LoveSounds":        "#e74c3c",
-    "The 20/20 Experience":        "#d4a853",
-    "Man of the Woods":            "#e67e22",
+    "Justified": "#5dade2",
+    "FutureSex/LoveSounds": "#e74c3c",
+    "The 20/20 Experience": "#d4a853",
+    "Man of the Woods": "#e67e22",
     "Everything I Thought It Was": "#ca510f",
-    "Orphan":                      "#bdc3c7"
+    "Orphan": "#bdc3c7"
 };
 
 function initCardThemes() {
@@ -323,8 +323,8 @@ function albumThumbHTML(name) {
 function fmtNum(n) {
     if (window.innerWidth >= 768) return n.toLocaleString('en-US');
     if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'B';
-    if (n >= 1_000_000)     return (n / 1_000_000).toFixed(1) + 'M';
-    if (n >= 1_000)         return Math.round(n / 1_000) + 'K';
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
+    if (n >= 1_000) return Math.round(n / 1_000) + 'K';
     return String(n);
 }
 
@@ -336,12 +336,12 @@ function renderEasTable() {
     let grandPure = 0, grandPhys = 0, grandDl = 0, grandSingles = 0, grandAudio = 0, grandTotal = 0;
 
     easTableData.forEach(row => {
-        grandPure    += row.pure;
-        grandPhys    += row.physSingles;
-        grandDl      += row.dlSingles;
+        grandPure += row.pure;
+        grandPhys += row.physSingles;
+        grandDl += row.dlSingles;
         grandSingles += row.singles;
-        grandAudio   += row.audio;
-        grandTotal   += row.total;
+        grandAudio += row.audio;
+        grandTotal += row.total;
 
         const TD = `padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.02);`;
         let tr = document.createElement('tr');
@@ -355,11 +355,11 @@ function renderEasTable() {
             <td style="${TD}">${fmtNum(row.pure)}</td>
             <td style="${TD}">
                 ${fmtNum(row.physSingles)}
-                <div style="font-size:0.7rem;color:#aaa;margin-top:2px;">≈ ${fmtNum(row.physSingles > 0 ? Math.round(row.physSingles * 3/10) : 0)} EAS</div>
+                <div style="font-size:0.7rem;color:#aaa;margin-top:2px;">≈ ${fmtNum(row.physSingles > 0 ? Math.round(row.physSingles * 3 / 10) : 0)} EAS</div>
             </td>
             <td style="${TD}">
                 ${fmtNum(row.dlSingles)}
-                <div style="font-size:0.7rem;color:#aaa;margin-top:2px;">≈ ${fmtNum(row.dlSingles > 0 ? Math.round(row.dlSingles * 1.5/10) : 0)} EAS</div>
+                <div style="font-size:0.7rem;color:#aaa;margin-top:2px;">≈ ${fmtNum(row.dlSingles > 0 ? Math.round(row.dlSingles * 1.5 / 10) : 0)} EAS</div>
             </td>
             <td style="${TD}; color: #4ade80;">+${fmtNum(row.audio)}</td>
             <td class="cell-era-total" style="${TD}; color: #d4a853; font-weight: 700;">${fmtNum(row.total)}</td>
@@ -380,14 +380,14 @@ function renderEasTable() {
     tbody.appendChild(footerTr);
 }
 
-window.sortEasTable = function(key) {
+window.sortEasTable = function (key) {
     if (currentEasSort.key === key) {
-        currentEasSort.asc = !currentEasSort.asc; 
+        currentEasSort.asc = !currentEasSort.asc;
     } else {
         currentEasSort.key = key;
         // Eğer 'album' (yıl) seçildiyse varsayılan olarak eskiden yeniye (true) başla
         // Diğer rakamsal verilerde (pure, total vb.) büyükten küçüğe (false) başla
-        currentEasSort.asc = (key === 'album'); 
+        currentEasSort.asc = (key === 'album');
     }
 
     easTableData.sort((a, b) => {
@@ -397,7 +397,7 @@ window.sortEasTable = function(key) {
             const yb = isNaN(Number(b.year)) ? 9999 : Number(b.year);
             return currentEasSort.asc ? ya - yb : yb - ya;
         }
-        
+
         let valA = a[key];
         let valB = b[key];
         return currentEasSort.asc ? valA - valB : valB - valA;
