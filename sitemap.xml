@@ -25,11 +25,7 @@
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
-  <url>
-    <loc>https://justin-timberlake-stats.vercel.app/timberdle.html</loc>
-    <priority>0.6</priority>
-    <changefreq>daily</changefreq>
-  </url>
+
   <url>
     <loc>https://justin-timberlake-stats.vercel.app/transform.html</loc>
     <priority>0.6</priority>
