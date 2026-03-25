@@ -178,10 +178,12 @@
         if (heroBg) {
             const img = isDefault ? "url('assets/jt-hero.jpg')" : `url('${era.cover || "assets/jt-hero.jpg"}')`;
             heroBg.style.backgroundImage =
-                `linear-gradient(to right, rgba(10,10,15,0.88) 30%, rgba(10,10,15,0.45) 100%),
+                `linear-gradient(to right, rgba(10,10,15,0.6) 30%, rgba(10,10,15,0.25) 100%),
                  linear-gradient(to bottom, transparent 60%, #0a0a0f 100%), ${img}`;
-            heroBg.style.backgroundSize = 'cover';
-            heroBg.style.backgroundPosition = 'center 20%';
+            const isFSLS = era.id === 'FutureSex/LoveSounds';
+            heroBg.style.backgroundSize = isFSLS ? 'contain' : 'cover';
+            heroBg.style.backgroundPosition = isFSLS ? 'center center' : 'center 20%';
+            heroBg.style.backgroundColor = isFSLS ? '#0a0a0f' : '';
         }
 
         // Dynamic style tag
@@ -312,7 +314,7 @@
             
             /* Background takeover */
             .hero-bg {
-                background-image: linear-gradient(to right, rgba(10,10,15,0.92) 30%, rgba(10,10,15,0.5) 100%),
+                background-image: linear-gradient(to right, rgba(10,10,15,0.6) 30%, rgba(10,10,15,0.25) 100%),
                                   linear-gradient(to bottom, transparent 60%, #0a0a0f 100%),
                                   url('${era.cover || "assets/jt-hero.jpg"}') !important;
             }
@@ -320,12 +322,6 @@
 
         document.dispatchEvent(new CustomEvent('eraChanged', { detail: { album: albumName, color: c } }));
 
-        // Persist selection across pages
-        if (albumName === 'default') {
-            localStorage.removeItem('jt_era');
-        } else {
-            localStorage.setItem('jt_era', albumName);
-        }
     };
 
     // ── Active nav link ──────────────────────────────────────────────
@@ -383,8 +379,7 @@
     }
 
     function restoreEra() {
-        const saved = localStorage.getItem('jt_era');
-        if (saved) window.applyEraTheme(saved);
+        // Default tema her zaman yüklenir — localStorage persist yok
     }
 
     // ── JT Head Features ─────────────────────────────
