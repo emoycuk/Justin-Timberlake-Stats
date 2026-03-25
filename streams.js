@@ -294,8 +294,14 @@ function renderTracksTable() {
         }
 
         const tr = document.createElement('tr');
+        
+        let displayTitle = track.title;
+        if (displayTitle.toUpperCase().includes("CAN'T STOP THE FEELING!") && !displayTitle.toUpperCase().includes("FILM VERSION")) {
+            displayTitle = "CAN'T STOP THE FEELING!";
+        }
+
         tr.innerHTML = `
-            <td>${track.title}</td>
+            <td>${displayTitle}</td>
             <td>${fmtNum(track.total)}</td>
             <td class="positive-trend">${fmtDelta(track.daily)}</td>
             ${real7Cell}${real30Cell}${ytdCell}
@@ -716,9 +722,15 @@ async function initStreamsDashboard() {
                 const confidenceBadge = `<span class="confidence-badge confidence-${milestone.confidence}">${milestone.confidence}</span>`;
                 const card = document.createElement('div');
                 card.className = "milestone-card";
+                
+                let displayTitle = track.title;
+                if (displayTitle.toUpperCase().includes("CAN'T STOP THE FEELING!") && !displayTitle.toUpperCase().includes("FILM VERSION")) {
+                    displayTitle = "CAN'T STOP THE FEELING!";
+                }
+
                 card.innerHTML = `
                     <div style="font-size:0.8rem;color:#888;text-transform:uppercase;margin-bottom:6px;">Countdown to ${targetText} ${confidenceBadge}</div>
-                    <div style="font-size:1.2rem;font-weight:700;margin:10px 0;">${track.title}</div>
+                    <div style="font-size:1.2rem;font-weight:700;margin:10px 0;">${displayTitle}</div>
                     <div style="font-size:2rem;color:#d4a853;">${daysDisplay}</div>
                     <div style="font-size:0.85rem;color:#aaa;margin-top:5px;">
                         Needs ${(milestone.remaining / 1000000).toFixed(1)}M more
