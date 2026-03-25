@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin Timberlake Awards & Achievements — Grammy, Emmy, Billboard & MTV VMA</title>
+    <meta name="description"
+        content="Complete awards history for Justin Timberlake: 10 Grammy wins, Emmy, Billboard, MTV VMA awards, and more.">
+    <meta name="keywords"
+        content="Justin Timberlake awards, Grammy, Billboard Music Awards, Emmy, VMA, Academy Awards">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://justin-timberlake-stats.vercel.app/awards.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Timberlake Analytics">
+    <meta property="og:title" content="Justin Timberlake Awards & Achievements — Grammy, Emmy, Billboard & MTV VMA">
+    <meta property="og:description"
+        content="Complete awards history for Justin Timberlake: 10 Grammy wins, Emmy, Billboard, MTV VMA awards, and more.">
+    <meta property="og:url" content="https://justin-timberlake-stats.vercel.app/awards.html">
+    <meta property="og:image" content="https://justin-timberlake-stats.vercel.app/assets/jt-hero.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Justin Timberlake Awards & Achievements — Grammy, Emmy, Billboard & MTV VMA">
+    <meta name="twitter:description"
+        content="Complete awards history for Justin Timberlake: 10 Grammy wins, Emmy, Billboard, MTV VMA awards, and more.">
+    <meta name="twitter:image" content="https://justin-timberlake-stats.vercel.app/assets/jt-hero.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+            rel="stylesheet">
+    </noscript>
+    <link rel="stylesheet" href="style.css?v=1.1">
+    <style>
+        .awards-container {
+            padding: 120px 5% 60px;
+            color: #fff;
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        /* ── PAGE HEADER ── */
+        .awards-header {
+            text-align: center;
+        }
+
+        .awards-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .awards-header h1 span {
+            color: #d4a853;
+        }
+
+        .awards-header p {
+            color: #888;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* ── HERO STAT CARDS ── */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            padding: 28px 24px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 168, 83, 0.5);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4a853, transparent);
+        }
+
+        .hero-card .card-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-card .card-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #d4a853;
+            line-height: 1;
+        }
+
+        .hero-card .card-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* ── FILTER BUTTONS ── */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 10px 22px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            color: #aaa;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            border-color: #d4a853;
+            color: #d4a853;
+        }
+
+        .filter-btn.active {
+            background: #d4a853;
+            border-color: #d4a853;
+            color: #0a0a0a;
+        }
+
+        /* ── AWARDS TIMELINE ── */
+        .timeline-section {
+            position: relative;
+        }
+
+        .timeline-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #d4a853;
+        }
+
+        .awards-timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .awards-timeline::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #d4a853, rgba(212, 168, 83, 0.1));
+        }
+
+        .award-item {
+            position: relative;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: awardSlideIn 0.5s ease forwards;
+        }
+
+        .award-item:nth-child(1) { animation-delay: 0.05s; }
+        .award-item:nth-child(2) { animation-delay: 0.1s; }
+        .award-item:nth-child(3) { animation-delay: 0.15s; }
+        .award-item:nth-child(4) { animation-delay: 0.2s; }
+        .award-item:nth-child(5) { animation-delay: 0.25s; }
+        .award-item:nth-child(6) { animation-delay: 0.3s; }
+        .award-item:nth-child(7) { animation-delay: 0.35s; }
+        .award-item:nth-child(8) { animation-delay: 0.4s; }
+        .award-item:nth-child(9) { animation-delay: 0.45s; }
+        .award-item:nth-child(10) { animation-delay: 0.5s; }
+
+        @keyframes awardSlideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .award-dot {
+            position: absolute;
+            left: -33px;
+            top: 18px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d4a853;
+            border: 3px solid #0a0a0a;
+            box-shadow: 0 0 0 2px #d4a853;
+            z-index: 2;
+        }
+
+        .award-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 22px 26px;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .award-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(212, 168, 83, 0.3);
+            transform: translateX(6px);
+        }
+
+        .award-card-left {
+            flex: 1;
+        }
+
+        .award-year-badge {
+            display: inline-block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #d4a853;
+            background: rgba(212, 168, 83, 0.12);
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .award-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .award-category {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            color: #888;
+        }
+
+        .award-work {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(212, 168, 83, 0.6);
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .award-badge {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .badge-grammy {
+            background: rgba(212, 168, 83, 0.15);
+            color: #d4a853;
+            border: 1px solid rgba(212, 168, 83, 0.3);
+        }
+
+        .badge-billboard {
+            background: rgba(74, 222, 128, 0.1);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.25);
+        }
+
+        .badge-emmy {
+            background: rgba(168, 130, 255, 0.12);
+            color: #a882ff;
+            border: 1px solid rgba(168, 130, 255, 0.3);
+        }
+
+        .badge-vma {
+            background: rgba(255, 107, 53, 0.12);
+            color: #ff6b35;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .badge-ama {
+            background: rgba(93, 173, 226, 0.12);
+            color: #5dade2;
+            border: 1px solid rgba(93, 173, 226, 0.3);
+        }
+
+        .badge-other {
+            background: rgba(255, 255, 255, 0.06);
+            color: #aaa;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+
+
+        /* ── SUMMARY FOOTER ── */
+        .awards-footer {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .awards-footer .footer-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            margin: 0 auto 16px;
+            line-height: 1.6;
+        }
+
+        .awards-footer .footer-attr {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            color: #d4a853;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* ── HIDDEN ── */
+        .award-item.hidden {
+            display: none !important;
+        }
+
+        /* ── COUNT BADGE ── */
+        .filter-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            font-size: 0.65rem;
+            margin-left: 6px;
+            padding: 0 5px;
+        }
+
+        .filter-btn.active .filter-count {
+            background: rgba(10, 10, 10, 0.2);
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .awards-container {
+                padding: 140px 15px 40px;
+                gap: 30px;
+            }
+
+            .award-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .award-badge {
+                align-self: flex-start;
+            }
+
+            .cert-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">Timberlake</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tours.html">Box Office</a></li>
+            <li><a href="streams.html">Live Streaming</a></li>
+            <li><a href="game.html">Album Crush</a></li>
+            <li><a href="awards.html" style="color: #d4a853; font-weight: 700;">Awards</a></li>
+        </ul>
+    </nav>
+
+    <div class="awards-container">
+
+        <!-- PAGE HEADER -->
+        <div class="awards-header">
+            <h1>Awards & <span>Achievements</span></h1>
+            <p>A legacy in gold & platinum</p>
+        </div>
+
+        <!-- HERO STAT CARDS -->
+        <div class="hero-stats" id="hero-stats"></div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar" id="filter-bar"></div>
+
+        <!-- AWARDS TIMELINE -->
+        <div class="timeline-section">
+            <h2>Awards Timeline</h2>
+            <div class="awards-timeline" id="awards-timeline"></div>
+        </div>
+
+
+
+        <!-- FOOTER QUOTE -->
+        <div class="awards-footer">
+            <div class="footer-quote">"I believe that with hard work and dedication, you can achieve anything."</div>
+            <div class="footer-attr">— Justin Timberlake</div>
+        </div>
+    </div>
+
+    <script src="fab.js?v=1.1" defer></script>
+    <script>
+        // ═══════════════════════════════════════════════════════════
+        //  AWARDS DATA
+        // ═══════════════════════════════════════════════════════════
+        const awardsData = [
+            // ── GRAMMY AWARDS (10 Wins) ──
+            { year: 2004, org: 'Grammy', name: 'Grammy Award', category: 'Best Pop Vocal Album', work: 'Justified', badge: 'badge-grammy' },
+            { year: 2004, org: 'Grammy', name: 'Grammy Award', category: 'Best Male Pop Vocal Performance', work: '"Cry Me a River"', badge: 'badge-grammy' },
+            { year: 2007, org: 'Grammy', name: 'Grammy Award', category: 'Best Dance Recording', work: '"SexyBack" (ft. Timbaland)', badge: 'badge-grammy' },
+            { year: 2007, org: 'Grammy', name: 'Grammy Award', category: 'Best Rap/Sung Collaboration', work: '"My Love" (ft. T.I.)', badge: 'badge-grammy' },
+            { year: 2008, org: 'Grammy', name: 'Grammy Award', category: 'Best Male Pop Vocal Performance', work: '"What Goes Around… Comes Around"', badge: 'badge-grammy' },
+            { year: 2008, org: 'Grammy', name: 'Grammy Award', category: 'Best Dance Recording', work: '"LoveStoned/I Think She Knows"', badge: 'badge-grammy' },
+            { year: 2014, org: 'Grammy', name: 'Grammy Award', category: 'Best R&B Song', work: '"Pusher Love Girl"', badge: 'badge-grammy' },
+            { year: 2014, org: 'Grammy', name: 'Grammy Award', category: 'Best Music Video', work: '"Suit & Tie" (ft. Jay-Z)', badge: 'badge-grammy' },
+            { year: 2014, org: 'Grammy', name: 'Grammy Award', category: 'Best Rap/Sung Collaboration', work: '"Holy Grail" (ft. Jay-Z)', badge: 'badge-grammy' },
+            { year: 2017, org: 'Grammy', name: 'Grammy Award', category: 'Best Song Written for Visual Media', work: '"Can\'t Stop the Feeling!"', badge: 'badge-grammy' },
+
+            // ── EMMY AWARDS (4 Wins) ──
+            { year: 2007, org: 'Emmy', name: 'Primetime Emmy Award', category: 'Outstanding Original Music and Lyrics', work: '"D**k in a Box" — Saturday Night Live', badge: 'badge-emmy' },
+            { year: 2009, org: 'Emmy', name: 'Primetime Emmy Award', category: 'Outstanding Guest Actor in a Comedy Series', work: 'Saturday Night Live', badge: 'badge-emmy' },
+            { year: 2011, org: 'Emmy', name: 'Primetime Emmy Award', category: 'Outstanding Guest Actor in a Comedy Series', work: 'Saturday Night Live', badge: 'badge-emmy' },
+            { year: 2011, org: 'Emmy', name: 'Primetime Emmy Award', category: 'Outstanding Original Music and Lyrics', work: '"Justin Timberlake Monologue" — SNL', badge: 'badge-emmy' },
+
+            // ── BILLBOARD MUSIC AWARDS (9 Wins, all in 2014) ──
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top Artist', work: '—', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top Male Artist', work: '—', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top Billboard 200 Artist', work: '—', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top Billboard 200 Album', work: 'The 20/20 Experience', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top Radio Songs Artist', work: '—', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top R&B Artist', work: '—', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top R&B Album', work: 'The 20/20 Experience', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top Streaming Song (Audio)', work: '"Mirrors"', badge: 'badge-billboard' },
+            { year: 2014, org: 'Billboard', name: 'Billboard Music Award', category: 'Top R&B Song', work: '"Mirrors"', badge: 'badge-billboard' },
+
+            // ── MTV VMA AWARDS (9 Wins) ──
+            { year: 2003, org: 'VMA', name: 'MTV VMA', category: 'Best Male Video', work: '"Cry Me a River"', badge: 'badge-vma' },
+            { year: 2003, org: 'VMA', name: 'MTV VMA', category: 'Best Pop Video', work: '"Cry Me a River"', badge: 'badge-vma' },
+            { year: 2006, org: 'VMA', name: 'MTV VMA', category: 'Best Dance Video', work: '"SexyBack"', badge: 'badge-vma' },
+            { year: 2006, org: 'VMA', name: 'MTV VMA', category: 'Male Artist of the Year', work: '—', badge: 'badge-vma' },
+            { year: 2007, org: 'VMA', name: 'MTV VMA', category: 'Quadruple Threat of the Year', work: 'Special Award', badge: 'badge-vma' },
+            { year: 2013, org: 'VMA', name: 'MTV VMA', category: 'Video of the Year', work: '"Mirrors"', badge: 'badge-vma' },
+            { year: 2013, org: 'VMA', name: 'MTV VMA', category: 'Best Direction', work: '"Suit & Tie" (ft. Jay-Z)', badge: 'badge-vma' },
+            { year: 2013, org: 'VMA', name: 'MTV VMA', category: 'Best Editing', work: '"Mirrors"', badge: 'badge-vma' },
+            { year: 2013, org: 'VMA', name: 'MTV VMA', category: 'Michael Jackson Video Vanguard Award', work: 'Lifetime Achievement', badge: 'badge-vma' },
+
+            // ── AMERICAN MUSIC AWARDS (7 Wins) ──
+            { year: 2003, org: 'AMA', name: 'American Music Award', category: 'Favorite Pop/Rock Album', work: 'Justified', badge: 'badge-ama' },
+            { year: 2007, org: 'AMA', name: 'American Music Award', category: 'Favorite Pop/Rock Male Artist', work: '—', badge: 'badge-ama' },
+            { year: 2007, org: 'AMA', name: 'American Music Award', category: 'Favorite Pop/Rock Album', work: 'FutureSex/LoveSounds', badge: 'badge-ama' },
+            { year: 2007, org: 'AMA', name: 'American Music Award', category: 'Favorite Soul/R&B Album', work: 'FutureSex/LoveSounds', badge: 'badge-ama' },
+            { year: 2013, org: 'AMA', name: 'American Music Award', category: 'Favorite Pop/Rock Male Artist', work: '—', badge: 'badge-ama' },
+            { year: 2013, org: 'AMA', name: 'American Music Award', category: 'Favorite Pop/Rock Album', work: 'The 20/20 Experience', badge: 'badge-ama' },
+            { year: 2013, org: 'AMA', name: 'American Music Award', category: 'Favorite Soul/R&B Album', work: 'The 20/20 Experience', badge: 'badge-ama' },
+
+            // ── BRIT AWARDS & OTHER ──
+            { year: 2004, org: 'Other', name: "Brit Award", category: 'International Male Solo Artist', work: 'Justified', badge: 'badge-other' },
+            { year: 2007, org: 'Other', name: "Brit Award", category: 'International Male Solo Artist', work: 'FutureSex/LoveSounds', badge: 'badge-other' },
+            { year: 2013, org: 'Other', name: "Brit Award", category: 'International Male Solo Artist', work: 'The 20/20 Experience', badge: 'badge-other' },
+            { year: 2017, org: 'Other', name: "Oscar Nomination", category: 'Best Original Song', work: '"Can\'t Stop the Feeling!" — Trolls', badge: 'badge-other' },
+        ];
+
+
+
+        // ═══════════════════════════════════════════════════════════
+        //  RENDER
+        // ═══════════════════════════════════════════════════════════
+
+        // ── HERO CARDS ──
+        function renderHeroCards() {
+            const grammyWins = awardsData.filter(a => a.org === 'Grammy').length;
+            const totalAwards = awardsData.length;
+            const orgCount = new Set(awardsData.map(a => a.org)).size;
+
+            const cards = [
+                { icon: '🏆', value: grammyWins, label: 'Grammy Awards' },
+                { icon: '🏅', value: orgCount, label: 'Award Organizations' },
+            ];
+
+            const container = document.getElementById('hero-stats');
+            cards.forEach(card => {
+                const el = document.createElement('div');
+                el.className = 'hero-card';
+                el.innerHTML = `
+                    <div class="card-icon">${card.icon}</div>
+                    <div class="card-value" data-target="${card.value}">0</div>
+                    <div class="card-label">${card.label}</div>
+                `;
+                container.appendChild(el);
+            });
+
+            // Animate counters
+            container.querySelectorAll('.card-value').forEach(el => {
+                animateCounter(el, parseInt(el.dataset.target), 1500);
+            });
+        }
+
+        function animateCounter(el, target, duration) {
+            let start = null;
+            function step(ts) {
+                if (!start) start = ts;
+                const p = Math.min((ts - start) / duration, 1);
+                el.textContent = Math.floor(p * target);
+                if (p < 1) requestAnimationFrame(step);
+                else el.textContent = target;
+            }
+            requestAnimationFrame(step);
+        }
+
+        // ── FILTER BUTTONS ──
+        function renderFilters() {
+            const orgs = ['All', ...new Set(awardsData.map(a => a.org))];
+            const counts = {};
+            awardsData.forEach(a => counts[a.org] = (counts[a.org] || 0) + 1);
+            counts['All'] = awardsData.length;
+
+            const nameMap = {
+                'All': 'All',
+                'Grammy': 'Grammy',
+                'Emmy': 'Emmy',
+                'Billboard': 'Billboard',
+                'VMA': 'MTV VMA',
+                'AMA': 'AMA',
+                'Other': 'Other'
+            };
+
+            const container = document.getElementById('filter-bar');
+            orgs.forEach(org => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn' + (org === 'All' ? ' active' : '');
+                btn.dataset.filter = org;
+                btn.innerHTML = `${nameMap[org] || org}<span class="filter-count">${counts[org]}</span>`;
+                btn.addEventListener('click', () => filterAwards(org));
+                container.appendChild(btn);
+            });
+        }
+
+        function filterAwards(org) {
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.filter-btn[data-filter="${org}"]`).classList.add('active');
+
+            // Filter timeline items
+            document.querySelectorAll('.award-item').forEach(item => {
+                if (org === 'All' || item.dataset.org === org) {
+                    item.classList.remove('hidden');
+                    // Re-trigger animation
+                    item.style.animation = 'none';
+                    item.offsetHeight; // reflow
+                    item.style.animation = '';
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // ── AWARDS TIMELINE ──
+        function renderTimeline() {
+            // Sort by year descending (newest first)
+            const sorted = [...awardsData].sort((a, b) => b.year - a.year || a.org.localeCompare(b.org));
+
+            const container = document.getElementById('awards-timeline');
+            sorted.forEach(award => {
+                const item = document.createElement('div');
+                item.className = 'award-item';
+                item.dataset.org = award.org;
+                item.innerHTML = `
+                    <div class="award-dot"></div>
+                    <div class="award-card">
+                        <div class="award-card-left">
+                            <div class="award-year-badge">${award.year}</div>
+                            <div class="award-name">${award.name}</div>
+                            <div class="award-category">${award.category}</div>
+                            ${award.work !== '—' ? `<div class="award-work">${award.work}</div>` : ''}
+                        </div>
+                        <div class="award-badge ${award.badge}">${award.org}</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+
+
+        // ── INIT ──
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHeroCards();
+            renderFilters();
+            renderTimeline();
+        });
+    </script>
+</body>
+
+</html>
