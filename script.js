@@ -85,17 +85,25 @@ async function fetchAllData() {
         const liveStats = smartParseKworb(htmlText);
 
         // İŞTE ÇÖZÜM: Hardcode yerine otomatik ve dinamik dağıtım!
+        let totalUncredited = 0;
         Object.keys(liveStats).forEach(key => {
             // Total ve Orphan hariç tüm albümleri otomatik eşle
             if (key !== "TotalSpotify" && key !== "Orphan" && jtData.albums[key]) {
-                jtData.albums[key].streams.spotify = liveStats[key];
+                const uncredited = jtData.albums[key].streams.uncreditedSpotify || 0;
+                jtData.albums[key].streams.spotify = liveStats[key] + uncredited;
+                totalUncredited += uncredited;
             }
         });
 
         // Orphan özel durumu
         if (jtData.albums["Orphan"]) {
-            jtData.albums["Orphan"].streams.spotify = liveStats.Orphan;
+            const uncreditedOrphan = jtData.albums["Orphan"].streams.uncreditedSpotify || 0;
+            jtData.albums["Orphan"].streams.spotify = liveStats.Orphan + uncreditedOrphan;
+            totalUncredited += uncreditedOrphan;
         }
+
+        // Genel Spotify toplamına tüm uncredited streamleri ekle
+        liveStats.TotalSpotify += totalUncredited;
 
         // Tüm albümlerin YouTube verilerini paralel çek
         if (YOUTUBE_API_KEY) {
