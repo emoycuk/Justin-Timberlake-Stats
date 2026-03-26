@@ -2,7 +2,7 @@
     const DEFAULT_COLOR = '#d4a853';
 
     const ERAS = [
-        { id: "default",                     color: DEFAULT_COLOR, cover: "assets/jt-hero.jpg", short: "JT"    },
+        { id: "default",                     color: DEFAULT_COLOR, cover: null, short: "JT"    },
         { id: "Justified",                   color: "#5dade2",     cover: "assets/justified.jpg", short: "JUS" },
         { id: "FutureSex/LoveSounds",        color: "#e74c3c",     cover: "assets/fsls-deluxe.jpg", short: "FSLS" },
         { id: "The 20/20 Experience",        color: "#b8912e",     cover: "assets/the20.jpg",     short: "20/20"},
@@ -321,7 +321,7 @@
             .hero-bg {
                 background-image: linear-gradient(to right, rgba(10,10,15,0.6) 30%, rgba(10,10,15,0.25) 100%),
                                   linear-gradient(to bottom, transparent 60%, #0a0a0f 100%),
-                                  url('${era.cover || "assets/jt-hero.jpg"}') !important;
+                                  url('${era.cover}') !important;
             }
         `;
 
