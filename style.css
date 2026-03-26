@@ -119,6 +119,15 @@ nav {
     width: 100%;
 }
 
+.nav-links a.active {
+    color: var(--accent-gold);
+    font-weight: 700;
+}
+
+.nav-links a.active::after {
+    width: 100%;
+}
+
 /* =========================================
    HERO SECTION
    ========================================= */
