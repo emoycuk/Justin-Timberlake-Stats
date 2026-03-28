@@ -189,6 +189,22 @@ function updateCareerOverview(liveStats) {
         });
     });
 
+    // 20/20 Pt1 + Pt2 → tek satır "The 20/20 Experience (Complete Experience)"
+    const pt1 = easTableData.find(r => r.album === "The 20/20 Experience");
+    const pt2 = easTableData.find(r => r.album === "The 20/20 Experience \u2013 2 of 2");
+    if (pt1 && pt2) {
+        pt1.album       = "The 20/20 Experience (Complete Experience)";
+        pt1.pure       += pt2.pure;
+        pt1.physSingles+= pt2.physSingles;
+        pt1.dlSingles  += pt2.dlSingles;
+        pt1.singles    += pt2.singles;
+        pt1.audio      += pt2.audio;
+        pt1.total      += pt2.total;
+        easTableData.splice(easTableData.indexOf(pt2), 1);
+    }
+    if (bestEra.name === "The 20/20 Experience \u2013 2 of 2") bestEra.name = "The 20/20 Experience (Complete Experience)";
+    if (bestEra.name === "The 20/20 Experience") bestEra.name = "The 20/20 Experience (Complete Experience)";
+
     careerSnapshot = { totalEAS: careerTotalEAS, totalSpotify: liveStats.TotalSpotify, bestEra };
 
     // AI crawler için statik veri bölümünü güncelle
@@ -320,6 +336,7 @@ const albumCovers = {
     "Justified": "assets/justified.jpg",
     "FutureSex/LoveSounds": "assets/fsls.jpg",
     "The 20/20 Experience": "assets/the20.jpg",
+    "The 20/20 Experience (Complete Experience)": "assets/the20.jpg",
     "Man of the Woods": "assets/motw.jpg",
     "Everything I Thought It Was": "assets/eitiw.jpg",
     "Orphan": null

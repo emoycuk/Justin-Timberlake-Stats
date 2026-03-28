@@ -8,6 +8,7 @@ const albumMetData = {
     "Justified": { year: 2002 },
     "FutureSex/LoveSounds": { year: 2006 },
     "The 20/20 Experience": { year: 2013 },
+    "The 20/20 Experience \u2013 2 of 2": { year: 2013 },
     "Man of the Woods": { year: 2018 },
     "Everything I Thought It Was": { year: 2024 },
     "Orphan": { year: "Various" }
@@ -66,13 +67,15 @@ window._trackSearch = function(val) {
 
 const eraColors = {
     "Justified": "#5dade2", "FutureSex/LoveSounds": "#e74c3c",
-    "The 20/20 Experience": "#fce98a", "Man of the Woods": "#ca6f1e",
+    "The 20/20 Experience": "#fce98a", "The 20/20 Experience \u2013 2 of 2": "#c0962e",
+    "Man of the Woods": "#ca6f1e",
     "Everything I Thought It Was": "#f39c12", "Orphan": "#bdc3c7"
 };
 
 const albumCovers = {
     "Justified": "assets/justified.jpg", "FutureSex/LoveSounds": "assets/fsls.jpg",
-    "The 20/20 Experience": "assets/the20.jpg", "Man of the Woods": "assets/motw.jpg",
+    "The 20/20 Experience": "assets/the20.jpg", "The 20/20 Experience \u2013 2 of 2": "assets/the20pt2.jpg",
+    "Man of the Woods": "assets/motw.jpg",
     "Everything I Thought It Was": "assets/eitiw.jpg", "Orphan": null
 };
 
@@ -207,6 +210,7 @@ function analyzeKworbData(htmlInput) {
         "Justified": { total: 0, daily: 0 },
         "FutureSex/LoveSounds": { total: 0, daily: 0 },
         "The 20/20 Experience": { total: 0, daily: 0 },
+        "The 20/20 Experience \u2013 2 of 2": { total: 0, daily: 0 },
         "Man of the Woods": { total: 0, daily: 0 },
         "Everything I Thought It Was": { total: 0, daily: 0 },
         "Orphan": { total: 0, daily: 0 },
@@ -273,14 +277,14 @@ function renderTracksTable() {
 
     const filtered = _trackSearchQuery
         ? sorted.filter(t => t.title.toLowerCase().includes(_trackSearchQuery))
-        : sorted;
+        : sorted.slice(0, 15);
 
     const countEl = document.getElementById('track-count');
     if (countEl) {
         if (_trackSearchQuery) {
             countEl.textContent = `${filtered.length} of ${_tracksData.length} tracks`;
         } else {
-            countEl.textContent = `${_tracksData.length} tracks`;
+            countEl.textContent = `Top 15 of ${_tracksData.length} tracks — search to explore all`;
         }
     }
 
@@ -598,7 +602,7 @@ async function initStreamsDashboard() {
         const jtDailyCareer  = document.getElementById('jt-daily-career');
         const radarGrid      = document.getElementById('milestone-radar');
 
-        const allAlbums = ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "Man of the Woods", "Everything I Thought It Was", "Orphan"];
+        const allAlbums = ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "The 20/20 Experience \u2013 2 of 2", "Man of the Woods", "Everything I Thought It Was", "Orphan"];
 
         // TOP SECTION — canlı rakamlar
         _jtTotalDaily = liveStats.TotalDaily || 0;
@@ -774,7 +778,7 @@ async function initStreamsDashboard() {
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "Man of the Woods", "EITIW", "Orphan"],
+                    labels: ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "20/20 Pt. 2", "Man of the Woods", "EITIW", "Orphan"],
                     datasets: [{
                         data: allAlbums.map(id => liveStats[id].total),
                         backgroundColor: allAlbums.map(id => eraColors[id]),

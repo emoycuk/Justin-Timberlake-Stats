@@ -545,6 +545,83 @@ function renderTables() {
     const odometer = document.getElementById('grand-total-odometer');
     let currentVal = parseInt(odometer.innerText.replace(/,/g, '')) || 0;
     animateValue(odometer, currentVal, grandTotal, 1000);
+
+    renderEraSummary();
+}
+
+function renderEraSummary() {
+    const container = document.getElementById('era-summary-grid');
+    if (!container) return;
+
+    const ERA_ORDER = [
+        { id: "Justified",                                  label: "Justified" },
+        { id: "FutureSex/LoveSounds",                       label: "FutureSex/LoveSounds" },
+        { id: "The 20/20 Experience",                       label: "The 20/20 Experience (Complete Experience)", merged: "The 20/20 Experience \u2013 2 of 2" },
+        { id: "Man of the Woods",                           label: "Man of the Woods" },
+        { id: "Everything I Thought It Was",                label: "Everything I Thought It Was" }
+    ];
+
+    container.innerHTML = ERA_ORDER.map(era => {
+        const eraId   = era.id;
+        const eraLabel = era.label;
+
+        const albumIds = era.merged ? [eraId, era.merged] : [eraId];
+
+        // All album cert units (summed if merged)
+        const albumUnits = albumIds.reduce((sum, aid) => {
+            const a = computedData.albums.find(x => x.id === aid);
+            return sum + (a ? (a.certTotal || 0) : 0);
+        }, 0);
+
+        // All singles for this era (both album_ids if merged)
+        const eraSongs = computedData.songs.filter(s => albumIds.includes(s.album_id));
+
+        const singlesUnits = eraSongs.reduce((sum, s) => sum + (s.certTotal || 0), 0);
+        const totalUnits   = albumUnits + singlesUnits;
+        const singlesCount = eraSongs.length;
+
+        const color = ALBUM_COLORS[eraId] || '#d4a853';
+        const cover = ALBUM_COVERS[eraId];
+        const albumPct   = totalUnits > 0 ? Math.round(albumUnits / totalUnits * 100) : 0;
+        const singlesPct = 100 - albumPct;
+
+        const thumb = cover
+            ? `<img src="${cover}" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;">`
+            : `<div style="width:44px;height:44px;border-radius:6px;background:rgba(255,255,255,0.05);flex-shrink:0;"></div>`;
+
+        return `
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-top:3px solid ${color};border-radius:12px;padding:20px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                ${thumb}
+                <div>
+                    <div style="font-family:'Playfair Display',serif;font-weight:700;color:#fff;font-size:0.95rem;line-height:1.2;">${eraLabel}</div>
+                    <div style="font-size:0.68rem;color:#555;text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">${singlesCount} single${singlesCount !== 1 ? 's' : ''} tracked</div>
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+                <div>
+                    <div style="font-size:0.68rem;color:#666;text-transform:uppercase;letter-spacing:0.08em;">Album</div>
+                    <div style="font-size:1rem;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;margin-top:2px;">${albumUnits ? albumUnits.toLocaleString() : '—'}</div>
+                </div>
+                <div>
+                    <div style="font-size:0.68rem;color:#666;text-transform:uppercase;letter-spacing:0.08em;">Singles</div>
+                    <div style="font-size:1rem;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;margin-top:2px;">${singlesUnits ? singlesUnits.toLocaleString() : '—'}</div>
+                </div>
+            </div>
+            <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-bottom:10px;">
+                <div style="font-size:0.68rem;color:#666;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Era Total</div>
+                <div class="era-total" style="font-size:1.5rem;font-weight:900;color:${color};font-family:'Space Grotesk',sans-serif;">${totalUnits ? totalUnits.toLocaleString() : '—'}</div>
+            </div>
+            <div style="height:5px;border-radius:3px;background:rgba(255,255,255,0.07);overflow:hidden;display:flex;">
+                <div style="height:100%;width:${albumPct}%;background:${color};"></div>
+                <div style="height:100%;width:${singlesPct}%;background:rgba(255,255,255,0.18);"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.63rem;color:#555;font-family:'Space Grotesk',sans-serif;">
+                <span>Album ${albumPct}%</span>
+                <span>Singles ${singlesPct}%</span>
+            </div>
+        </div>`;
+    }).join('');
 }
 
 // ── INIT ──

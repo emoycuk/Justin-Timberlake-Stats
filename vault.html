@@ -110,7 +110,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1774713197">
+    <link rel="stylesheet" href="style.css?v=1774714512">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -212,6 +212,43 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        /* ── Era Breakdown — responsive grid ── */
+        #era-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            #era-summary-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            /* vault container padding küçült */
+            .vault-container {
+                padding: 90px 4% 40px;
+            }
+            /* era kart içi padding küçült */
+            #era-summary-grid > div {
+                padding: 14px !important;
+            }
+            /* era toplam rakamı biraz küçük */
+            #era-summary-grid .era-total {
+                font-size: 1.2rem !important;
+            }
+            /* search kutusu tam genişlik */
+            #vault-search {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+        }
+
+        @media (max-width: 380px) {
+            #era-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -239,13 +276,40 @@
                 Record Sales <span class="italic text-accent">Vault</span>
             </h1>
             <p class="text-gray-400 text-sm tracking-[0.3em] uppercase">Global Album & Single Sales — Certifications Database</p>
-            <div style="margin-top:20px;display:flex;justify-content:center;">
+            <div style="margin-top:20px;display:flex;justify-content:center;padding:0 4px;">
                 <input type="search" id="vault-search" placeholder="Search albums or songs..."
                     oninput="window._vaultSearch(this.value)"
-                    style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:10px 18px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:0.9rem;outline:none;width:280px;">
+                    style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:10px 18px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:0.9rem;outline:none;width:280px;max-width:100%;box-sizing:border-box;">
             </div>
             <div id="vault-count" style="margin-top:8px;font-size:0.75rem;color:#555;font-family:'Space Grotesk',sans-serif;min-height:1.2em;"></div>
         </div>
+
+        <section class="mb-16 bg-black/60 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
+                <h2 class="font-playfair text-2xl text-accent">Singles</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="cert-table">
+                    <thead>
+                        <tr>
+                            <th class="w-1/4 cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'title')">Song Title ⇕</th>
+                            <th class="col-total-head text-right cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'certTotal')">Cert. Total ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'USA')">🇺🇸 USA ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'UK')">🇬🇧 UK ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Brazil')">🇧🇷 Brazil ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Germany')">🇩🇪 Germany ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Australia')">🇦🇺 Australia ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Canada')">🇨🇦 Canada ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Mexico')">🇲🇽 Mexico ⇕</th>
+                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Other')">🌍 Other ⇕</th>
+                        </tr>
+                    </thead>
+                    <tbody id="songs-tbody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
         <section class="mb-16 bg-black/60 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
             <div class="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
@@ -268,33 +332,6 @@
                         </tr>
                     </thead>
                     <tbody id="albums-tbody">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="bg-black/60 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
-                <h2 class="font-playfair text-2xl text-accent">Singles</h2>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="cert-table">
-                    <thead>
-                        <tr>
-                            <th class="w-1/4 cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'title')">Song Title ⇕</th>
-                            <th class="col-total-head text-right cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'certTotal')">Cert. Total ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'USA')">🇺🇸 USA ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'UK')">🇬🇧 UK ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Brazil')">🇧🇷 Brazil ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Germany')">🇩🇪 Germany ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Australia')">🇦🇺 Australia ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Canada')">🇨🇦 Canada ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Mexico')">🇲🇽 Mexico ⇕</th>
-                            <th class="text-center cursor-pointer hover:text-white transition-colors" onclick="sortVault('songs', 'Other')">🌍 Other ⇕</th>
-                        </tr>
-                    </thead>
-                    <tbody id="songs-tbody">
                         <!-- Populated by JS -->
                     </tbody>
                 </table>
@@ -324,6 +361,15 @@
             </div>
         </section>
 
+        <!-- Era Summary -->
+        <section class="mt-16 mb-16">
+            <h2 class="font-playfair text-2xl text-accent mb-6">Era Breakdown</h2>
+            <p class="text-gray-500 text-xs tracking-widest uppercase mb-6">Album + Singles certified units per era</p>
+            <div id="era-summary-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
+                <div style="color:#555;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;padding:20px;">Loading era data...</div>
+            </div>
+        </section>
+
         <!-- Grand Total Footer — plain, no neon -->
         <div class="vault-grand-total">
             <div>
@@ -337,9 +383,9 @@
 
     </div>
 
-    <script src="config.js?v=1774713197" defer></script>
-    <script src="song-map.js?v=1774713197" defer></script>
-    <script src="vault.js?v=1774713197" defer></script>
+    <script src="config.js?v=1774714512" defer></script>
+    <script src="song-map.js?v=1774714512" defer></script>
+    <script src="vault.js?v=1774714512" defer></script>
     <script>
         window._vaultSearch = function(val) {
             const q = val.trim().toLowerCase();
