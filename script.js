@@ -34,12 +34,16 @@ function smartParseKworb(input) {
     }
 
     let assignedToRealAlbums = 0;
+    const seen = new Set();
     const rows = doc.querySelectorAll('table.addpos tbody tr');
     rows.forEach(row => {
         const cols = row.querySelectorAll('td');
-        if (cols.length >= 2) {
+        if (cols.length >= 3) {
             let title = cols[0].textContent.trim();
-            let val = parseInt(cols[1].textContent.replace(/,/g, ''), 10);
+            let val = parseInt(cols[1].textContent.replace(/,/g, ''), 10) || 0;
+
+            if (!title || seen.has(title)) return;
+            seen.add(title);
 
             let lowerTitle = title.toLowerCase();
 

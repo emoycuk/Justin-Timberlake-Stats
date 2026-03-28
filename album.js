@@ -134,17 +134,7 @@ function render(albumId, albumData, tracks) {
     const dlEAS    = albumData.digitalSinglesEAS  || 0;
     const physSales = Math.round(physEAS * 10 / 3);
     const dlSales   = Math.round(dlEAS   * 20 / 3);
-    const trackSum = tracks.reduce((s, t) => s + t.total, 0);
-
-    // index.html ile aynı Spotify değerini kullan (localStorage cache, max 10dk)
-    let spotifyStreams = trackSum;
-    try {
-        const cached = JSON.parse(localStorage.getItem('jt_kworb_cache') || 'null');
-        const cacheKey = albumId === 'The 20/20 Experience' ? 'The 20/20 Experience' : albumId;
-        if (cached && cached.data && cached.data[cacheKey] > 0 && (Date.now() - cached.ts) < 600000) {
-            spotifyStreams = cached.data[cacheKey];
-        }
-    } catch (_) {}
+    const spotifyStreams = tracks.reduce((s, t) => s + t.total, 0);
 
     const audioEAS = Math.floor((spotifyStreams * ARTIST_RATIO) / 1166);
     const videoEAS = Math.floor((albumData.streams?.youtube || 0) / 6750);
