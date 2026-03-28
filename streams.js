@@ -201,6 +201,7 @@ function analyzeKworbData(htmlInput) {
 
     let stats = {
         TotalSpotify: 0,
+        TotalDaily: 0,
         "Justified": { total: 0, daily: 0 },
         "FutureSex/LoveSounds": { total: 0, daily: 0 },
         "The 20/20 Experience": { total: 0, daily: 0 },
@@ -212,8 +213,9 @@ function analyzeKworbData(htmlInput) {
 
     const tables = doc.querySelectorAll('table');
     if (tables.length > 0) {
-        const totalCell = tables[0].querySelectorAll('td')[1];
-        if (totalCell) stats.TotalSpotify = parseInt(totalCell.textContent.replace(/,/g, ''), 10) || 0;
+        const tds = tables[0].querySelectorAll('td');
+        if (tds[1]) stats.TotalSpotify = parseInt(tds[1].textContent.replace(/,/g, ''), 10) || 0;
+        if (tds[6]) stats.TotalDaily   = parseInt(tds[6].textContent.replace(/,/g, ''), 10) || 0;
     }
 
     rows.forEach(row => {
@@ -584,8 +586,7 @@ async function initStreamsDashboard() {
         const allAlbums = ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "Man of the Woods", "Everything I Thought It Was", "Orphan"];
 
         // TOP SECTION — canlı rakamlar
-        _jtTotalDaily = 0;
-        allAlbums.forEach(id => { _jtTotalDaily += liveStats[id].daily; });
+        _jtTotalDaily = liveStats.TotalDaily || 0;
 
         animateValue(jtTotalCareer, 0, liveStats.TotalSpotify, 2000);
         animateValue(jtDailyCareer, 0, _jtTotalDaily, 2000, "+");

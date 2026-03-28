@@ -84,15 +84,13 @@ async function fetchLiveStreams() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         
-        const seen = new Set();
         const rows = doc.querySelectorAll('table.addpos tbody tr');
         rows.forEach(row => {
             const cols = row.querySelectorAll('td');
             if (cols.length >= 3) {
                 let title = cols[0].textContent.trim();
                 let val = parseInt(cols[1].textContent.replace(/,/g, ''), 10) || 0;
-                if (!title || seen.has(title)) return;
-                seen.add(title);
+                if (!title) return;
                 let lowerTitle = title.toLowerCase();
 
                 // Track mapping
