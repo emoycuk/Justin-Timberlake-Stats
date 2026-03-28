@@ -32,10 +32,10 @@ const CERT_MAPPINGS = {
     "Sweden": { "Gold": 30000, "Platinum": 60000, "Diamond": 150000 },
     "Japan": { "Gold": 100000, "Platinum": 250000, "Diamond": 1000000 },
     "World": { "Silver": 500000, "Gold": 1000000, "Platinum": 2000000, "Diamond": 10000000 },
-    "Other": { "Gold": 10000, "Platinum": 20000 }
+    
 };
 
-const COUNTRIES = ["USA", "UK", "Brazil", "Germany", "Australia", "Canada", "Mexico", "Other"];
+const COUNTRIES = ["USA", "UK", "Brazil", "Germany", "Australia", "Canada", "Mexico", "New Zealand","Other"];
 
 const ALBUM_COLORS = {
     "Justified": "#5dade2", "FutureSex/LoveSounds": "#e74c3c", "The 20/20 Experience": "#d4a853",
@@ -286,7 +286,7 @@ function computeAllData() {
         let cMap = {};
         
         // Manual 7 + Dynamic World Calculation
-        const MAIN_7 = ["USA", "UK", "Brazil", "Germany", "Australia", "Canada", "Mexico"];
+        const MAIN_7 = ["USA", "UK", "Brazil", "Germany", "Australia", "Canada", "Mexico", "New Zealand"];
         
         // Use higher of live eligibility or official certification for USA
         const officialUSA = parseCertString((a.official_certifications || {})['USA'], 'USA', 'album', a.id);
@@ -329,7 +329,7 @@ function computeAllData() {
         let certTotal = 0;
         let cMap = {};
         
-        const MAIN_7 = ["USA", "UK", "Brazil", "Germany", "Australia", "Canada", "Mexico"];
+        const MAIN_7 = ["USA", "UK", "Brazil", "Germany", "Australia", "Canada", "Mexico", "New Zealand"];
 
         const officialUSA = parseCertString((s.official_certifications || {})['USA'], 'USA', 'song', s.id);
         const usaMax = Math.max(rawUsLive, officialUSA);
@@ -467,6 +467,7 @@ function renderTables() {
                 <td class="text-center">${getBadgeHTML(a.official_certifications.Australia)}</td>
                 <td class="text-center">${getBadgeHTML(a.official_certifications.Canada)}</td>
                 <td class="text-center">${getBadgeHTML(a.official_certifications.Mexico)}</td>
+                <td class="text-center">${getBadgeHTML((a.official_certifications || {})['New Zealand'])}</td>
                 <td class="text-center" style="font-weight:700;color:var(--accent-color)">${a.cMap.Other > 0 ? a.cMap.Other.toLocaleString() : 'None'}</td>
             </tr>
         `;
@@ -518,7 +519,7 @@ function renderTables() {
         const COUNTRY_LABELS = { 
             "USA": "🇺🇸 United States", "UK": "🇬🇧 United Kingdom", "Brazil": "🇧🇷 Brazil", 
             "Germany": "🇩🇪 Germany", "Australia": "🇦🇺 Australia", "Canada": "🇨🇦 Canada", 
-            "Mexico": "🇲🇽 Mexico", "Other": "🌍 Other Markets"
+            "Mexico": "🇲🇽 Mexico", "New Zealand": "🇳🇿 New Zealand", "Other": "🌍 Other Markets"
         };
         let grandAlbums = 0, grandSingles = 0;
         

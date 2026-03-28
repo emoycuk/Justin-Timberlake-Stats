@@ -44,6 +44,7 @@
         "Germany": "Gold",
         "Australia": "2x Platinum",
         "Canada": "None",
+        "New Zealand": "4x Platinum",
         "World": "None"
       }
     },
@@ -59,6 +60,7 @@
         "Germany": "None",
         "Australia": "1x Platinum",
         "Canada": "None",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -74,6 +76,7 @@
         "Germany": "None",
         "Australia": "1x Platinum",
         "Canada": "None",
+        "New Zealand" : "Gold",
         "World": "None"
       }
     },
@@ -89,6 +92,7 @@
         "Germany": "1x Platinum",
         "Australia": "2x Platinum",
         "Canada": "1x Platinum",
+        "New Zealand": "2x Platinum",
         "World": "None"
       }
     },
@@ -120,6 +124,7 @@
         "Germany": "None",
         "Australia": "None",
         "Canada": "Gold",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -136,6 +141,7 @@
         "Australia": "2x Platinum",
         "Canada": "6x Platinum",
         "Spain": "Gold",
+        "New Zealand" :"4x Platinum",
         "World": "None"
       }
     },
@@ -151,6 +157,7 @@
         "Germany": "Gold",
         "Australia": "Gold",
         "Canada": "2x Platinum",
+        "New Zealand" :"4x Platinum",
         "World": "None"
       }
     },
@@ -181,6 +188,7 @@
         "Germany": "None",
         "Australia": "1x Platinum",
         "Canada": "None",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -229,6 +237,7 @@
         "Mexico": "None",
         "Italy": "Gold",
         "Poland": "2x Platinum",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -244,6 +253,7 @@
         "Germany": "1x Platinum",
         "Australia": "2x Platinum",
         "Canada": "3x Platinum",
+        "New Zealand": "5x Platinum",
         "World": "None"
       }
     },
@@ -274,6 +284,7 @@
         "Germany": "Gold",
         "Australia": "2x Platinum",
         "Canada": "2x Platinum",
+        "New Zealand":"2x Platinum",
         "World": "None"
       }
     },
@@ -382,6 +393,7 @@
         "Canada": "1x Diamond",
         "Denmark": "5x Platinum",
         "Mexico": "Gold",
+        "New Zealand" : "8x Platinum",
         "World": "None"
       }
     },
@@ -397,6 +409,7 @@
         "Germany": "None",
         "Australia": "None",
         "Canada": "None",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -412,6 +425,7 @@
         "Germany": "3x Gold",
         "Australia": "None",
         "Canada": "1x Platinum",
+        "New Zealand" :"2x Platinum",
         "World": "None"
       }
     },
@@ -427,6 +441,7 @@
         "Germany": "3x Gold",
         "Australia": "3x Platinum",
         "Canada": "3x Platinum",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -443,6 +458,7 @@
         "Australia": "None",
         "Canada": "2x Platinum",
         "Mexico": "Platinum + Gold",
+        "New Zealand": "2x Platinum",
         "World": "None"
       }
     },
@@ -474,6 +490,7 @@
         "Germany": "Gold",
         "Australia": "2x Platinum",
         "Canada": "None",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -505,6 +522,7 @@
         "Germany": "None",
         "Australia": "None",
         "Canada": "None",
+        "New Zealand" :"1x Platinum",
         "World": "None"
       }
     },
@@ -520,6 +538,7 @@
         "Germany": "None",
         "Australia": "None",
         "Canada": "None",
+        "New Zealand": "Gold",
         "World": "None"
       }
     },
@@ -535,6 +554,7 @@
         "Germany": "Gold",
         "Australia": "None",
         "Canada": "None",
+        "New Zealand":"1x Platinum",
         "World": "None"
       }
     },
@@ -580,6 +600,7 @@
         "Germany": "None",
         "Australia": "4x Platinum",
         "Canada": "Gold",
+        "New Zealand":"5x Platinum",
         "World": "None"
       }
     },
@@ -612,6 +633,7 @@
         "Germany": "1x Platinum",
         "Australia": "5x Platinum",
         "Canada": "2x Platinum",
+        "New Zealand":"2x Platinum",
         "World": "None"
       },
       "streams": {
@@ -634,6 +656,7 @@
         "Germany": "2x Platinum",
         "Australia": "6x Platinum",
         "Canada": "7x Platinum",
+        "New Zealand": "6x Platinum",
         "World": "None"
       },
       "streams": {
@@ -702,6 +725,7 @@
         "Germany": "Gold",
         "Australia": "2x Platinum",
         "Canada": "Gold",
+        "New Zealand": "Gold",
         "World": "None"
       },
       "streams": {
