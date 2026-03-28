@@ -11,6 +11,90 @@
     <meta name="keywords" content="Justin Timberlake record sales, Justin Timberlake certifications, RIAA, album sales, single sales, platinum, gold, diamond, global units">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://justin-timberlake-stats.vercel.app/vault.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justin-timberlake-stats.vercel.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Certifications", "item": "https://justin-timberlake-stats.vercel.app/vault.html"}
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "name": "Justin Timberlake Record Sales & Certifications",
+          "url": "https://justin-timberlake-stats.vercel.app/vault.html",
+          "description": "Justin Timberlake's certified record sales across USA, UK, Brazil, Germany, Australia and Canada. Includes RIAA, BPI, ARIA certifications for all studio albums and singles.",
+          "isPartOf": {"@type": "WebSite", "url": "https://justin-timberlake-stats.vercel.app/"}
+        },
+        {
+          "@type": "MusicGroup",
+          "@id": "https://justin-timberlake-stats.vercel.app/#justintimberlake",
+          "name": "Justin Timberlake",
+          "album": [
+            {
+              "@type": "MusicAlbum",
+              "name": "Justified",
+              "datePublished": "2002-11-05",
+              "description": "Justified certifications: USA 3x Platinum (RIAA), UK 2x Platinum (BPI), Australia 2x Platinum (ARIA), Canada 4x Platinum, Germany Gold.",
+              "byArtist": {"@id": "https://justin-timberlake-stats.vercel.app/#justintimberlake"}
+            },
+            {
+              "@type": "MusicAlbum",
+              "name": "FutureSex/LoveSounds",
+              "datePublished": "2006-09-12",
+              "description": "FutureSex/LoveSounds certifications: USA 4x Platinum (RIAA), UK 5x Platinum (BPI), Australia 5x Platinum (ARIA), Canada 6x Platinum, Germany 2x Platinum. Best-selling album with over 20 million worldwide sales.",
+              "byArtist": {"@id": "https://justin-timberlake-stats.vercel.app/#justintimberlake"}
+            },
+            {
+              "@type": "MusicAlbum",
+              "name": "The 20/20 Experience",
+              "datePublished": "2013-03-19",
+              "description": "The 20/20 Experience certifications: USA 4x Platinum (RIAA), UK 2x Platinum (BPI), Australia 2x Platinum (ARIA), Canada 4x Platinum.",
+              "byArtist": {"@id": "https://justin-timberlake-stats.vercel.app/#justintimberlake"}
+            },
+            {
+              "@type": "MusicAlbum",
+              "name": "The 20/20 Experience – 2 of 2",
+              "datePublished": "2013-09-27",
+              "description": "The 20/20 Experience 2 of 2 certifications: USA Platinum (RIAA).",
+              "byArtist": {"@id": "https://justin-timberlake-stats.vercel.app/#justintimberlake"}
+            },
+            {
+              "@type": "MusicAlbum",
+              "name": "Man of the Woods",
+              "datePublished": "2018-02-02",
+              "description": "Man of the Woods certifications: USA Gold (RIAA).",
+              "byArtist": {"@id": "https://justin-timberlake-stats.vercel.app/#justintimberlake"}
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is Justin Timberlake RIAA certified?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Justin Timberlake holds multiple RIAA certifications: Justified is 3x Platinum, FutureSex/LoveSounds is 4x Platinum, and The 20/20 Experience is 4x Platinum in the USA. Individual singles like SexyBack, Mirrors, and Can't Stop the Feeling! also hold Platinum and multi-Platinum RIAA certifications."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many platinum records does Justin Timberlake have?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Justin Timberlake has earned over 170 million certified units worldwide across RIAA (USA), BPI (UK), ARIA (Australia), Music Canada, and 60+ other certifying bodies. This includes Platinum and multi-Platinum certifications for albums and singles in dozens of countries."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Timberlake Analytics">
     <meta property="og:title" content="Justin Timberlake Record Sales & Certifications — Global Units Database">
@@ -26,7 +110,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1774712334">
+    <link rel="stylesheet" href="style.css?v=1774713197">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -155,6 +239,12 @@
                 Record Sales <span class="italic text-accent">Vault</span>
             </h1>
             <p class="text-gray-400 text-sm tracking-[0.3em] uppercase">Global Album & Single Sales — Certifications Database</p>
+            <div style="margin-top:20px;display:flex;justify-content:center;">
+                <input type="search" id="vault-search" placeholder="Search albums or songs..."
+                    oninput="window._vaultSearch(this.value)"
+                    style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:10px 18px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:0.9rem;outline:none;width:280px;">
+            </div>
+            <div id="vault-count" style="margin-top:8px;font-size:0.75rem;color:#555;font-family:'Space Grotesk',sans-serif;min-height:1.2em;"></div>
         </div>
 
         <section class="mb-16 bg-black/60 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
@@ -247,9 +337,32 @@
 
     </div>
 
-    <script src="config.js?v=1774712334" defer></script>
-    <script src="song-map.js?v=1774712334" defer></script>
-    <script src="vault.js?v=1774712334" defer></script>
+    <script src="config.js?v=1774713197" defer></script>
+    <script src="song-map.js?v=1774713197" defer></script>
+    <script src="vault.js?v=1774713197" defer></script>
+    <script>
+        window._vaultSearch = function(val) {
+            const q = val.trim().toLowerCase();
+            let shown = 0, total = 0;
+            ['albums-tbody', 'songs-tbody'].forEach(id => {
+                const tbody = document.getElementById(id);
+                if (!tbody) return;
+                Array.from(tbody.querySelectorAll('tr')).forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    const isFooter = row.querySelector('td[colspan]');
+                    if (isFooter) return;
+                    total++;
+                    const match = !q || text.includes(q);
+                    row.style.display = match ? '' : 'none';
+                    if (match) shown++;
+                });
+            });
+            const countEl = document.getElementById('vault-count');
+            if (countEl) {
+                countEl.textContent = q ? `${shown} of ${total} results` : '';
+            }
+        };
+    </script>
 
 <footer style="border-top:1px solid rgba(255,255,255,0.06);padding:32px 5%;text-align:center;color:rgba(255,255,255,0.25);font-size:0.78rem;letter-spacing:0.05em;">
     <div style="margin-bottom:12px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">

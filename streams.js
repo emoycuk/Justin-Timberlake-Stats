@@ -275,6 +275,15 @@ function renderTracksTable() {
         ? sorted.filter(t => t.title.toLowerCase().includes(_trackSearchQuery))
         : sorted;
 
+    const countEl = document.getElementById('track-count');
+    if (countEl) {
+        if (_trackSearchQuery) {
+            countEl.textContent = `${filtered.length} of ${_tracksData.length} tracks`;
+        } else {
+            countEl.textContent = `${_tracksData.length} tracks`;
+        }
+    }
+
     tbody.innerHTML = '';
     filtered.forEach(track => {
         let real7Cell, real30Cell, ytdCell;
@@ -671,7 +680,7 @@ async function initStreamsDashboard() {
         renderAlbumsTable();
 
         // ── ADIM E: Track verisi oluştur ──────────────────────────────
-        _tracksData = liveStats.tracks.slice(0, 15).map(track => {
+        _tracksData = liveStats.tracks.map(track => {
             const hist7Track  = getTrackFromSnapshot(track.title, snap7);
             const hist30Track = getTrackFromSnapshot(track.title, snap30);
             const ytdBaseline = getTrackYTDBaseline(track.title);
