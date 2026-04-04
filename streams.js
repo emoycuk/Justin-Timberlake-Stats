@@ -630,13 +630,24 @@ async function initStreamsDashboard() {
         }
 
         // ── ADIM C: Büyüme kartları ───────────────────────────────────
-        function setGrowthCard(valueId, statusId, snapshot, label) {
+        function setGrowthCard(valueId, statusId, snapshot, label, days) {
             const valueEl  = document.getElementById(valueId);
             const statusEl = document.getElementById(statusId);
             if (!valueEl) return;
             if (snapshot && snapshot.career_total) {
                 const delta = liveStats.TotalSpotify - snapshot.career_total;
                 if (delta > 0) {
+                    // Sanity check: delta günlük rate'in makul üstündeyse snapshot bozuk
+                    const maxReasonable = Math.max(_jtTotalDaily, 1_000_000) * days * 4;
+                    if (delta > maxReasonable) {
+                        valueEl.textContent = 'Snapshot data invalid';
+                        valueEl.classList.remove('loading');
+                        if (statusEl) {
+                            statusEl.textContent = `Snapshot: ${snapshot.date} — career_total mismatch (${(delta / 1_000_000).toFixed(0)}M delta, expected ≤${(maxReasonable / 1_000_000).toFixed(0)}M)`;
+                            statusEl.style.color = '#f87171';
+                        }
+                        return;
+                    }
                     valueEl.textContent = '+' + delta.toLocaleString('en-US');
                     valueEl.classList.remove('loading');
                     if (statusEl) { statusEl.textContent = 'Snapshot: ' + snapshot.date; statusEl.classList.add('ok'); }
@@ -650,8 +661,8 @@ async function initStreamsDashboard() {
             }
         }
 
-        setGrowthCard('jt-weekly-growth',  'snap7-status',  snap7,  '7d');
-        setGrowthCard('jt-monthly-growth', 'snap30-status', snap30, '30d');
+        setGrowthCard('jt-weekly-growth',  'snap7-status',  snap7,  '7d',  7);
+        setGrowthCard('jt-monthly-growth', 'snap30-status', snap30, '30d', 30);
 
         // YTD: statik baseline
         const ytdEl     = document.getElementById('jt-ytd-growth');
