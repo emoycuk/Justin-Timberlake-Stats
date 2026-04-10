@@ -630,30 +630,46 @@ async function initStreamsDashboard() {
         }
 
         // ── ADIM C: Büyüme kartları ───────────────────────────────────
+        // Track-level delta: parser farkından bağımsız, doğru sonuç verir
+        function computeTrackLevelGrowth(liveTracks, snapshot) {
+            if (!snapshot || !snapshot.tracks) return null;
+            let totalDelta = 0;
+            let matchCount = 0;
+            liveTracks.forEach(track => {
+                const hist = snapshot.tracks[track.title];
+                if (hist && track.total > hist.total) {
+                    totalDelta += (track.total - hist.total);
+                    matchCount++;
+                }
+            });
+            return matchCount > 0 ? totalDelta : null;
+        }
+
         function setGrowthCard(valueId, statusId, snapshot, label, days) {
             const valueEl  = document.getElementById(valueId);
             const statusEl = document.getElementById(statusId);
             if (!valueEl) return;
-            if (snapshot && snapshot.career_total) {
-                const delta = liveStats.TotalSpotify - snapshot.career_total;
-                if (delta > 0) {
-                    // Sanity check: delta günlük rate'in makul üstündeyse snapshot bozuk
-                    const maxReasonable = Math.max(_jtTotalDaily, 1_000_000) * days * 4;
-                    if (delta > maxReasonable) {
-                        valueEl.textContent = 'Snapshot data invalid';
-                        valueEl.classList.remove('loading');
-                        if (statusEl) {
-                            statusEl.textContent = `Snapshot: ${snapshot.date} — career_total mismatch (${(delta / 1_000_000).toFixed(0)}M delta, expected ≤${(maxReasonable / 1_000_000).toFixed(0)}M)`;
-                            statusEl.style.color = '#f87171';
-                        }
-                        return;
-                    }
+            if (snapshot && snapshot.tracks) {
+                const delta = computeTrackLevelGrowth(liveStats.tracks, snapshot);
+                if (delta !== null && delta > 0) {
                     valueEl.textContent = '+' + delta.toLocaleString('en-US');
                     valueEl.classList.remove('loading');
                     if (statusEl) { statusEl.textContent = 'Snapshot: ' + snapshot.date; statusEl.classList.add('ok'); }
+                } else if (snapshot.career_total) {
+                    // Fallback: track eşleşmesi yoksa career_total dene
+                    const fallback = liveStats.TotalSpotify - snapshot.career_total;
+                    if (fallback > 0) {
+                        valueEl.textContent = '~' + fallback.toLocaleString('en-US');
+                        valueEl.style.fontStyle = 'italic';
+                        valueEl.classList.remove('loading');
+                        if (statusEl) { statusEl.textContent = 'Snapshot: ' + snapshot.date + ' (estimated)'; statusEl.classList.add('ok'); }
+                    } else {
+                        valueEl.textContent = 'Snapshot older than live';
+                        if (statusEl) statusEl.textContent = 'Data sync pending';
+                    }
                 } else {
-                    valueEl.textContent = 'Snapshot older than live';
-                    if (statusEl) statusEl.textContent = 'Data sync pending';
+                    valueEl.textContent = 'No ' + label + ' snapshot yet';
+                    if (statusEl) statusEl.textContent = 'Run the first snapshot to populate';
                 }
             } else {
                 valueEl.textContent = 'No ' + label + ' snapshot yet';
