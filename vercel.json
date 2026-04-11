@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/spotify.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
   "headers": [
     {
       "source": "/sitemap.xml",

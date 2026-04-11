@@ -2,7 +2,13 @@
 const CONFIG = {
 
     YOUTUBE_API_KEY: "AIzaSyC_iOX3x46Jik-qHnYqKK5na-cJnvEaoh4",
-MY_DYNAMIC_API: "https://script.google.com/macros/s/AKfycbxPQ6iA4QFzIBFbfylzRNRflDsjVXqQ21kVG2ZkiBhpfX_cYKeVglnUXNX8cIVxAGU/exec",
+    MY_DYNAMIC_API: "https://script.google.com/macros/s/AKfycbxPQ6iA4QFzIBFbfylzRNRflDsjVXqQ21kVG2ZkiBhpfX_cYKeVglnUXNX8cIVxAGU/exec",
+
+    SPOTIFY: {
+        CLIENT_ID: "7b662fc2913a4597905633ea6a350b42",
+        CLIENT_SECRET: "4761ac8b9e4d4e159a430075c998410d",
+        ARTIST_ID: "31TPClRtHm23RisEFWsPIA"
+    },
     
     FIREBASE: {
         apiKey: "AIzaSyAwSc0iMQSXhs8uz8uZuL-XCaeVOrgC2Ic",

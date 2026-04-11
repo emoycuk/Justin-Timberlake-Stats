@@ -80,42 +80,42 @@
 
         /* ── STAT PILLS ── */
         .stat-pills {
-            display: flex; flex-wrap: wrap; gap: 8px;
-            justify-content: center; margin-bottom: 32px;
+            display: flex; flex-wrap: wrap; gap: 6px;
+            justify-content: center; margin-bottom: 28px;
         }
 
         .stat-pill {
-            display: flex; align-items: baseline; gap: 6px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 100px; padding: 6px 14px;
+            display: flex; align-items: baseline; gap: 5px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 100px; padding: 5px 13px;
         }
 
-        .pill-val { font-size: 1rem; font-weight: 700; color: var(--accent-gold); }
-        .pill-lbl { font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 0.07em; }
+        .pill-val { font-size: 0.95rem; font-weight: 700; color: var(--accent-gold); }
+        .pill-lbl { font-size: 0.65rem; color: #3a3a3a; text-transform: uppercase; letter-spacing: 0.06em; }
 
         /* ── TABS ── */
         .chart-tabs {
-            display: flex; gap: 4px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 10px; padding: 4px;
-            margin-bottom: 28px;
+            display: flex; gap: 3px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 9px; padding: 3px;
+            margin-bottom: 24px;
         }
 
         .chart-tab {
-            flex: 1; padding: 8px 10px;
+            flex: 1; padding: 7px 10px;
             background: none; border: none;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.3);
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.78rem; font-weight: 600;
-            cursor: pointer; border-radius: 7px;
+            font-size: 0.76rem; font-weight: 600;
+            cursor: pointer; border-radius: 6px;
             transition: color 0.2s, background 0.2s;
             white-space: nowrap; text-align: center;
         }
 
-        .chart-tab:hover { color: rgba(255,255,255,0.7); }
-        .chart-tab.active { background: var(--accent-gold); color: #000; }
+        .chart-tab:hover { color: rgba(255,255,255,0.55); }
+        .chart-tab.active { background: var(--accent-gold); color: #0a0a0f; }
 
         /* ── SECTIONS ── */
         .chart-section { display: none; }
@@ -134,18 +134,19 @@
 
         /* ── TABLE ── */
         .chart-table {
-            width: 100%; border-collapse: collapse;
-            font-size: 0.83rem;
+            width: 100%; border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.82rem;
         }
 
         .chart-table thead tr {
-            border-bottom: 1px solid rgba(255,255,255,0.07);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .chart-table th {
-            padding: 7px 10px; text-align: left;
-            font-size: 0.62rem; text-transform: uppercase;
-            letter-spacing: 0.1em; color: #555; font-weight: 600;
+            padding: 8px 10px; text-align: left;
+            font-size: 0.6rem; text-transform: uppercase;
+            letter-spacing: 0.06em; color: #444; font-weight: 600;
         }
 
         .chart-table th:last-child,
@@ -159,36 +160,39 @@
         .chart-table td:nth-child(4) { text-align: right; }
 
         .chart-table tbody tr {
-            border-bottom: 1px solid rgba(255,255,255,0.035);
-            transition: background 0.15s;
+            transition: background 0.12s;
+        }
+
+        .chart-table tbody tr:nth-child(even) {
+            background: rgba(255,255,255,0.01);
         }
 
         .chart-table tbody tr:last-child { border-bottom: none; }
-        .chart-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+        .chart-table tbody tr:hover { background: rgba(255,255,255,0.025); }
 
         .chart-table td { padding: 9px 10px; vertical-align: middle; }
 
         /* Peak number */
         .peak-num {
-            font-size: 0.88rem; font-weight: 600;
+            font-size: 0.85rem; font-weight: 600;
             font-variant-numeric: tabular-nums;
-            color: rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.28);
         }
 
         .peak-num.p1 { color: var(--accent-gold); }
 
         /* Title */
-        .t-title { color: rgba(255,255,255,0.75); font-weight: 400; }
-        .t-title.is-one { color: #fff; font-weight: 500; }
+        .t-title { color: rgba(255,255,255,0.65); font-weight: 400; }
+        .t-title.is-one { color: rgba(255,255,255,0.9); font-weight: 500; }
 
         .t-sub {
-            display: block; font-size: 0.68rem; color: rgba(255,255,255,0.25); margin-top: 2px;
+            display: block; font-size: 0.65rem; color: rgba(255,255,255,0.18); margin-top: 2px;
         }
 
         /* Year / weeks */
-        .t-year  { font-size: 0.75rem; color: rgba(255,255,255,0.3); font-variant-numeric: tabular-nums; }
-        .t-weeks { font-size: 0.73rem; color: rgba(255,255,255,0.25); white-space: nowrap; }
-        .t-weeks.has-one { color: rgba(212,168,83,0.6); }
+        .t-year  { font-size: 0.74rem; color: rgba(255,255,255,0.25); font-variant-numeric: tabular-nums; }
+        .t-weeks { font-size: 0.72rem; color: rgba(255,255,255,0.2); white-space: nowrap; }
+        .t-weeks.has-one { color: rgba(212,168,83,0.5); }
 
         /* Hide weeks columns on small screens */
         @media (max-width: 520px) {
