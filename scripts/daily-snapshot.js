@@ -157,9 +157,66 @@ function analyzeKworbData(htmlInput) {
     return stats;
 }
 
+// ── JT credit'i kalkan ama takip edilmesi gereken şarkılar ────────
+// Kworb'dan JT featured credit'i kaldırıldığında bu listeden çekilir.
+// { title: Kworb'daki tam başlık, sourceUrl: hangi sayfadan çekilecek }
+const EXTRA_TRACKS = [
+    {
+        title: '4 Minutes (feat. Justin Timberlake and Timbaland)',
+        sourceUrl: 'https://kworb.net/spotify/artist/6tbjWDEIzxoDsBA1FuhfPW_songs.html'
+    }
+];
+
 // ── UTC Tarih String Üretici ────────────────────────────────────
 function getTodayUTC() {
     return new Date().toISOString().split('T')[0]; // "2025-03-22"
+}
+
+const FETCH_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.9'
+};
+
+// ── Extra track'leri ikincil Kworb sayfalarından çek ────────────
+async function fetchExtraTracks() {
+    const results = [];
+    // URL başına bir kez fetch yap (birden fazla track aynı sayfadaysa)
+    const urlGroups = {};
+    for (const t of EXTRA_TRACKS) {
+        if (!urlGroups[t.sourceUrl]) urlGroups[t.sourceUrl] = [];
+        urlGroups[t.sourceUrl].push(t.title);
+    }
+
+    for (const [url, titles] of Object.entries(urlGroups)) {
+        try {
+            console.log(`[Extra] ${url.substring(0, 60)}... çekiliyor`);
+            const res = await fetch(url, { timeout: 30000, headers: FETCH_HEADERS });
+            if (!res.ok) { console.warn(`[Extra] HTTP ${res.status} — atlandı`); continue; }
+            const html = await res.text();
+            const root = parse(html, { lowerCaseTagName: false, comment: false });
+            const rows = root.querySelectorAll('table.addpos tbody tr').length > 0
+                ? root.querySelectorAll('table.addpos tbody tr')
+                : root.querySelectorAll('table tbody tr');
+
+            for (const title of titles) {
+                const lc = title.toLowerCase();
+                for (const row of rows) {
+                    const cols = row.querySelectorAll('td');
+                    if (cols.length >= 3 && cols[0].textContent.trim().toLowerCase() === lc) {
+                        const total = parseInt(cols[1].textContent.replace(/,/g, ''), 10) || 0;
+                        const daily = parseInt(cols[2].textContent.replace(/,/g, ''), 10) || 0;
+                        results.push({ title, total, daily });
+                        console.log(`[Extra] ✓ "${title}"  total: ${total.toLocaleString('en-US')}  daily: ${daily.toLocaleString('en-US')}`);
+                        break;
+                    }
+                }
+            }
+        } catch (err) {
+            console.warn(`[Extra] Fetch hatası (${url.substring(0, 40)}...): ${err.message}`);
+        }
+    }
+    return results;
 }
 
 // ── Ana Fonksiyon ───────────────────────────────────────────────
@@ -172,14 +229,10 @@ async function fetchAndSnapshot() {
     console.log(`[${new Date().toISOString()}] Kworb'dan veri çekiliyor...`);
     console.log(`URL: ${targetUrl.substring(0, 60)}...`);
 
-    const res = await fetch(targetUrl, {
-        timeout: 30000,
-        headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9'
-        }
-    });
+    const [res, extraTracks] = await Promise.all([
+        fetch(targetUrl, { timeout: 30000, headers: FETCH_HEADERS }),
+        fetchExtraTracks()
+    ]);
     if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
     const html = await res.text();
 
@@ -193,6 +246,20 @@ async function fetchAndSnapshot() {
         console.error("Parse başarısız! HTML dump (ilk 1000 char):");
         console.error(html.substring(0, 1000).replace(/\s+/g, ' '));
         throw new Error("Parse başarısız: Track listesi boş. Üstteki HTML dump'a bak.");
+    }
+
+    // Extra track'leri ana listeye ekle (JT sayfasında yoksa)
+    for (const t of extraTracks) {
+        const alreadyPresent = stats.tracks.some(x => x.title.toLowerCase() === t.title.toLowerCase());
+        if (!alreadyPresent) {
+            stats.tracks.push(t);
+            stats['Orphan'].total += t.total;
+            stats['Orphan'].daily += t.daily;
+            stats.TotalSpotify += t.total;
+            console.log(`[Extra] "${t.title}" ana listeye eklendi`);
+        } else {
+            console.log(`[Extra] "${t.title}" zaten JT sayfasında var, atlandı`);
+        }
     }
 
     // TotalSpotify ilk tablodan alınamazsa track toplamından hesapla (fallback)
