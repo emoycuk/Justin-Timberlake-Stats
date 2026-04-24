@@ -448,3 +448,12 @@ window.sortEasTable = function (key) {
 
     renderEasTable();
 };
+
+// Klavye erişilebilirliği: album kartları için Enter/Space
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('.album-card');
+    if (!card) return;
+    e.preventDefault();
+    card.click();
+});

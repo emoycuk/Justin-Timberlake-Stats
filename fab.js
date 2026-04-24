@@ -18,22 +18,23 @@
         const itemsHTML = ERAS.map(era => {
             const bg = era.cover ? `url('${era.cover}')` : 'linear-gradient(135deg,#111,#222)';
             const isDefault = era.id === 'default';
+            const label = isDefault ? 'Switch to default theme' : `Switch to ${era.id} theme`;
             return `
-                <div class="fab-era-item${isDefault ? ' fab-default' : ''}"
+                <button type="button" class="fab-era-item${isDefault ? ' fab-default' : ''}"
                      data-album="${era.id}" data-color="${era.color}"
                      style="background-image:${bg};background-size:cover;background-position:center;"
-                     title="${isDefault ? 'Default Theme' : era.id}">
-                    <div class="fab-era-label">${isDefault ? '★' : era.short}</div>
-                </div>`;
+                     aria-label="${label}" title="${isDefault ? 'Default Theme' : era.id}">
+                    <span class="fab-era-label" aria-hidden="true">${isDefault ? '★' : era.short}</span>
+                </button>`;
         }).join('');
 
         const fabEl = document.createElement('div');
         fabEl.id = 'era-fab';
         fabEl.innerHTML = `
-            <div id="era-fab-menu">${itemsHTML}</div>
-            <button id="era-fab-btn" aria-label="Change Era">
+            <div id="era-fab-menu" role="menu">${itemsHTML}</div>
+            <button type="button" id="era-fab-btn" aria-label="Change era theme" aria-expanded="false" aria-controls="era-fab-menu" aria-haspopup="menu">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="3"/>
                     <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
                 </svg>
@@ -70,6 +71,10 @@
                 cursor: pointer;
                 border: 2px solid rgba(255,255,255,0.15);
                 position: relative; overflow: hidden;
+                padding: 0;
+                background-color: transparent;
+                font: inherit;
+                color: inherit;
                 transform: translateY(12px) scale(0);
                 opacity: 0;
                 transition: transform 0.3s cubic-bezier(.34,1.56,.64,1),
@@ -121,6 +126,8 @@
         });
 
         document.querySelectorAll('.fab-era-item').forEach(item => {
+            // Menü kapalıyken tab sırasında görünmesin
+            item.setAttribute('tabindex', '-1');
             item.addEventListener('click', e => {
                 e.stopPropagation();
                 const album = item.dataset.album;
@@ -135,21 +142,37 @@
         });
 
         document.addEventListener('click', () => { if (isOpen) closeFAB(); });
+
+        // Escape ile menüyü kapat
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isOpen) {
+                closeFAB();
+                document.getElementById('era-fab-btn').focus();
+            }
+        });
     }
 
     function openFAB() {
         isOpen = true;
         document.getElementById('era-fab').style.pointerEvents = 'all';
-        document.getElementById('era-fab-btn').classList.add('open');
+        const btn = document.getElementById('era-fab-btn');
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
         document.querySelectorAll('.fab-era-item').forEach((item, i) => {
+            item.setAttribute('tabindex', '0');
             setTimeout(() => item.classList.add('visible'), i * 40);
         });
     }
 
     function closeFAB() {
         isOpen = false;
-        document.getElementById('era-fab-btn').classList.remove('open');
-        document.querySelectorAll('.fab-era-item').forEach(item => item.classList.remove('visible'));
+        const btn = document.getElementById('era-fab-btn');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        document.querySelectorAll('.fab-era-item').forEach(item => {
+            item.classList.remove('visible');
+            item.setAttribute('tabindex', '-1');
+        });
     }
 
     // ── applyEraTheme ────────────────────────────────────────────────
