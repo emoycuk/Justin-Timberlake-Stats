@@ -611,30 +611,63 @@ async function initStreamsDashboard() {
 
         const allAlbums = ["Justified", "FutureSex/LoveSounds", "The 20/20 Experience", "The 20/20 Experience \u2013 2 of 2", "Man of the Woods", "Everything I Thought It Was", "Orphan"];
 
-        // TOP SECTION — canlı rakamlar
-        _jtTotalDaily = liveStats.TotalDaily || 0;
-
-        animateValue(jtTotalCareer, 0, liveStats.TotalSpotify, 2000);
-        animateValue(jtDailyCareer, 0, _jtTotalDaily, 2000, "+");
-
         // ── ADIM B: Firestore — snap7, snap30 ve trend verileri ──────
         const firestoreOk = await waitForFirestore();
         let snap7  = null;
         let snap30 = null;
+        let snapToday = null;
         let trendSnapshots = [];
 
         if (firestoreOk) {
-            // snap7 + snap30 + son 30 günün snapshot'larını paralel çek
+            // snap7 + snap30 + bugün + son 30 günün snapshot'larını paralel çek
             const trendDays = Array.from({ length: 30 }, (_, i) => i + 1); // 1..30 gün öncesi
-            const [s7, s30, ...trendResults] = await Promise.all([
+            const [s7, s30, sToday, ...trendResults] = await Promise.all([
                 window.getHistoricalSnapshot(getUTCDateString(7)),
                 window.getHistoricalSnapshot(getUTCDateString(30)),
+                window.getHistoricalSnapshot(getUTCDateString(0)),
                 ...trendDays.map(d => window.getHistoricalSnapshot(getUTCDateString(d)))
             ]);
             snap7  = s7;
             snap30 = s30;
+            snapToday = sToday;
             trendSnapshots = trendResults.filter(Boolean);
         }
+
+        // Kworb'da JT credit'i kalkan track'leri Firestore'dan merge et.
+        // daily-snapshot.js Madonna gibi diger artist sayfalarindan cekip yaziyor;
+        // canli parser (analyzeKworbData) JT'nin sayfasina bakiyor, onlari goremez.
+        if (snapToday && snapToday.tracks) {
+            const liveTitles = new Set(liveStats.tracks.map(t => t.title.toLowerCase()));
+            for (const [title, vals] of Object.entries(snapToday.tracks)) {
+                if (liveTitles.has(title.toLowerCase())) continue;
+                const total = Number(vals.total) || 0;
+                const daily = Number(vals.daily) || 0;
+                liveStats.tracks.push({ title, total, daily });
+                liveStats.TotalSpotify += total;
+                liveStats.TotalDaily   += daily;
+                let matched = false;
+                for (const key in songToAlbumMap) {
+                    if (title.toLowerCase().includes(key.toLowerCase())) {
+                        const albName = songToAlbumMap[key];
+                        if (liveStats[albName]) {
+                            liveStats[albName].total += total;
+                            liveStats[albName].daily += daily;
+                        }
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) {
+                    liveStats['Orphan'].total += total;
+                    liveStats['Orphan'].daily += daily;
+                }
+            }
+        }
+
+        // TOP SECTION — animasyonu artik dogru deger ile baslat (extra track'ler merge edildi)
+        _jtTotalDaily = liveStats.TotalDaily || 0;
+        animateValue(jtTotalCareer, 0, liveStats.TotalSpotify, 2000);
+        animateValue(jtDailyCareer, 0, _jtTotalDaily, 2000, "+");
 
         // ── ADIM C: Büyüme kartları ───────────────────────────────────
         function setGrowthCard(valueId, statusId, snapshot, label, days) {
