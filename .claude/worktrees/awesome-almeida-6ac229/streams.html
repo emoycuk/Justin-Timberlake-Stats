@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="assets/jt-hero.jpg">
+    <link rel="apple-touch-icon" href="assets/jt-hero.jpg">
+    <title>Justin Timberlake Streaming Stats & Digital Sales — Spotify Analytics</title>
+    <meta name="description"
+        content="Live Spotify streaming analytics, digital sales equivalents, and milestone tracker for Justin Timberlake's entire discography.">
+    <meta name="keywords"
+        content="Justin Timberlake Spotify, streaming stats, digital sales, streams, monthly listeners, Mirrors, SexyBack, Cry Me a River, Justin Timberlake sales">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://justin-timberlake-stats.vercel.app/streams.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justin-timberlake-stats.vercel.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Live Streaming", "item": "https://justin-timberlake-stats.vercel.app/streams.html"}
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "name": "Justin Timberlake Streaming Stats — Live Spotify Analytics",
+          "url": "https://justin-timberlake-stats.vercel.app/streams.html",
+          "description": "Real-time Spotify streaming data for Justin Timberlake's entire discography. Total career streams, daily streams, 7-day and 30-day growth, and per-song breakdown sourced live from Kworb.",
+          "isPartOf": {"@type": "WebSite", "url": "https://justin-timberlake-stats.vercel.app/"}
+        },
+        {
+          "@type": "MusicGroup",
+          "@id": "https://justin-timberlake-stats.vercel.app/#justintimberlake",
+          "name": "Justin Timberlake",
+          "description": "Justin Timberlake has over 17 billion total Spotify streams. Top songs by streams: Can't Stop the Feeling! (2B+), Mirrors (1.5B+), SexyBack (1B+), What Goes Around...Comes Around (800M+), Cry Me a River (700M+), My Love (600M+), Rock Your Body (500M+), Suit & Tie (500M+)."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How many Spotify streams does Justin Timberlake have?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Justin Timberlake has over 17 billion total Spotify streams across his entire discography including lead and feature credits. His daily stream count averages over 8 million. Data is sourced live from Kworb and updated daily."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is Justin Timberlake's most streamed song on Spotify?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Can't Stop the Feeling! (from the Trolls soundtrack, 2016) is Justin Timberlake's most streamed song on Spotify with over 2 billion streams. Mirrors is his second most streamed song with over 1.5 billion streams."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many daily Spotify streams does Justin Timberlake get?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Justin Timberlake receives over 8 million Spotify streams per day across all his songs. This figure is tracked in real-time on this site using live data from Kworb."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Timberlake Analytics">
+    <meta property="og:title" content="Justin Timberlake Streaming Stats & Digital Sales — Spotify Analytics">
+    <meta property="og:description"
+        content="Live Spotify streaming analytics, digital sales equivalents, and milestone tracker for Justin Timberlake's entire discography.">
+    <meta property="og:url" content="https://justin-timberlake-stats.vercel.app/streams.html">
+    <meta property="og:image" content="https://justin-timberlake-stats.vercel.app/assets/jt-horizontal.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Justin Timberlake Streaming Stats & Digital Sales — Spotify Analytics">
+    <meta name="twitter:description"
+        content="Live Spotify streaming analytics, digital sales equivalents, and milestone tracker for Justin Timberlake's entire discography.">
+    <meta name="twitter:image" content="https://justin-timberlake-stats.vercel.app/assets/jt-horizontal.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+            rel="stylesheet">
+    </noscript>
+    <link rel="stylesheet" href="style.css?v=1777056629">
+    <style>
+        /* Sadece bu sayfaya özel dashboard stilleri */
+        .analytics-container {
+            padding: 120px 5% 50px;
+            color: #fff;
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .growth-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 26px 28px;
+            border-radius: 10px;
+        }
+
+        .growth-card {
+            background: rgba(255, 255, 255, 0.018);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 18px 20px;
+            border-radius: 10px;
+        }
+
+        .hero-value {
+            font-size: clamp(1.4rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--accent-bronze, #d4a853);
+            font-family: 'Space Grotesk', sans-serif;
+            white-space: nowrap;
+        }
+
+        .growth-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4ade80;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .growth-value.loading { color: #333; }
+
+        .hero-sub {
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.78rem;
+            margin-bottom: 8px;
+        }
+
+        .trend-icon {
+            color: #4ade80;
+            font-size: 1.1rem;
+            margin-left: 6px;
+        }
+
+        .confidence-badge {
+            display: inline-block;
+            font-size: 0.58rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .confidence-high  { background: rgba(74,222,128,0.08); color: rgba(74,222,128,0.8); }
+        .confidence-medium { background: rgba(212,168,83,0.08); color: rgba(212,168,83,0.8); }
+        .confidence-low    { background: rgba(255,255,255,0.04); color: #555; }
+
+        .data-status {
+            font-size: 0.68rem;
+            color: #3a3a3a;
+            font-family: 'Space Grotesk';
+            margin-top: 4px;
+        }
+
+        .data-status.ok { color: rgba(74,222,128,0.6); }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 14px;
+        }
+
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+
+        .milestone-card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 18px 20px;
+            border-radius: 10px;
+            border-left: 3px solid rgba(212,168,83,0.35);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-right: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        /* ── TABLO STİLLERİ ── */
+        .song-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.84rem;
+        }
+
+        .song-table thead th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #444;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            background: #0a0a0f;
+            z-index: 2;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.15s;
+        }
+
+        .song-table thead th:hover { color: rgba(255,255,255,0.4); }
+
+        .song-table td {
+            padding: 10px 14px;
+            text-align: left;
+            color: rgba(255,255,255,0.5);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .song-table tbody tr {
+            transition: background 0.12s ease;
+        }
+
+        .song-table tbody tr:hover {
+            background: rgba(255,255,255,0.022);
+        }
+
+        /* Zebra — çok hafif, göz yormaz */
+        .song-table tbody tr:nth-child(even) {
+            background: rgba(255,255,255,0.01);
+        }
+        .song-table tbody tr:nth-child(even):hover {
+            background: rgba(255,255,255,0.028);
+        }
+
+        /* İlk kolon (isim) biraz daha parlak */
+        .song-table td:first-child {
+            color: rgba(255,255,255,0.78);
+            font-weight: 500;
+        }
+
+        .positive-trend {
+            color: rgba(74,222,128,0.75);
+        }
+
+        .mini-cover {
+            width: 34px;
+            height: 34px;
+            border-radius: 4px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .ctry-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.45);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .ctry-btn:hover { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
+        .ctry-btn.active { background: rgba(29,185,84,0.12); border-color: rgba(29,185,84,0.4); color: #1DB954; }
+
+        .country-track-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.035);
+            transition: background 0.1s;
+        }
+        .country-track-row:last-child { border-bottom: none; }
+        .country-track-row:hover { background: rgba(255,255,255,0.02); border-radius: 6px; }
+
+        @media (max-width: 768px) {
+            .growth-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .growth-value {
+                font-size: 1.3rem;
+            }
+
+            .analytics-row {
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                padding: 10px 6px !important;
+                margin: 0 !important;
+                background: rgba(255,255,255,0.012) !important;
+                border: 1px solid rgba(255,255,255,0.035) !important;
+                border-radius: 10px !important;
+            }
+
+            .song-table {
+                min-width: 520px;
+                width: 100%;
+            }
+
+            .song-table thead th,
+            .song-table td {
+                padding: 8px 7px !important;
+                font-size: 0.7rem !important;
+                white-space: nowrap !important;
+                word-break: normal !important;
+                text-align: left !important;
+            }
+
+            .song-table td:first-child img {
+                display: none !important;
+            }
+
+            .song-table td:first-child>div {
+                display: block !important;
+                gap: 0 !important;
+            }
+
+            .song-table td:first-child>div>div>div[style*="height: 4px"],
+            .song-table td:first-child>div>div>div[style*="height:4px"] {
+                display: none !important;
+            }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js?v=1777056629" defer></script>
+    <script src="song-map.js?v=1777056629" defer></script>
+
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Timberlake</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="vault.html">Certifications</a></li>
+            <li><a href="tours.html">Box Office</a></li>
+            <li><a href="streams.html" class="active">Live Streaming</a></li>
+            <li><a href="awards.html">Awards</a></li>
+            <li><a href="charts.html">Charts</a></li>
+            <li><a href="analytics.html">Deep Analytics</a></li>
+            <li><a href="game.html">Album Crush</a></li>
+            <li><a href="transform.html">Timbertrix</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+
+    <div style="width:100%;height:380px;overflow:hidden;position:relative;margin-top:70px;">
+        <img src="assets/jt-horizontal.png" alt="Justin Timberlake" style="width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0.2) 0%,rgba(10,10,15,0.85) 100%);"></div>
+    </div>
+
+    <div class="analytics-container">
+
+        <h2 class="hero-sub" style="margin-bottom:-8px;font-size:0.68rem;letter-spacing:0.18em;color:#444;">JT | Live Pulse</h2>
+        <div class="hero-stats">
+            <div class="hero-card">
+                <div class="hero-sub">Total Spotify Streams</div>
+                <div class="hero-value" id="jt-total-career">Calculating...</div>
+                <div style="font-size:0.72rem;color:#333;margin-top:4px;">Lead + Feature Credits</div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-sub">Spotify Daily Streams</div>
+                <div class="hero-value" id="jt-daily-career">+0</div>
+                <div style="font-size:0.72rem;color:#333;margin-top:4px;">24h Pulse <span class="trend-icon">↑</span></div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-sub">Monthly Listeners</div>
+                <div class="hero-value" id="jt-spotify-monthly" style="color:#1DB954;">—</div>
+                <div style="font-size:0.72rem;color:#333;margin-top:4px;">
+                    Followers: <span id="jt-spotify-followers" style="color:rgba(255,255,255,0.3);">—</span>
+                    &nbsp;·&nbsp; Popularity: <span id="jt-spotify-popularity" style="color:rgba(255,255,255,0.3);">—</span>/100
+                    <span id="jt-spotify-status" style="font-size:0.6rem;color:#3a3a3a;margin-left:6px;"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- GERÇEK BÜYÜME KARTLARI (Firestore'dan) -->
+        <div class="growth-stats">
+            <div class="growth-card">
+                <div class="hero-sub" style="font-size:0.75rem;">Real 7-Day Growth</div>
+                <div class="growth-value loading" id="jt-weekly-growth">—</div>
+                <div class="data-status" id="snap7-status">Fetching historical data...</div>
+            </div>
+            <div class="growth-card">
+                <div class="hero-sub" style="font-size:0.75rem;">Real 30-Day Growth</div>
+                <div class="growth-value loading" id="jt-monthly-growth">—</div>
+                <div class="data-status" id="snap30-status">Fetching historical data...</div>
+            </div>
+            <div class="growth-card">
+                <div class="hero-sub" style="font-size:0.75rem;">2026 Streams</div>
+                <div class="growth-value loading" id="jt-ytd-growth">—</div>
+                <div class="data-status" id="snapytd-status">Calculating...</div>
+            </div>
+        </div>
+
+        <!-- Regional Top Tracks -->
+        <div class="analytics-row" style="background:rgba(255,255,255,0.015);padding:24px 28px;border-radius:10px;border:1px solid rgba(255,255,255,0.035);">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+                <div>
+                    <h2 style="font-family:'Playfair Display';font-size:1.3rem;margin:0;">Regional Top Tracks</h2>
+                    <div style="font-size:0.68rem;color:#3a3a3a;margin-top:3px;font-family:'Space Grotesk',sans-serif;">Spotify · Top 10 by market</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;" id="country-tabs">
+                        <button class="ctry-btn active" data-market="US">🇺🇸 US</button>
+                        <button class="ctry-btn" data-market="GB">🇬🇧 UK</button>
+                        <button class="ctry-btn" data-market="BR">🇧🇷 BR</button>
+                        <button class="ctry-btn" data-market="DE">🇩🇪 DE</button>
+                        <button class="ctry-btn" data-market="TR">🇹🇷 TR</button>
+                        <button class="ctry-btn" data-market="FR">🇫🇷 FR</button>
+                        <button class="ctry-btn" data-market="AU">🇦🇺 AU</button>
+                        <button class="ctry-btn" data-market="JP">🇯🇵 JP</button>
+                    </div>
+                    <input type="text" id="country-search" placeholder="ISO code (MX, IN, KR...)"
+                        maxlength="2"
+                        style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:6px 14px;color:rgba(255,255,255,0.7);font-family:'Space Grotesk',sans-serif;font-size:0.75rem;outline:none;width:170px;text-transform:uppercase;">
+                </div>
+            </div>
+            <div id="country-tracks-body">
+                <div style="text-align:center;color:#333;padding:28px;font-size:0.82rem;">Loading regional data...</div>
+            </div>
+        </div>
+
+        <!-- Trend Line Chart -->
+        <div class="analytics-row"
+            style="margin-top:30px;background:rgba(255,255,255,0.015);padding:28px;border-radius:10px;border:1px solid rgba(255,255,255,0.035);">
+            <h2 style="font-family:'Playfair Display';text-align:center;margin-bottom:4px;font-size:1.3rem;">Career Stream Trend</h2>
+            <p style="text-align:center;color:#3a3a3a;font-size:0.72rem;margin-bottom:18px;">Last 30 days · Updated nightly</p>
+            <div style="height: 280px; position: relative;">
+                <canvas id="trendChart"></canvas>
+                <div id="trend-no-data"
+                    style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:#444;">
+                    <div style="font-size:2rem;">📈</div>
+                    <div style="font-size:0.85rem; margin-top:8px;">Historical data accumulates after<br>the first
+                        nightly snapshot runs.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doughnut Chart -->
+        <div class="analytics-row"
+            style="margin-top:30px;background:rgba(255,255,255,0.015);padding:28px;border-radius:10px;border:1px solid rgba(255,255,255,0.035);">
+            <h2 style="font-family:'Playfair Display';text-align:center;margin-bottom:18px;font-size:1.3rem;">Career Stream Distribution</h2>
+            <div style="max-width: 500px; margin: 0 auto; height: 320px;">
+                <canvas id="albumShareChart"></canvas>
+            </div>
+        </div>
+
+        <div class="analytics-row" style="margin-top:30px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
+                <h2 style="font-family:'Playfair Display';font-size:1.3rem;">Album Leaderboard</h2>
+                <div style="font-size:0.7rem;color:#333;">Kworb · Live</div>
+            </div>
+
+            <table class="song-table" id="album-leaderboard-table">
+                <thead>
+                    <tr>
+                        <th data-sort-col="name" data-label="Album">Album</th>
+                        <th data-sort-col="year" data-label="Year">Year</th>
+                        <th data-sort-col="total" data-label="Total Streams">Total Streams ▼</th>
+                        <th data-sort-col="daily" data-label="Daily Streams">Daily Streams</th>
+                        <th data-sort-col="real7d" data-label="Real 7-Day ▲">Real 7-Day ▲</th>
+                        <th data-sort-col="pct" data-label="% of Daily">% of Daily</th>
+                    </tr>
+                </thead>
+                <tbody id="album-table-body">
+                    <tr>
+                        <td colspan="6" style="text-align: center;">Loading albums...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analytics-row" style="margin-top:30px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+                <div>
+                    <h2 style="font-family:'Playfair Display';margin:0;font-size:1.3rem;">Top Tracks Tracker</h2>
+                    <div id="track-count" style="font-size:0.68rem;color:#3a3a3a;margin-top:3px;font-family:'Space Grotesk',sans-serif;"></div>
+                </div>
+                <input type="search" id="track-search" placeholder="Search songs..." oninput="window._trackSearch(this.value)"
+                    style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:7px 14px;color:rgba(255,255,255,0.7);font-family:'Space Grotesk',sans-serif;font-size:0.8rem;outline:none;width:190px;transition:border-color 0.2s;">
+            </div>
+            <table class="song-table" id="tracks-table">
+                <thead>
+                    <tr>
+                        <th data-sort-col="title" data-label="Track Title">Track Title</th>
+                        <th data-sort-col="total" data-label="Total Streams">Total Streams ▼</th>
+                        <th data-sort-col="daily" data-label="Live Daily">Live Daily</th>
+                        <th data-sort-col="real7d" data-label="Real 7-Day ▲">Real 7-Day ▲</th>
+                        <th data-sort-col="real30d" data-label="Real 30-Day ▲">Real 30-Day ▲</th>
+                        <th data-sort-col="ytd" data-label="YTD 2026 ▲">YTD 2026 ▲</th>
+                    </tr>
+                </thead>
+                <tbody id="streams-table-body">
+                    <tr>
+                        <td colspan="6" style="text-align: center;">Loading tracks...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analytics-row" style="margin-top:40px;">
+            <h2 style="font-family:'Playfair Display';margin-bottom:8px;font-size:1.3rem;">Milestone Radar</h2>
+            <p style="color:#3a3a3a;margin-bottom:18px;font-size:0.78rem;">
+                Predicted using historical trend data (7d + 30d weighted blend).
+                <span id="milestone-confidence-note" style="color:#333;"></span>
+            </p>
+            <div class="prediction-grid" id="milestone-radar">
+                Loading predictions...
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Stats Section -->
+    <div class="analytics-container" style="padding-top: 0; padding-bottom: 60px;">
+        <div class="analytics-row"
+            style="background:rgba(255,255,255,0.015);padding:28px;border-radius:10px;border:1px solid rgba(255,255,255,0.035);text-align:center;">
+            <h2 style="font-family:'Playfair Display';margin-bottom:6px;font-size:1.3rem;">Share Stats Card</h2>
+            <p style="color:#3a3a3a;font-size:0.78rem;margin-bottom:22px;">Generate a visual card with today's numbers</p>
+
+            <button id="generate-card-btn" onclick="generateShareCard()" style="
+                background: #d4a853; color: #050505; border: none; padding: 12px 28px;
+                border-radius: 8px; font-family: 'Space Grotesk', sans-serif;
+                font-weight: 700; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.05em;
+                transition: opacity 0.2s;">
+                Generate Card
+            </button>
+
+            <!-- Kart (başta gizli, generate sonrası görünür) -->
+            <div id="share-card-wrapper" style="display:none; margin-top: 28px;">
+                <div id="share-card" style="
+                    display: inline-block;
+                    border-radius: 16px;
+                    width: 380px;
+                    text-align: left;
+                    font-family: 'Space Grotesk', sans-serif;
+                    position: relative;
+                    overflow: hidden;
+                    background: #0a0a0a;">
+
+                    <!-- Arka plan fotoğraf -->
+                    <img id="sc-photo" src="" alt="Share Card Background Photo" style="
+                        display:none;
+                        position:absolute; top:0; left:0;
+                        width:100%; height:100%;
+                        object-fit:cover; object-position:center top;">
+
+                    <!-- Fotoğraf üstü koyu gradient overlay -->
+                    <div id="sc-overlay" style="
+                        display:none;
+                        position:absolute; top:0; left:0; width:100%; height:100%;
+                        background: linear-gradient(
+                            to bottom,
+                            rgba(0,0,0,0.25) 0%,
+                            rgba(0,0,0,0.55) 40%,
+                            rgba(0,0,0,0.92) 100%
+                        );">
+                    </div>
+
+                    <!-- İçerik (overlay üstünde) -->
+                    <div style="position:relative; z-index:1; padding: 36px 32px 28px;">
+
+                        <!-- Accent line -->
+                        <div
+                            style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#d4a853,#f0c878,#d4a853);">
+                        </div>
+
+                        <!-- Header -->
+                        <div style="font-size:0.6rem;color:rgba(255,255,255,0.45);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:100px;"
+                            id="sc-header-gap">
+                            Timberlake Analytics · Live Pulse
+                        </div>
+
+                        <!-- Artist -->
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;margin-bottom:2px;text-shadow:0 2px 8px rgba(0,0,0,0.8);">
+                            Justin Timberlake</div>
+                        <div style="font-size:0.7rem;color:rgba(255,255,255,0.45);margin-bottom:22px;">Spotify Streaming
+                            Stats</div>
+
+                        <!-- Main stats -->
+                        <div style="margin-bottom:20px;">
+                            <div
+                                style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+                                <div
+                                    style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">
+                                    Today</div>
+                                <div id="sc-daily" style="font-size:1.3rem;font-weight:700;color:#4ade80;">—</div>
+                            </div>
+                        </div>
+
+                        <!-- Top Daily Track -->
+                        <div
+                            style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);margin-bottom:20px;">
+                            <div
+                                style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">
+                                Top Daily Track</div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <div id="sc-top-track" style="font-size:0.9rem;font-weight:600;color:#fff;">—</div>
+                                <div id="sc-top-track-total" style="font-size:0.85rem;color:#4ade80;font-weight:700;">—
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div id="sc-date" style="font-size:0.6rem;color:rgba(255,255,255,0.3);">—</div>
+                            <div style="font-size:0.6rem;color:rgba(255,255,255,0.25);letter-spacing:0.05em;">
+                                timberlakeanalytics</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <button onclick="downloadCard()" style="
+                        background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.1);
+                        padding:10px 22px;border-radius:8px;font-family:'Space Grotesk',sans-serif;
+                        font-weight:600;font-size:0.85rem;cursor:pointer;transition:background 0.2s;">
+                        Download PNG
+                    </button>
+                    <button onclick="tweetStats()" style="
+                        background:#000;color:#fff;border:1px solid rgba(255,255,255,0.2);
+                        padding:10px 22px;border-radius:8px;font-family:'Space Grotesk',sans-serif;
+                        font-weight:600;font-size:0.85rem;cursor:pointer;transition:background 0.2s;">
+                        Share on X
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js?v=1777056629" defer></script>
+    <script src="config.js?v=1777056629" defer></script>
+    <script src="spotify.js?v=1777056629" defer></script>
+    <script src="fab.js?v=1777056629" defer></script>
+
+    <!-- Firebase Modülü: Firestore'a erişim sağlar ve window'a helper açar -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        if (typeof CONFIG === 'undefined' || !CONFIG.FIREBASE) {
+            console.error("config.js yüklenemedi — Firestore devre dışı.");
+            window.dispatchEvent(new Event('firestore-ready')); // streams.js?v=1777056629'in bloke olmaması için
+            throw new Error("CONFIG missing");
+        }
+        const app = initializeApp(CONFIG.FIREBASE);
+        const db = getFirestore(app);
+
+        /**
+         * Belirtilen tarihin (YYYY-MM-DD) Firestore snapshot'ını döner.
+         * Belge yoksa null döner.
+         */
+        window.getHistoricalSnapshot = async function (dateStr) {
+            try {
+                const snap = await getDoc(doc(db, "daily_snapshots", dateStr));
+                return snap.exists() ? snap.data() : null;
+            } catch (e) {
+                console.warn("Firestore okuma hatası:", dateStr, e.message);
+                return null;
+            }
+        };
+
+        // streams.js?v=1777056629'e "Firestore hazır" sinyali gönder
+        window.dispatchEvent(new Event('firestore-ready'));
+    </script>
+
+    <script src="streams.js?v=1777056629" defer></script>
+
+<footer style="border-top:1px solid rgba(255,255,255,0.06);padding:32px 5%;text-align:center;color:rgba(255,255,255,0.25);font-size:0.78rem;letter-spacing:0.05em;">
+    <div style="margin-bottom:12px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+        <a href="https://x.com/emoycukv3" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.4);text-decoration:none;">X / Twitter</a>
+        <a href="https://www.tiktok.com/@emirtimber" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.4);text-decoration:none;">TikTok</a>
+        <a href="about.html" style="color:rgba(255,255,255,0.4);text-decoration:none;">Methodology</a>
+    </div>
+    Timberlake Analytics — Independent Fan Project · Not affiliated with Justin Timberlake or RCA Records
+</footer>
+</body>
+
+</html>

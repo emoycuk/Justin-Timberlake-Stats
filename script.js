@@ -10,6 +10,35 @@ const songToAlbumMap = typeof SONG_TO_ALBUM_MAP !== 'undefined' ? SONG_TO_ALBUM_
 
 // --- 2. MOTORLAR ---
 
+// --- 2b. FIRESTORE YARDIMCILARI ---
+
+function waitForFirestore(timeoutMs = 5000) {
+    return new Promise(resolve => {
+        if (typeof window.getHistoricalSnapshot === 'function') { resolve(true); return; }
+        const timer = setTimeout(() => resolve(false), timeoutMs);
+        window.addEventListener('firestore-ready', () => { clearTimeout(timer); resolve(true); }, { once: true });
+    });
+}
+
+function getTodayUTC() {
+    return new Date().toISOString().split('T')[0];
+}
+
+// Kworb'da JT credit'i kalkan track'leri Firestore bugün snapshot'ından merge et.
+// Bu track'ler kworb'un JT sayfasında görünmediği için smartParseKworb onları atlar.
+async function mergeExtraTracks(liveStats) {
+    const ok = await waitForFirestore(3000);
+    if (!ok || typeof window.getHistoricalSnapshot !== 'function') return;
+    const snapToday = await window.getHistoricalSnapshot(getTodayUTC());
+    if (!snapToday || !snapToday.tracks) return;
+    for (const [title, vals] of Object.entries(snapToday.tracks)) {
+        if (!title.toLowerCase().includes('4 minutes')) continue;
+        const total = Number(vals.total) || 0;
+        liveStats.TotalSpotify += total;
+        liveStats['Orphan'] += total;
+    }
+}
+
 // --- 3. AKILLI PARSER ---
 function smartParseKworb(input) {
     let stats = {
@@ -111,14 +140,16 @@ async function fetchAllData() {
         } catch (_) {}
 
         if (cachedKworb) {
-            // Cache varsa anında render et
+            // Cache varsa anında render et (extra track'leri merge et)
+            await mergeExtraTracks(cachedKworb);
             applyKworbStats(cachedKworb);
             updateCareerOverview(cachedKworb);
             document.dispatchEvent(new Event('dataReady'));
             // Arka planda yenile (sessizce)
-            fetch(MY_DYNAMIC_API).then(r => r.text()).then(html => {
+            fetch(MY_DYNAMIC_API).then(r => r.text()).then(async html => {
                 const fresh = smartParseKworb(html);
                 try { localStorage.setItem('jt_kworb_cache', JSON.stringify({ ts: Date.now(), data: fresh })); } catch (_) {}
+                await mergeExtraTracks(fresh);
                 applyKworbStats(fresh);
                 updateCareerOverview(fresh);
             }).catch(() => {});
@@ -128,6 +159,7 @@ async function fetchAllData() {
             const htmlText = await kworbRes.text();
             const liveStats = smartParseKworb(htmlText);
             try { localStorage.setItem('jt_kworb_cache', JSON.stringify({ ts: Date.now(), data: liveStats })); } catch (_) {}
+            await mergeExtraTracks(liveStats);
             applyKworbStats(liveStats);
             updateCareerOverview(liveStats);
             document.dispatchEvent(new Event('dataReady'));

@@ -171,7 +171,7 @@
             rel="stylesheet">
     </noscript>
 
-    <link rel="stylesheet" href="style.css?v=1777214044">
+    <link rel="stylesheet" href="style.css?v=1777315413">
 </head>
 
 <body>
@@ -468,15 +468,15 @@
 
     </section>
 
-    <script src="config.js?v=1777214044" defer></script>
-    <script src="song-map.js?v=1777214044" defer></script>
-    <script src="fab.js?v=1777214044" defer></script>
+    <script src="config.js?v=1777315413" defer></script>
+    <script src="song-map.js?v=1777315413" defer></script>
+    <script src="fab.js?v=1777315413" defer></script>
 
     <script type="module">
         // 1. İhtiyacımız olan tüm Firebase v12 modüllerini (Sayaç için doc, setDoc, increment dahil) içe aktarıyoruz
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         // 2. config.js yüklenmediyse erken çık
         if (typeof CONFIG === 'undefined' || !CONFIG.FIREBASE) {
@@ -611,9 +611,21 @@
             })
             .catch(err => console.error("Counter error:", err));
 
+        // Expose snapshot reader for script.js (extra-track merge)
+        window.getHistoricalSnapshot = async function(dateStr) {
+            try {
+                const snap = await getDoc(doc(db, "daily_snapshots", dateStr));
+                return snap.exists() ? snap.data() : null;
+            } catch(e) {
+                console.warn("Firestore snapshot okuma hatası:", dateStr, e.message);
+                return null;
+            }
+        };
+        window.dispatchEvent(new Event('firestore-ready'));
+
     </script>
 
-    <script src="script.js?v=1777214044" defer></script>
+    <script src="script.js?v=1777315413" defer></script>
 
     <!-- ── GALLERY ──────────────────────────────────────────── -->
     <section id="gallery" style="padding: 80px 5%; background: #050505;">
@@ -652,7 +664,7 @@
         </div>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js?v=1777214044"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js?v=1777315413"></script>
     <script>
         const GALLERY_PHOTOS = [
             'assets/random%20pics/IMG_7431.JPG', 'assets/random%20pics/IMG_7432.JPG',

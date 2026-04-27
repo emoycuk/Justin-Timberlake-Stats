@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="assets/jt-hero.jpg">
+    <link rel="apple-touch-icon" href="assets/jt-hero.jpg">
+    <title>Timbertrix — Justin Timberlake Era Selector & Interactive Experience</title>
+    <meta name="description" content="Timbertrix: Select your Justin Timberlake era with this Ben 10 Omnitrix-inspired interactive experience. From Justified to Everything I Thought It Was.">
+    <meta name="keywords" content="Justin Timberlake eras, Timbertrix, JT transformation, Justified era, FutureSex era, 20/20 era, fan experience">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://justin-timberlake-stats.vercel.app/transform.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Timberlake Analytics">
+    <meta property="og:title" content="Timbertrix — Justin Timberlake Era Selector & Interactive Experience">
+    <meta property="og:description" content="Timbertrix: Select your Justin Timberlake era with this Ben 10 Omnitrix-inspired interactive experience. From Justified to Everything I Thought It Was.">
+    <meta property="og:url" content="https://justin-timberlake-stats.vercel.app/transform.html">
+    <meta property="og:image" content="https://justin-timberlake-stats.vercel.app/assets/jt-hero.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Timbertrix — Justin Timberlake Era Selector & Interactive Experience">
+    <meta name="twitter:description" content="Timbertrix: Select your Justin Timberlake era with this Ben 10 Omnitrix-inspired interactive experience. From Justified to Everything I Thought It Was.">
+    <meta name="twitter:image" content="https://justin-timberlake-stats.vercel.app/assets/jt-hero.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="style.css?v=1777056629">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #050a05;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        nav { background: rgba(5,10,5,0.97); border-bottom: 1px solid rgba(0,200,0,0.2); }
+        .logo { color: #00e500 !important; }
+
+        /* ── PAGE ── */
+        .trix-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 64px);
+            padding: 80px 20px 40px;
+            gap: 32px;
+        }
+
+        .trix-header {
+            text-align: center;
+        }
+        .trix-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 900;
+            color: #00e500;
+            text-shadow: 0 0 30px rgba(0,229,0,0.5);
+            letter-spacing: 0.05em;
+        }
+        .trix-subtitle {
+            color: rgba(0,229,0,0.5);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ── OMNITRIX ── */
+        .omnitrix-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ─────────────────────────────────────────────
+           MECHANICAL BOUNCE EASING
+           ───────────────────────────────────────────── */
+        :root { --mech: cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        /* ── OMNITRIX OUTER SHELL ── */
+        .omnitrix {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            position: relative;
+            /* Outer chrome ring */
+            background: conic-gradient(
+                #0a1a0a 0deg, #1a5a1a 15deg, #0a1a0a 30deg,
+                #1a5a1a 45deg, #0a1a0a 60deg, #1a5a1a 75deg,
+                #0a1a0a 90deg, #1a5a1a 105deg, #0a1a0a 120deg,
+                #1a5a1a 135deg, #0a1a0a 150deg, #1a5a1a 165deg,
+                #0a1a0a 180deg, #1a5a1a 195deg, #0a1a0a 210deg,
+                #1a5a1a 225deg, #0a1a0a 240deg, #1a5a1a 255deg,
+                #0a1a0a 270deg, #1a5a1a 285deg, #0a1a0a 300deg,
+                #1a5a1a 315deg, #0a1a0a 330deg, #1a5a1a 345deg, #0a1a0a 360deg
+            );
+            border: 3px solid #2a8a2a;
+            box-shadow:
+                0 0 0 6px #061206,
+                0 0 0 10px #1a6a1a,
+                0 0 0 13px #061206,
+                0 0 60px rgba(0,200,0,0.4),
+                0 0 120px rgba(0,200,0,0.15);
+            transition: box-shadow 0.3s ease;
+        }
+        .omnitrix.spinning, .omnitrix.activated {
+            box-shadow:
+                0 0 0 6px #061206,
+                0 0 0 10px #1a6a1a,
+                0 0 0 13px #061206,
+                0 0 100px rgba(0,255,0,0.7),
+                0 0 200px rgba(0,255,0,0.3);
+        }
+
+        /* ── INNER BEZEL ── */
+        .trix-inner {
+            position: absolute;
+            inset: 14px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #060e06;
+            border: 2px solid #0f3a0f;
+        }
+
+        /* ── OUTER RING (twists CCW -45°) ── */
+        .trix-outer-ring {
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 6px solid transparent;
+            background:
+                repeating-conic-gradient(
+                    #1a6a1a 0deg 4deg, #061206 4deg 30deg
+                ) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+                          linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 2;
+            transform-origin: center center;
+            transition: transform 0.3s var(--mech);
+        }
+        .omnitrix.unlocking .trix-outer-ring {
+            transform: rotate(-45deg);
+        }
+        /* outer ring rotation is controlled by JS when open */
+
+        /* ── INNER CORE (twists CW +45°) ── */
+        .trix-core {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            transform-origin: center center;
+            transition: transform 0.3s var(--mech);
+        }
+        .omnitrix.unlocking .trix-core {
+            transform: rotate(45deg);
+        }
+        .omnitrix.open .trix-core {
+            transform: rotate(0deg);
+            transition: transform 0.25s var(--mech);
+        }
+
+        /* ── FACEPLATE (pops out + hourglass split) ── */
+        .trix-faceplate {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 35%, #1e3e1e 0%, #050d05 60%, #020502 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 6;
+            transform-origin: center center;
+            transition: box-shadow 0.15s, transform 0.2s var(--mech);
+        }
+        .trix-faceplate:hover {
+            box-shadow: inset 0 0 30px rgba(0,255,0,0.1);
+        }
+        .trix-faceplate:hover .hourglass-svg {
+            filter: drop-shadow(0 0 20px #00ff00);
+        }
+        /* STEP 1: Mechanical pop-out */
+        @keyframes facePop {
+            0%   { transform: scale(1);
+                   box-shadow: 0 0 0 0 rgba(0,255,0,0); }
+            50%  { transform: scale(1.17);
+                   box-shadow: 0 18px 60px -8px rgba(0,0,0,0.9),
+                               0 0 0 3px #00ff00,
+                               0 0 40px rgba(0,255,0,0.5); }
+            100% { transform: scale(1.15);
+                   box-shadow: 0 22px 70px -8px rgba(0,0,0,0.95),
+                               0 0 0 3px #00cc00,
+                               0 0 30px rgba(0,255,0,0.4); }
+        }
+        .trix-faceplate.popping {
+            animation: facePop 0.18s var(--mech) forwards;
+            pointer-events: none;
+        }
+        /* Fade out after split */
+        .trix-faceplate.faded {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.08s ease;
+        }
+
+        /* ── PINCH PANELS (slide in to morph hourglass → diamond) ── */
+        .trix-pinch-left, .trix-pinch-right {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background: #040c04;
+            transition: transform 0.2s ease;
+            z-index: 7;
+            pointer-events: none;
+        }
+        .trix-pinch-left {
+            left: 0;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 9%, 42% 50%, 100% 91%, 100% 100%, 0% 100%);
+            transform: translateX(-100%);
+        }
+        .trix-pinch-right {
+            right: 0;
+            clip-path: polygon(0% 9%, 0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 91%, 58% 50%);
+            transform: translateX(100%);
+        }
+        .trix-faceplate.pinching .trix-pinch-left  { transform: translateX(0); }
+        .trix-faceplate.pinching .trix-pinch-right { transform: translateX(0); }
+
+        /* ── HOURGLASS HALVES ── */
+        .hg-wrap {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+        }
+        .hg-half {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .hg-half.top {
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+        }
+        .hg-half.bottom {
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+        }
+        .hourglass-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(0,255,0,0.6));
+            transition: filter 0.25s;
+        }
+        /* STEP 3: Split apart */
+        @keyframes splitTop {
+            0%   { transform: translateY(0);   opacity: 1; }
+            100% { transform: translateY(-55%); opacity: 0; }
+        }
+        @keyframes splitBottom {
+            0%   { transform: translateY(0);   opacity: 1; }
+            100% { transform: translateY(55%); opacity: 0; }
+        }
+        .hg-half.top.splitting    { animation: splitTop    0.22s var(--mech) forwards; }
+        .hg-half.bottom.splitting { animation: splitBottom 0.22s var(--mech) forwards; }
+        /* Reassemble on close */
+        @keyframes mergeTop {
+            0%   { transform: translateY(-55%); opacity: 0; }
+            100% { transform: translateY(0);    opacity: 1; }
+        }
+        @keyframes mergeBottom {
+            0%   { transform: translateY(55%);  opacity: 0; }
+            100% { transform: translateY(0);    opacity: 1; }
+        }
+        .hg-half.top.merging    { animation: mergeTop    0.25s var(--mech) forwards; }
+        .hg-half.bottom.merging { animation: mergeBottom 0.25s var(--mech) forwards; }
+
+        /* ── SELECTION DIAL ── */
+        .trix-selection {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            z-index: 5;
+            overflow: hidden;
+            display: none;
+            transform-origin: center center;
+        }
+        /* STEP 4: Scale up from center */
+        @keyframes dialReveal {
+            0%   { opacity: 0; transform: scale(0.5); }
+            70%  { opacity: 1; transform: scale(1.04); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .trix-selection.visible {
+            display: block;
+            animation: dialReveal 0.35s var(--mech) forwards;
+        }
+        @keyframes dialHide {
+            0%   { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        .trix-selection.hiding {
+            animation: dialHide 0.18s ease forwards;
+        }
+
+        /* ── DIAMOND SELECTION SCREEN ── */
+        .trix-diamond-wrap {
+            position: absolute;
+            inset: 1%;
+        }
+        .trix-diamond-green {
+            position: absolute;
+            inset: 0;
+            background: #00e500;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            box-shadow: 0 0 50px rgba(0,255,0,0.6), inset 0 0 20px rgba(0,150,0,0.5);
+            z-index: 0;
+        }
+        .trix-diamond-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            filter: brightness(0.7) saturate(1.2);
+            transition: filter 0.3s;
+            z-index: 1;
+        }
+        .trix-diamond-img.cutout {
+            object-fit: contain;
+            object-position: center center;
+            filter: brightness(1) saturate(1.2) drop-shadow(0 0 8px rgba(0,0,0,0.8));
+        }
+        .trix-selection:hover .trix-diamond-img {
+            filter: brightness(0.9) saturate(1.4);
+        }
+        .trix-selection:hover .trix-diamond-img.cutout {
+            filter: brightness(1.05) saturate(1.3) drop-shadow(0 0 12px rgba(0,0,0,0.9));
+        }
+        .trix-scanline {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 3px,
+                rgba(0,200,0,0.04) 3px, rgba(0,200,0,0.04) 4px
+            );
+            pointer-events: none;
+        }
+
+        /* Tech ring */
+        .omnitrix::after {
+            content: '';
+            position: absolute;
+            inset: 14px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,200,0,0.18);
+            pointer-events: none;
+            z-index: 12;
+        }
+
+        /* ── PRESS BUTTON ── */
+        .trix-btn {
+            position: absolute;
+            z-index: 13;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 52px;
+            height: 24px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #00d000, #005a00);
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 14px rgba(0,255,0,0.7), 0 3px 8px rgba(0,0,0,0.8);
+            cursor: pointer;
+            transition: box-shadow 0.15s, transform 0.1s;
+            display: none; /* faceplate açılınca göster */
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: rgba(0,0,0,0.85);
+        }
+        .omnitrix.open .trix-btn { display: flex; }
+        .trix-btn:hover { box-shadow: 0 0 24px rgba(0,255,0,1), 0 3px 8px rgba(0,0,0,0.8); }
+        .trix-btn:active { transform: translateX(-50%) scaleY(0.85); }
+
+        /* ── CLOSE BUTTON ── */
+        .trix-close {
+            position: absolute;
+            z-index: 14;
+            top: 22px;
+            right: 26px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(0,200,0,0.4);
+            color: rgba(0,200,0,0.7);
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+        .omnitrix.open .trix-close { display: flex; }
+        .trix-close:hover { background: rgba(200,0,0,0.3); color: #ff4444; border-color: #ff4444; }
+
+        /* Side brackets */
+        .trix-bracket {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 60px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, #1a5a1a, #0d3d0d);
+            border: 1px solid #1a6a1a;
+            z-index: 2;
+        }
+        .trix-bracket.left  { left:  -28px; }
+        .trix-bracket.right { right: -28px; }
+
+        /* ── CONTROLS ── */
+        .trix-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .trix-nav {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0,150,0,0.15);
+            border: 1px solid rgba(0,200,0,0.35);
+            color: #00e500;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .trix-nav:hover {
+            background: rgba(0,200,0,0.25);
+            box-shadow: 0 0 14px rgba(0,255,0,0.3);
+        }
+        .trix-era-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00e500;
+            text-shadow: 0 0 12px rgba(0,229,0,0.5);
+            min-width: 220px;
+            text-align: center;
+            letter-spacing: 0.04em;
+        }
+        .trix-era-year {
+            font-size: 0.7rem;
+            color: rgba(0,200,0,0.5);
+            display: block;
+            letter-spacing: 0.15em;
+            margin-top: 2px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Era dots */
+        .trix-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .trix-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,200,0,0.4);
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .trix-dot.active {
+            background: #00e500;
+            box-shadow: 0 0 8px rgba(0,229,0,0.7);
+        }
+
+        /* Transform CTA */
+        .trix-cta {
+            font-size: 0.72rem;
+            color: rgba(0,200,0,0.45);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            animation: ctaBlink 2s ease-in-out infinite;
+        }
+        @keyframes ctaBlink {
+            0%, 100% { opacity: 0.45; }
+            50% { opacity: 1; }
+        }
+
+        /* ── TRANSFORMATION OVERLAY ── */
+        .transform-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .transform-overlay.active { display: flex; }
+
+        .overlay-bg {
+            position: absolute;
+            inset: 0;
+            background: #000;
+        }
+        .overlay-ripple {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--era-color) 0%, transparent 70%);
+            opacity: 0;
+            transform: scale(0);
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease;
+        }
+        .transform-overlay.blast .overlay-ripple {
+            opacity: 0.9;
+            transform: scale(3);
+        }
+
+        .overlay-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.5s ease 0.35s, transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.35s;
+        }
+        .transform-overlay.reveal .overlay-content {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .overlay-album {
+            width: 180px;
+            height: 180px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 0 60px var(--era-color), 0 20px 60px rgba(0,0,0,0.8);
+            border: 3px solid var(--era-color);
+        }
+        .overlay-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--era-color);
+            opacity: 0.8;
+        }
+        .overlay-era {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            font-weight: 900;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 0 40px var(--era-color);
+            line-height: 1.1;
+        }
+        .overlay-transform-text {
+            font-size: 0.75rem;
+            letter-spacing: 0.4em;
+            color: var(--era-color);
+            text-transform: uppercase;
+            font-weight: 700;
+            animation: pulseText 0.8s ease-in-out infinite alternate;
+        }
+        @keyframes pulseText {
+            from { opacity: 0.6; text-shadow: none; }
+            to   { opacity: 1; text-shadow: 0 0 16px var(--era-color); }
+        }
+
+        .overlay-revert {
+            margin-top: 8px;
+            padding: 10px 28px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid var(--era-color);
+            color: var(--era-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .overlay-revert:hover {
+            background: var(--era-color);
+            color: #000;
+        }
+
+        /* Flash effect */
+        .flash {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #fff;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .flash.go {
+            animation: flashAnim 0.5s ease forwards;
+        }
+        .flash.red {
+            background: #ff2200;
+        }
+        @keyframes flashAnim {
+            0%   { opacity: 0; }
+            20%  { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ── DETRANSFORMATION ── */
+
+        /* Omnitrix kırmızıya döner */
+        .omnitrix.reverting {
+            border-color: #cc0000 !important;
+            box-shadow:
+                0 0 0 3px #3d0000,
+                0 0 0 5px #cc0000,
+                0 0 80px rgba(255,0,0,0.7),
+                0 0 160px rgba(255,0,0,0.3),
+                inset 0 0 40px rgba(0,0,0,0.7) !important;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        /* İçerik glitch/shake */
+        .transform-overlay.detransforming .overlay-content {
+            animation: deglitch 0.55s ease forwards;
+        }
+        @keyframes deglitch {
+            0%   { transform: scale(1)    translateX(0);   opacity: 1; filter: none; }
+            15%  { transform: scale(1.04) translateX(-8px); filter: hue-rotate(180deg) saturate(3); }
+            30%  { transform: scale(0.97) translateX(6px);  filter: hue-rotate(0deg)  saturate(1); }
+            45%  { transform: scale(1.02) translateX(-5px); filter: hue-rotate(90deg) saturate(2); }
+            60%  { transform: scale(0.95) translateX(3px);  opacity: 0.7; filter: none; }
+            80%  { transform: scale(0.6)  translateX(0);   opacity: 0.3; }
+            100% { transform: scale(0)    translateX(0);   opacity: 0; }
+        }
+
+        /* Ripple geri çekilir */
+        .transform-overlay.detransforming .overlay-ripple {
+            transition: transform 0.55s cubic-bezier(0.55,0,1,0.45), opacity 0.55s ease !important;
+            transform: scale(0) !important;
+            opacity: 0 !important;
+        }
+
+        /* Kırmızı overlay tint */
+        .transform-overlay.detransforming::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(200,0,0,0.18);
+            animation: redPulse 0.5s ease forwards;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes redPulse {
+            0%   { opacity: 0; }
+            30%  { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ── CARTOON-ACCURATE ANIMATIONS ── */
+
+        /* Hourglass green glow (Step 0) */
+        .hourglass-svg.glowing {
+            animation: hourglassGlow 0.4s ease forwards;
+        }
+        @keyframes hourglassGlow {
+            0%   { filter: drop-shadow(0 0 10px rgba(0,255,0,0.6)); }
+            50%  { filter: drop-shadow(0 0 40px rgba(0,255,0,1)) brightness(1.5); }
+            100% { filter: drop-shadow(0 0 60px rgba(0,255,0,1)) brightness(2); }
+        }
+
+        /* Faceplate RISES UP physically (Step 1) */
+        .trix-faceplate.rising {
+            animation: faceplateRise 0.3s var(--mech) forwards;
+        }
+        @keyframes faceplateRise {
+            0%   { transform: scale(1) translateY(0);
+                   box-shadow: none; }
+            60%  { transform: scale(1.18) translateY(-16px);
+                   box-shadow: 0 24px 60px rgba(0,0,0,0.95),
+                               0 0 0 3px #00ff00,
+                               0 0 60px rgba(0,255,0,0.7); }
+            100% { transform: scale(1.15) translateY(-14px);
+                   box-shadow: 0 22px 70px rgba(0,0,0,0.95),
+                               0 0 0 3px #00cc00,
+                               0 0 45px rgba(0,255,0,0.5); }
+        }
+
+        /* SLAM the dial DOWN to transform */
+        .trix-faceplate.slamming {
+            animation: faceplateSlam 0.22s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+        }
+        @keyframes faceplateSlam {
+            0%   { transform: scale(1.15) translateY(-14px);
+                   box-shadow: 0 22px 70px rgba(0,0,0,0.95),
+                               0 0 0 3px #00cc00,
+                               0 0 45px rgba(0,255,0,0.5); }
+            45%  { transform: scale(0.9) translateY(8px);
+                   box-shadow: 0 2px 10px rgba(0,0,0,0.5),
+                               0 0 100px rgba(0,255,0,0.9); }
+            70%  { transform: scale(1.03) translateY(-2px); }
+            100% { transform: scale(1) translateY(0);
+                   box-shadow: none; }
+        }
+
+        /* Green energy burst from center */
+        .green-burst {
+            position: absolute;
+            inset: -30%;
+            border-radius: 50%;
+            z-index: 8;
+            pointer-events: none;
+            background: radial-gradient(circle,
+                rgba(0,255,0,0.9) 0%,
+                rgba(0,255,0,0.4) 25%,
+                rgba(0,200,0,0.1) 50%,
+                transparent 70%);
+            opacity: 0;
+            transform: scale(0);
+        }
+        @keyframes burstPulse {
+            0%   { opacity: 0; transform: scale(0.15); }
+            25%  { opacity: 1; transform: scale(0.8); }
+            60%  { opacity: 0.6; transform: scale(1.3); }
+            100% { opacity: 0; transform: scale(1.8); }
+        }
+        .green-burst.active {
+            animation: burstPulse 0.5s ease-out forwards;
+        }
+
+        /* Smooth hourglass fade (replaces mechanical split) */
+        .hg-wrap.fading-out {
+            transition: opacity 0.2s ease, filter 0.2s ease;
+            opacity: 0;
+            filter: blur(4px) brightness(2);
+        }
+        .hg-wrap.invisible { opacity: 0; pointer-events: none; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 400px) {
+            .omnitrix { width: 260px; height: 260px; }
+            .trix-window { width: 128px; height: 128px; }
+            .trix-bracket { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">Timberlake</div>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="vault.html">Certifications</a></li>
+        <li><a href="tours.html">Box Office</a></li>
+        <li><a href="streams.html">Live Streaming</a></li>
+        <li><a href="awards.html">Awards</a></li>
+        <li><a href="charts.html">Charts</a></li>
+        <li><a href="analytics.html">Deep Analytics</a></li>
+        <li><a href="game.html">Album Crush</a></li>
+        <li><a href="transform.html" class="active">Timbertrix</a></li>
+        <li><a href="about.html">About</a></li>
+    </ul>
+</nav>
+
+<div class="trix-page">
+
+    <div class="trix-header">
+        <h1 class="trix-title">TIMBERTRIX</h1>
+        <p class="trix-subtitle">Tap the watch · Select era · Transform</p>
+    </div>
+
+    <!-- Omnitrix -->
+    <div class="omnitrix-wrap">
+        <div class="omnitrix" id="omnitrix">
+            <!-- Side brackets -->
+            <div class="trix-bracket left"></div>
+            <div class="trix-bracket right"></div>
+
+            <!-- Outer rotating ring (twists CCW) -->
+            <div class="trix-outer-ring"></div>
+
+            <!-- Inner bezel -->
+            <div class="trix-inner">
+
+                <!-- Core (twists CW) -->
+                <div class="trix-core" id="trix-core">
+
+                    <!-- KAPALI: Faceplate + hourglass iki yarısı -->
+                    <div class="trix-faceplate" id="trix-faceplate" onclick="openOmnitrix()">
+                        <!-- Pinch panels: slide in to morph hourglass into diamond -->
+                        <div class="trix-pinch-left"></div>
+                        <div class="trix-pinch-right"></div>
+                        <div class="hg-wrap">
+                            <!-- Top half -->
+                            <div class="hg-half top" id="hg-top">
+                                <svg class="hourglass-svg" viewBox="0 0 100 100" fill="none">
+                                    <path d="M 42 50 L 21 9 A 50 50 0 0 1 79 9 L 58 50 Z" fill="#00e500"/>
+                                    <path d="M 42 50 L 21 91 A 50 50 0 0 0 79 91 L 58 50 Z" fill="#00e500"/>
+                                </svg>
+                            </div>
+                            <!-- Bottom half (same SVG, clip shows bottom) -->
+                            <div class="hg-half bottom" id="hg-bottom">
+                                <svg class="hourglass-svg" viewBox="0 0 100 100" fill="none">
+                                    <path d="M 42 50 L 21 9 A 50 50 0 0 1 79 9 L 58 50 Z" fill="#00e500"/>
+                                    <path d="M 42 50 L 21 91 A 50 50 0 0 0 79 91 L 58 50 Z" fill="#00e500"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AÇIK: JT era seçimi (diamond style) -->
+                    <div class="trix-selection" id="trix-selection">
+                        <div class="trix-diamond-wrap">
+                            <div class="trix-diamond-green"></div>
+                            <img class="trix-diamond-img" id="trix-img" src="" alt="Selected Era Image">
+                        </div>
+                        <div class="trix-scanline"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Green energy burst (cartoon-style activation) -->
+            <div class="green-burst" id="green-burst"></div>
+
+            <!-- Close button (açıkken görünür) -->
+            <button class="trix-close" id="trix-close" onclick="closeOmnitrix()">✕</button>
+
+            <!-- Press button (açıkken görünür) -->
+            <button class="trix-btn" id="trix-btn" onclick="pressTransform()">PRESS</button>
+        </div>
+    </div>
+
+    <!-- Era name -->
+    <div class="trix-controls">
+        <button class="trix-nav" id="btn-prev" onclick="cycle(-1)">◀</button>
+        <div class="trix-era-name" id="trix-era-name">
+            Justified
+            <span class="trix-era-year" id="trix-era-year">2002</span>
+        </div>
+        <button class="trix-nav" id="btn-next" onclick="cycle(1)">▶</button>
+    </div>
+
+    <!-- Dots -->
+    <div class="trix-dots" id="trix-dots"></div>
+
+    <p class="trix-cta" id="trix-cta">Tap the Omnitrix to activate</p>
+
+</div>
+
+<!-- Transformation overlay -->
+<div class="transform-overlay" id="overlay">
+    <div class="overlay-bg"></div>
+    <div class="overlay-ripple" id="overlay-ripple"></div>
+    <div class="overlay-content" id="overlay-content">
+        <span class="overlay-label">You are now</span>
+        <img class="overlay-album" id="overlay-img" src="" alt="Transformed Album Cover">
+        <div class="overlay-era" id="overlay-era">Justified</div>
+        <span class="overlay-transform-text">TRANSFORMATION COMPLETE</span>
+        <button class="overlay-revert" onclick="revert()">✕ Revert</button>
+    </div>
+</div>
+
+<!-- Flash layer -->
+<div class="flash" id="flash"></div>
+
+<script>
+// ── ERAS ──────────────────────────────────────────────────
+const ERAS = [
+    {
+        name: 'Justified',
+        year: '2002',
+        img: 'assets/ben10-justified.png',
+        albumImg: 'assets/justified.jpg',
+        cutout: true,
+        color: '#d4a853',
+        alias: 'THE JUSTIFIED ONE',
+        desc: 'Like I Love You · Cry Me a River · Rock Your Body',
+    },
+    {
+        name: 'FutureSex/LoveSounds',
+        year: '2006',
+        img: 'assets/ben10-fsls.png',
+        albumImg: 'assets/fsls.jpg',
+        cutout: true,
+        color: '#e74c3c',
+        alias: 'FUTURESEX',
+        desc: 'SexyBack · What Goes Around · My Love',
+    },
+    {
+        name: 'The Social Network',
+        year: '2010',
+        img: 'assets/ben10-socialnetwork.png',
+        albumImg: 'assets/ben10-socialnetwork.png',
+        cutout: true,
+        color: '#3b5998',
+        alias: 'SEAN PARKER',
+        desc: 'The Social Network · 2010 Film',
+    },
+    {
+        name: 'Bad Teacher',
+        year: '2011',
+        img: 'assets/ben10-badteacher.png',
+        albumImg: 'assets/ben10-badteacher.png',
+        cutout: true,
+        color: '#f1c40f',
+        alias: 'SCOTT DELACORTE',
+        desc: 'Bad Teacher · 2011 Film',
+    },
+    {
+        name: 'In Time',
+        year: '2011',
+        img: 'assets/ben10-intime.jpeg',
+        albumImg: 'assets/ben10-intime.jpeg',
+        color: '#2ecc71',
+        alias: 'WILL SALAS',
+        desc: 'In Time · 2011',
+    },
+    {
+        name: 'The 20/20 Experience',
+        year: '2013',
+        img: 'assets/ben10-2020-1.png',
+        albumImg: 'assets/the20.jpg',
+        cutout: true,
+        color: '#b8912e',
+        alias: 'TWENTY TWENTY',
+        desc: 'Suit & Tie · Mirrors · Tunnel Vision',
+    },
+    {
+        name: 'Wonder Wheel',
+        year: '2017',
+        img: 'assets/ben10-wonderwheel.png',
+        albumImg: 'assets/ben10-wonderwheel.png',
+        cutout: true,
+        color: '#c0392b',
+        alias: 'MICKEY RUBIN',
+        desc: 'Wonder Wheel · 2017 Film',
+    },
+    {
+        name: 'Man of the Woods',
+        year: '2018',
+        img: 'assets/random pics/IMG_7440.JPG',
+        albumImg: 'assets/motw.jpg',
+        color: '#e67e22',
+        alias: 'WOODS MAN',
+        desc: 'Filthy · Say Something · Supplies',
+    },
+    {
+        name: 'Palmer',
+        year: '2021',
+        img: 'assets/ben10-palmer.png',
+        albumImg: 'assets/ben10-palmer.png',
+        cutout: true,
+        color: '#3498db',
+        alias: 'EDDIE PALMER',
+        desc: 'Palmer · 2021 Film',
+    },
+    {
+        name: 'Reptile',
+        year: '2023',
+        img: 'assets/ben10-reptile.png',
+        albumImg: 'assets/ben10-reptile.png',
+        cutout: true,
+        color: '#2c3e50',
+        alias: 'WILL GRADY',
+        desc: 'Reptile · 2023 Film',
+    },
+    {
+        name: 'Everything I Thought It Was',
+        year: '2024',
+        img: 'assets/random pics/IMG_7442.JPG',
+        albumImg: 'assets/eitiw.jpg',
+        color: '#ca510f',
+        alias: 'THE GOAT',
+        desc: 'Selfish · No Angels · Sanctified',
+    },
+    {
+        name: 'Award Winner',
+        year: 'Career',
+        img: 'assets/ben10-award.png',
+        albumImg: 'assets/ben10-award.png',
+        cutout: true,
+        color: '#f39c12',
+        alias: 'TROPHY BOY',
+        desc: 'Grammys · VMAs · AMAs',
+    },
+];
+
+// ── STATE ──────────────────────────────────────────────────
+let current = 0;
+let transforming = false;
+let ringRotation = 0;
+
+// ── REFS ──────────────────────────────────────────────────
+const omnitrix   = document.getElementById('omnitrix');
+const trixImg    = document.getElementById('trix-img');
+const eraNameEl  = document.getElementById('trix-era-name');
+const eraYearEl  = document.getElementById('trix-era-year');
+const dotsEl     = document.getElementById('trix-dots');
+const overlay    = document.getElementById('overlay');
+const ripple     = document.getElementById('overlay-ripple');
+const content    = document.getElementById('overlay-content');
+const overlayImg = document.getElementById('overlay-img');
+const overlayEra = document.getElementById('overlay-era');
+const flashEl    = document.getElementById('flash');
+
+// ── AUDIO (Real Omnitrix SFX) ─────────────────────────────
+const BASE = 'https://raw.githubusercontent.com/gibsonmurray/omnitrix/main/public/sounds/';
+
+const SFX = {
+    transform:  new Audio(BASE + 'transformation.mp3'),
+    activation: new Audio(BASE + 'activation.mp3'),
+    timeout:    new Audio(BASE + 'timeout.mp3'),
+    hover:      new Audio(BASE + 'hover-alien.mp3'),
+    twist: [1,2,3,4,5,6].map(n => new Audio(BASE + `twist-${n}.mp3`)),
+};
+
+// Preload all
+Object.values(SFX).flat().forEach(a => { a.preload = 'auto'; a.load(); });
+
+let twistIdx = 0;
+
+function playTransformSound() {
+    SFX.activation.currentTime = 0;
+    SFX.activation.play().catch(() => {});
+    setTimeout(() => {
+        SFX.transform.currentTime = 0;
+        SFX.transform.play().catch(() => {});
+    }, 300);
+}
+
+function playClickSound() {
+    const snd = SFX.twist[twistIdx % SFX.twist.length];
+    twistIdx++;
+    snd.currentTime = 0;
+    snd.play().catch(() => {});
+}
+
+function playRevertSound() {
+    SFX.timeout.currentTime = 0;
+    SFX.timeout.play().catch(() => {});
+}
+
+// ── BUILD DOTS ─────────────────────────────────────────────
+function buildDots() {
+    dotsEl.innerHTML = '';
+    ERAS.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'trix-dot' + (i === current ? ' active' : '');
+        d.onclick = () => goTo(i);
+        dotsEl.appendChild(d);
+    });
+}
+
+function updateDisplay() {
+    const era = ERAS[current];
+    trixImg.src = era.img;
+    if (era.cutout) {
+        trixImg.classList.add('cutout');
+    } else {
+        trixImg.classList.remove('cutout');
+        trixImg.style.objectFit = 'cover';
+        trixImg.style.objectPosition = 'top center';
+    }
+    trixImg.style.padding = '0';
+    eraNameEl.childNodes[0].textContent = era.name;
+    eraYearEl.textContent = era.year;
+    // Update dots
+    [...dotsEl.children].forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+        d.style.background = i === current ? era.color : '';
+        d.style.borderColor = i === current ? era.color : '';
+        d.style.boxShadow  = i === current ? `0 0 8px ${era.color}` : '';
+    });
+}
+
+// ── OPEN / CLOSE OMNITRIX ─────────────────────────────────
+let omnitrixOpen = false;
+
+const faceplate   = document.getElementById('trix-faceplate');
+const selection   = document.getElementById('trix-selection');
+const hgTop       = document.getElementById('hg-top');
+const hgBottom    = document.getElementById('hg-bottom');
+const core        = document.getElementById('trix-core');
+const outerRingEl = document.querySelector('.trix-outer-ring');
+
+function openOmnitrix() {
+    if (omnitrixOpen) return;
+    omnitrixOpen = true;
+
+    const hgWrap = faceplate.querySelector('.hg-wrap');
+    const svgs   = faceplate.querySelectorAll('.hourglass-svg');
+    const burst   = document.getElementById('green-burst');
+
+    // Activation sound
+    SFX.activation.currentTime = 0;
+    SFX.activation.play().catch(() => {});
+
+    // ── STEP 0 (0ms): Hourglass GLOWS bright green ──
+    svgs.forEach(s => s.classList.add('glowing'));
+    omnitrix.classList.add('activated');
+
+    // ── STEP 1 (380ms): Faceplate RISES UP + green energy burst ──
+    setTimeout(() => {
+        burst.classList.remove('active');
+        void burst.offsetWidth;
+        burst.classList.add('active');
+        faceplate.classList.add('rising');
+    }, 380);
+
+    // ── STEP 2 (580ms): Outer ring twists (mechanical unlock) ──
+    setTimeout(() => {
+        omnitrix.classList.add('unlocking');
+    }, 580);
+
+    // ── STEP 3 (700ms): Hourglass fades out with glow ──
+    setTimeout(() => {
+        hgWrap.classList.add('fading-out');
+    }, 700);
+
+    // ── STEP 4 (900ms): Selection dial appears — hologram style ──
+    setTimeout(() => {
+        hgWrap.classList.remove('fading-out');
+        hgWrap.classList.add('invisible');
+        svgs.forEach(s => s.classList.remove('glowing'));
+        faceplate.classList.add('faded');
+        omnitrix.classList.remove('unlocking', 'activated');
+        omnitrix.classList.add('open');
+        ringRotation = 0;
+        outerRingEl.style.transform = 'rotate(0deg)';
+        updateDisplay();
+        selection.classList.remove('hiding');
+        selection.classList.add('visible');
+        document.getElementById('trix-cta').textContent = 'Select era · Press to transform';
+    }, 900);
+}
+
+function closeOmnitrix() {
+    if (!omnitrixOpen || transforming) return;
+
+    const hgWrap = faceplate.querySelector('.hg-wrap');
+
+    // Dial kapanır
+    ringRotation = 0;
+    outerRingEl.style.transform = '';
+    selection.classList.remove('visible');
+    selection.classList.add('hiding');
+    omnitrix.classList.remove('open');
+
+    setTimeout(() => {
+        selection.classList.remove('hiding');
+
+        // Faceplate descends back
+        faceplate.classList.remove('faded', 'rising', 'popping', 'pinching', 'slamming');
+        faceplate.style.transform = '';
+        faceplate.style.boxShadow = '';
+
+        // Hourglass reappears (smooth)
+        hgWrap.classList.remove('invisible', 'fading-out');
+        hgTop.classList.remove('splitting', 'merging');
+        hgBottom.classList.remove('splitting', 'merging');
+
+        setTimeout(() => {
+            omnitrixOpen = false;
+            document.getElementById('trix-cta').textContent = 'Tap the Omnitrix to activate';
+        }, 300);
+    }, 180);
+}
+
+function goTo(index) {
+    if (!omnitrixOpen) return;
+    current = ((index % ERAS.length) + ERAS.length) % ERAS.length;
+    playClickSound();
+    updateDisplay();
+}
+
+function cycle(dir) {
+    if (!omnitrixOpen) return;
+    ringRotation += dir * 45;
+    outerRingEl.style.transition = 'transform 0.3s var(--mech)';
+    outerRingEl.style.transform  = `rotate(${ringRotation}deg)`;
+    goTo(current + dir);
+    // Spin omnitrix briefly
+    omnitrix.classList.add('spinning');
+    setTimeout(() => omnitrix.classList.remove('spinning'), 400);
+}
+
+// ── TRANSFORM ─────────────────────────────────────────────
+function pressTransform() {
+    if (transforming) return;
+    transforming = true;
+
+    const era   = ERAS[current];
+    const burst = document.getElementById('green-burst');
+
+    // Set CSS variable for overlay colors
+    overlay.style.setProperty('--era-color', era.color);
+
+    // ── SLAM THE DIAL DOWN! (like Ben slamming the Omnitrix) ──
+    faceplate.classList.remove('rising');
+    faceplate.classList.add('slamming');
+
+    // Green energy burst on impact
+    burst.classList.remove('active');
+    void burst.offsetWidth;
+    burst.classList.add('active');
+
+    // Omnitrix body recoils from slam
+    omnitrix.style.transform = 'scale(1.06)';
+    setTimeout(() => { omnitrix.style.transform = ''; }, 180);
+
+    playTransformSound();
+
+    // Green flash (the signature transformation flash)
+    flashEl.classList.remove('go');
+    void flashEl.offsetWidth;
+    flashEl.classList.add('go');
+
+    // Show overlay after flash peak
+    setTimeout(() => {
+        overlayImg.src = era.albumImg;
+        overlayEra.textContent = era.alias;
+
+        overlay.classList.add('active');
+        void overlay.offsetWidth;
+        overlay.classList.add('blast');
+
+        setTimeout(() => overlay.classList.add('reveal'), 50);
+
+        // Apply site era theme (if fab.js is loaded)
+        if (window.applyEraTheme) window.applyEraTheme(era.name);
+    }, 220);
+}
+
+function revert() {
+    if (!transforming) return;
+
+    // 1. Omnitrix kırmızıya döner + ses
+    omnitrix.classList.add('reverting');
+    playRevertSound();
+
+    // 2. Kırmızı flash
+    setTimeout(() => {
+        flashEl.classList.remove('go', 'red');
+        void flashEl.offsetWidth;
+        flashEl.classList.add('go', 'red');
+    }, 80);
+
+    // 3. Detransformation animasyonu başlar
+    setTimeout(() => {
+        overlay.classList.add('detransforming');
+    }, 160);
+
+    // 4. Overlay kapanır, her şey sıfırlanır
+    setTimeout(() => {
+        overlay.classList.remove('active', 'blast', 'reveal', 'detransforming');
+        omnitrix.classList.remove('reverting');
+        faceplate.classList.remove('slamming');
+        transforming = false;
+        if (window.resetToCareer) window.resetToCareer();
+        else if (window.applyEraTheme) window.applyEraTheme('default');
+    }, 750);
+}
+
+// ── KEYBOARD ──────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+    if (!omnitrixOpen && (e.key === 'Enter' || e.key === ' ')) { openOmnitrix(); return; }
+    if (omnitrixOpen) {
+        if (e.key === 'ArrowLeft')  cycle(-1);
+        if (e.key === 'ArrowRight') cycle(1);
+        if (e.key === 'Enter' || e.key === ' ') pressTransform();
+        if (e.key === 'Escape') { transforming ? revert() : closeOmnitrix(); }
+    }
+});
+
+// ── SWIPE (mobile) ────────────────────────────────────────
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) cycle(dx < 0 ? 1 : -1);
+});
+
+// ── BOOT ──────────────────────────────────────────────────
+buildDots();
+updateDisplay();
+</script>
+
+<script src="fab.js?v=1777056629" defer></script>
+
+<footer style="border-top:1px solid rgba(255,255,255,0.06);padding:32px 5%;text-align:center;color:rgba(255,255,255,0.25);font-size:0.78rem;letter-spacing:0.05em;">
+    <div style="margin-bottom:12px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+        <a href="https://x.com/emoycukv3" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.4);text-decoration:none;">X / Twitter</a>
+        <a href="https://www.tiktok.com/@emirtimber" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.4);text-decoration:none;">TikTok</a>
+        <a href="about.html" style="color:rgba(255,255,255,0.4);text-decoration:none;">Methodology</a>
+    </div>
+    Timberlake Analytics — Independent Fan Project · Not affiliated with Justin Timberlake or RCA Records
+</footer>
+</body>
+</html>
