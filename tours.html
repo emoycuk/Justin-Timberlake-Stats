@@ -47,7 +47,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"></noscript>
 
-    <link rel="stylesheet" href="style.css?v=1777486702">
+    <link rel="stylesheet" href="style.css?v=1777487084">
 
     <!-- amCharts 4 for world map -->
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
@@ -551,12 +551,8 @@
         <div class="map-inner">
             <div id="world-map-div"></div>
             <div class="map-legend">
-                <span class="map-legend-title">Tour count</span>
-                <div class="legend-item"><div class="legend-dot" style="background:#2d5a1b"></div>1 tour</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#4a8a2a"></div>2–3 tours</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#d4a853"></div>4–5 tours</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#f0c96a"></div>6+ tours</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#1a1a2e"></div>Not visited</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#d4a853"></div>Performed here</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.08)"></div>Not visited</div>
                 <div class="map-country-count" id="map-country-count"></div>
             </div>
         </div>
@@ -753,43 +749,16 @@
     </script>
 
     <script>
-        // Country → tours that visited
-        const countryTours = {
-            "US": ["Forget Tomorrow","Man of the Woods","20/20 Experience","Legends of Summer","FutureSex/LoveShow","Justified World Tour","Justified & Stripped","I'm Lovin' It"],
-            "CA": ["Forget Tomorrow","Man of the Woods","20/20 Experience","Legends of Summer","FutureSex/LoveShow","Justified World Tour","Justified & Stripped"],
-            "GB": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour","Justified & Stripped","I'm Lovin' It"],
-            "IE": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour"],
-            "DE": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour","Justified & Stripped","I'm Lovin' It"],
-            "NL": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour","Justified & Stripped","I'm Lovin' It"],
-            "FR": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour","Justified & Stripped","I'm Lovin' It"],
-            "BE": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour","Justified & Stripped","I'm Lovin' It"],
-            "SE": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour","I'm Lovin' It"],
-            "DK": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour"],
-            "NO": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour"],
-            "CH": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow"],
-            "AT": ["Forget Tomorrow","Man of the Woods"],
-            "PL": ["Forget Tomorrow"],
-            "CZ": ["Forget Tomorrow"],
-            "IT": ["Forget Tomorrow","20/20 Experience","I'm Lovin' It"],
-            "ES": ["Forget Tomorrow","20/20 Experience","I'm Lovin' It"],
-            "PT": ["Forget Tomorrow"],
-            "AU": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour","Justified & Stripped"],
-            "NZ": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow"],
-            "JP": ["Forget Tomorrow","Man of the Woods","20/20 Experience","FutureSex/LoveShow","Justified World Tour"],
-            "MX": ["Man of the Woods","20/20 Experience","FutureSex/LoveShow"],
-            "BR": ["20/20 Experience"],
-            "AR": ["20/20 Experience"],
-            "KR": ["Forget Tomorrow"],
-            "SG": ["Forget Tomorrow"],
-            "FI": ["Man of the Woods"],
-        };
-
-        function tourCountColor(n) {
-            if (n >= 7) return "#f0c96a";
-            if (n >= 4) return "#d4a853";
-            if (n >= 2) return "#4a8a2a";
-            return "#2d5a1b";
-        }
+        // All countries JT has performed in (ISO 3166-1 alpha-2)
+        const visitedCountries = [
+            "US","CA",                                          // North America
+            "MX","BR","AR",                                     // Latin America
+            "GB","IE","DE","NL","FR","BE","SE","DK","NO",       // Western/Northern Europe
+            "CH","AT","PL","CZ","IT","ES","PT","FI",            // More Europe
+            "LU","RO","EE","LT",                                // Eastern/Baltic Europe
+            "TR","IL","GE","AZ",                                // Middle East / Caucasus
+            "AU","NZ","JP","KR","SG",                           // Asia-Pacific
+        ];
 
         function buildWorldMap() {
             am4core.useTheme(am4themes_animated);
@@ -808,45 +777,34 @@
             basePoly.fill = am4core.color("#1a1a2e");
             basePoly.stroke = am4core.color("#0d0d1a");
             basePoly.strokeWidth = 0.5;
+            basePoly.tooltipText = "{name}";
+            baseSeries.tooltip.background.fill = am4core.color("#141414");
+            baseSeries.tooltip.background.stroke = am4core.color("#333");
+            baseSeries.tooltip.label.fill = am4core.color("#888");
+            baseSeries.tooltip.label.fontSize = 13;
 
-            // Visited layer
-            const visitedData = Object.entries(countryTours).map(([id, tours]) => ({
-                id,
-                value: tours.length,
-                tours,
-                fill: am4core.color(tourCountColor(tours.length))
-            }));
+            // Visited layer — gold highlight
+            const visitedData = visitedCountries.map(id => ({ id }));
 
             const visitedSeries = chart.series.push(new am4maps.MapPolygonSeries());
             visitedSeries.useGeodata = true;
             visitedSeries.data = visitedData;
 
             const visitedPoly = visitedSeries.mapPolygons.template;
-            visitedPoly.propertyFields.fill = "fill";
+            visitedPoly.fill = am4core.color("#d4a853");
             visitedPoly.stroke = am4core.color("#0a0a0a");
             visitedPoly.strokeWidth = 0.8;
-            visitedPoly.tooltipText = "{name}\n{value} tour(s) visited";
+            visitedPoly.tooltipText = "{name}";
             visitedPoly.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 
-            // Hover state
             const hs = visitedPoly.states.create("hover");
-            hs.properties.fill = am4core.color("#ffffff");
-            hs.properties.fillOpacity = 0.25;
+            hs.properties.fill = am4core.color("#f0c96a");
 
-            // Custom tooltip
             visitedSeries.tooltip.background.fill = am4core.color("#141414");
             visitedSeries.tooltip.background.stroke = am4core.color("#d4a853");
             visitedSeries.tooltip.background.strokeWidth = 1;
             visitedSeries.tooltip.label.fill = am4core.color("#ffffff");
             visitedSeries.tooltip.label.fontSize = 13;
-
-            // Adapter for richer tooltip
-            visitedPoly.adapter.add("tooltipText", (text, target) => {
-                const d = target.dataItem && target.dataItem.dataContext;
-                if (!d || !d.tours) return text;
-                const tourList = d.tours.join("\n  · ");
-                return `{name}\n  · ${tourList}`;
-            });
 
             // Zoom control
             chart.zoomControl = new am4maps.ZoomControl();
@@ -854,11 +812,11 @@
 
             // Country count badge
             const el = document.getElementById("map-country-count");
-            if (el) el.innerHTML = `<strong>${Object.keys(countryTours).length}</strong> countries visited`;
+            if (el) el.innerHTML = `<strong>${visitedCountries.length}</strong> countries visited`;
         }
 
         document.addEventListener("DOMContentLoaded", buildWorldMap);
     </script>
-    <script src="fab.js?v=1777486702" defer></script>
+    <script src="fab.js?v=1777487084" defer></script>
 </body>
 </html>
