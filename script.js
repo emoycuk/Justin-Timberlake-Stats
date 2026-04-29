@@ -26,13 +26,25 @@ function getTodayUTC() {
 
 // Kworb'da JT credit'i kalkan track'leri Firestore bugün snapshot'ından merge et.
 // Bu track'ler kworb'un JT sayfasında görünmediği için smartParseKworb onları atlar.
+// Dikkat: sadece tam başlık eşleşmesi kullan — "4 Minutes" (kworb'da hâlâ var, ~480M)
+// ile "4 Minutes (feat. Justin Timberlake and Timbaland)" (removed, ~96M) karışmasın.
+const EXTRA_TRACK_TITLES = [
+    '4 minutes (feat. justin timberlake and timbaland)'
+];
+
 async function mergeExtraTracks(liveStats) {
     const ok = await waitForFirestore(3000);
     if (!ok || typeof window.getHistoricalSnapshot !== 'function') return;
-    const snapToday = await window.getHistoricalSnapshot(getTodayUTC());
-    if (!snapToday || !snapToday.tracks) return;
-    for (const [title, vals] of Object.entries(snapToday.tracks)) {
-        if (!title.toLowerCase().includes('4 minutes')) continue;
+    // Today's snapshot yoksa dün ki ile devam et (gece yarısı öncesi ziyaret vs.)
+    let snap = await window.getHistoricalSnapshot(getTodayUTC());
+    if (!snap || !snap.tracks) {
+        const yesterday = new Date();
+        yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+        snap = await window.getHistoricalSnapshot(yesterday.toISOString().split('T')[0]);
+    }
+    if (!snap || !snap.tracks) return;
+    for (const [title, vals] of Object.entries(snap.tracks)) {
+        if (!EXTRA_TRACK_TITLES.includes(title.toLowerCase())) continue;
         const total = Number(vals.total) || 0;
         liveStats.TotalSpotify += total;
         liveStats['Orphan'] += total;
@@ -139,12 +151,16 @@ async function fetchAllData() {
             }
         } catch (_) {}
 
+        // mergedStats: YouTube güncelleme callback'i için doğru (merge edilmiş) stats'ı tutar
+        let mergedStats = null;
+
         if (cachedKworb) {
             // Cache varsa anında render et (extra track'leri merge et)
             await mergeExtraTracks(cachedKworb);
             applyKworbStats(cachedKworb);
             updateCareerOverview(cachedKworb);
             document.dispatchEvent(new Event('dataReady'));
+            mergedStats = cachedKworb;
             // Arka planda yenile (sessizce)
             fetch(MY_DYNAMIC_API).then(r => r.text()).then(async html => {
                 const fresh = smartParseKworb(html);
@@ -152,6 +168,7 @@ async function fetchAllData() {
                 await mergeExtraTracks(fresh);
                 applyKworbStats(fresh);
                 updateCareerOverview(fresh);
+                mergedStats = fresh;
             }).catch(() => {});
         } else {
             // Cache yok, API'yi bekle
@@ -163,13 +180,14 @@ async function fetchAllData() {
             applyKworbStats(liveStats);
             updateCareerOverview(liveStats);
             document.dispatchEvent(new Event('dataReady'));
+            mergedStats = liveStats;
         }
 
         console.log("DİNAMİK GÜNCELLEME TAMAMLANDI! EITIW aktif.");
 
         // Arka planda YouTube'u çek, gelince EAS'ı güncelle
+        // mergedStats kullan — localStorage'daki değil, 96M extra track'i içeren doğru stats
         if (YOUTUBE_API_KEY) {
-            const liveStats = cachedKworb || (() => { try { return JSON.parse(localStorage.getItem('jt_kworb_cache') || '{}').data || {}; } catch(_) { return {}; } })();
             Promise.all(Object.keys(jtData.albums).map(async id => {
                 const ids = jtData.albums[id].streams.youtubeVideoIds;
                 if (ids && ids.length > 0) {
@@ -177,7 +195,7 @@ async function fetchAllData() {
                     if (live > 0) jtData.albums[id].streams.youtube = live;
                 }
             })).then(() => {
-                updateCareerOverview(liveStats);
+                if (mergedStats) updateCareerOverview(mergedStats);
                 console.log("YouTube verileri güncellendi.");
             }).catch(() => {});
         }
