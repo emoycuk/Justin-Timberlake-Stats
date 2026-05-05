@@ -205,6 +205,95 @@ function calculateImprovedMilestone(track, snap7, snap30) {
     return { target: nextMilestone, remaining, daysLeft, confidence, projectedDaily };
 }
 
+// ── Year-End 2026 Projection ───────────────────────────────────
+function renderEOYProjection(liveStats, snap7, snap30) {
+    const totalEl   = document.getElementById('eoy-total');
+    if (!totalEl) return;
+
+    const addNoteEl   = document.getElementById('eoy-add-note');
+    const ytdEl       = document.getElementById('eoy-ytd');
+    const ytdSubEl    = document.getElementById('eoy-ytd-sub');
+    const dailyEl     = document.getElementById('eoy-daily-rate');
+    const confEl      = document.getElementById('eoy-confidence');
+    const confNoteEl  = document.getElementById('eoy-conf-note');
+    const pctLabel    = document.getElementById('eoy-pct-label');
+    const daysLeftEl  = document.getElementById('eoy-days-left');
+    const progressBar = document.getElementById('eoy-progress-bar');
+
+    const careerTotal = liveStats.TotalSpotify;
+    const ytdBaseline = YTD_2026_BASELINE.career_total;
+    const ytdDays     = getYTDDaysElapsed();
+    const ytdDelta    = careerTotal - ytdBaseline;
+
+    // Year progress
+    const now      = new Date();
+    const yearEnd  = new Date(CURRENT_YEAR, 11, 31, 23, 59, 59);
+    const yearStart= new Date(CURRENT_YEAR, 0, 1);
+    const totalYearDays = Math.ceil((yearEnd - yearStart) / 86400000);
+    const daysLeft = Math.max(0, Math.ceil((yearEnd - now) / 86400000));
+    const yearPct  = ((totalYearDays - daysLeft) / totalYearDays * 100);
+
+    // Compute weighted projected daily rate
+    const ytdAvg    = ytdDays > 0 ? ytdDelta / ytdDays : 0;
+    const monthlyAvg = (snap30 && careerTotal > snap30.career_total)
+        ? (careerTotal - snap30.career_total) / 30 : null;
+    const weeklyAvg  = (snap7  && careerTotal > snap7.career_total)
+        ? (careerTotal - snap7.career_total)  / 7  : null;
+
+    let projectedDaily, confidence, confNote;
+    if (ytdAvg > 0 && monthlyAvg !== null && weeklyAvg !== null) {
+        projectedDaily = ytdAvg * 0.5 + monthlyAvg * 0.4 + weeklyAvg * 0.1;
+        confidence = "high";
+        confNote = "YTD + 30d + 7d";
+    } else if (ytdAvg > 0 && monthlyAvg !== null) {
+        projectedDaily = ytdAvg * 0.6 + monthlyAvg * 0.4;
+        confidence = "medium";
+        confNote = "YTD + 30d";
+    } else if (ytdAvg > 0) {
+        projectedDaily = ytdAvg;
+        confidence = "low";
+        confNote = "YTD only";
+    } else {
+        projectedDaily = liveStats.TotalDaily || 0;
+        confidence = "low";
+        confNote = "Live daily fallback";
+    }
+
+    // Project EOY total
+    const projectedAdd = projectedDaily * daysLeft;
+    const projectedEOY = careerTotal + projectedAdd;
+    const projectedYearTotal = ytdDelta + projectedAdd;
+
+    // Format helpers
+    const fmtB = n => (n / 1e9).toFixed(2) + 'B';
+    const fmtM = n => (n / 1e6).toFixed(1) + 'M';
+    const fmtBig = n => n >= 1e9 ? fmtB(n) : fmtM(n);
+
+    // Render
+    totalEl.textContent = fmtB(projectedEOY);
+    if (addNoteEl) addNoteEl.innerHTML =
+        `+${fmtBig(projectedAdd)} expected in next ${daysLeft.toLocaleString()} days · ` +
+        `<span style="color:rgba(255,255,255,0.4);">${fmtBig(projectedYearTotal)} total in 2026</span>`;
+    if (ytdEl) ytdEl.textContent = fmtBig(ytdDelta);
+    if (ytdSubEl) ytdSubEl.textContent = `${ytdDays} days · ${Math.round(ytdAvg).toLocaleString()}/day avg`;
+    if (dailyEl) dailyEl.textContent = '+' + Math.round(projectedDaily).toLocaleString();
+
+    if (confEl) {
+        confEl.textContent = confidence;
+        confEl.style.color = confidence === 'high'   ? '#4ade80'
+                            : confidence === 'medium' ? '#d4a853'
+                            : '#888';
+    }
+    if (confNoteEl) confNoteEl.textContent = confNote;
+
+    if (pctLabel) pctLabel.textContent = `${yearPct.toFixed(1)}% of ${CURRENT_YEAR} elapsed`;
+    if (daysLeftEl) daysLeftEl.textContent = `${daysLeft.toLocaleString()} days remaining`;
+    if (progressBar) {
+        // Trigger animation
+        setTimeout(() => { progressBar.style.width = yearPct + '%'; }, 100);
+    }
+}
+
 // --- 3. AKILLI PARSER ---
 function analyzeKworbData(htmlInput) {
     const parser = new DOMParser();
@@ -821,6 +910,9 @@ async function initStreamsDashboard() {
                 }
             }
         }
+
+        // ── ADIM G2: Year-End 2026 Projection ────────────────────────
+        renderEOYProjection(liveStats, snap7, snap30);
 
         // ── ADIM H: Doughnut Chart ────────────────────────────────────
         const doughnutCanvas = document.getElementById('albumShareChart');
