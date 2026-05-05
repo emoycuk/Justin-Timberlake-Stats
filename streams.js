@@ -991,6 +991,9 @@ window.generateShareCard = function() {
         return;
     }
 
+    const careerEl = document.getElementById('jt-total-career');
+    document.getElementById('sc-career').textContent = careerEl ? careerEl.textContent : '—';
+
     const dailyEl = document.getElementById('jt-daily-career');
     document.getElementById('sc-daily').textContent = dailyEl ? dailyEl.textContent : '—';
 
