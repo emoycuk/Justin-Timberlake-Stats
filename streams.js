@@ -274,8 +274,9 @@ function renderEOYProjection(liveStats, snap7, snap30) {
     if (addNoteEl) addNoteEl.innerHTML =
         `+${fmtBig(projectedAdd)} expected in next ${daysLeft.toLocaleString()} days · ` +
         `<span style="color:rgba(255,255,255,0.4);">${fmtBig(projectedYearTotal)} total in 2026</span>`;
-    if (ytdEl) ytdEl.textContent = fmtBig(ytdDelta);
-    if (ytdSubEl) ytdSubEl.textContent = `${ytdDays} days · ${Math.round(ytdAvg).toLocaleString()}/day avg`;
+    if (ytdEl) ytdEl.textContent = fmtBig(projectedYearTotal);
+    if (ytdSubEl) ytdSubEl.textContent =
+        `${fmtBig(ytdDelta)} earned · +${fmtBig(projectedAdd)} projected`;
     if (dailyEl) dailyEl.textContent = '+' + Math.round(projectedDaily).toLocaleString();
 
     if (confEl) {
