@@ -91,7 +91,7 @@
             href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap"
             rel="stylesheet">
     </noscript>
-    <link rel="stylesheet" href="style.css?v=1777754637">
+    <link rel="stylesheet" href="style.css?v=1778014159">
     <style>
         /* Sadece bu sayfaya özel dashboard stilleri */
         .analytics-container {
@@ -259,10 +259,14 @@
             background: rgba(255,255,255,0.028);
         }
 
-        /* İlk kolon (isim) biraz daha parlak */
+        /* İlk kolon (isim) biraz daha parlak + truncate */
         .song-table td:first-child {
             color: rgba(255,255,255,0.78);
             font-weight: 500;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .positive-trend {
@@ -303,18 +307,16 @@
         .country-track-row:hover { background: rgba(255,255,255,0.02); border-radius: 6px; }
 
         @media (max-width: 768px) {
-            .growth-stats {
-                grid-template-columns: 1fr;
-            }
+            .growth-stats { grid-template-columns: 1fr; }
+            .growth-value { font-size: 1.3rem; }
 
-            .growth-value {
-                font-size: 1.3rem;
-            }
+            /* Track search full-width */
+            #track-search { width: 100% !important; }
 
             .analytics-row {
                 overflow-x: auto !important;
                 -webkit-overflow-scrolling: touch !important;
-                padding: 10px 6px !important;
+                padding: 14px 10px !important;
                 margin: 0 !important;
                 background: rgba(255,255,255,0.012) !important;
                 border: 1px solid rgba(255,255,255,0.035) !important;
@@ -322,37 +324,71 @@
             }
 
             .song-table {
-                min-width: 520px;
+                min-width: 0;
                 width: 100%;
+                table-layout: fixed;
             }
 
             .song-table thead th,
             .song-table td {
-                padding: 8px 7px !important;
-                font-size: 0.7rem !important;
+                padding: 9px 8px !important;
+                font-size: 0.72rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            /* İsim kolonu sabit genişlik + truncate */
+            .song-table td:first-child,
+            .song-table th:first-child {
+                max-width: 130px !important;
+                width: 130px !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
                 white-space: nowrap !important;
-                word-break: normal !important;
-                text-align: left !important;
             }
 
-            .song-table td:first-child img {
-                display: none !important;
+            /* Kapak fotoğrafını gizle, progress bar gizle */
+            .song-table td:first-child img { display: none !important; }
+            .song-table td:first-child > div { display: block !important; gap: 0 !important; }
+            .song-table td:first-child > div > div > div[style*="height: 4px"],
+            .song-table td:first-child > div > div > div[style*="height:4px"] { display: none !important; }
+
+            /* Real 30-Day ve YTD kolonlarını küçük ekranda gizle */
+            .song-table th:nth-child(5),
+            .song-table td:nth-child(5),
+            .song-table th:nth-child(6),
+            .song-table td:nth-child(6) { display: none !important; }
+        }
+
+        @media (max-width: 480px) {
+            .analytics-container { padding: 100px 4% 40px; gap: 28px; }
+
+            /* Hero kartları alt alta */
+            .hero-stats { grid-template-columns: 1fr !important; }
+
+            /* İsim kolonu daha da dar */
+            .song-table td:first-child,
+            .song-table th:first-child {
+                max-width: 100px !important;
+                width: 100px !important;
             }
 
-            .song-table td:first-child>div {
-                display: block !important;
-                gap: 0 !important;
+            /* Country tab butonları scroll edilebilir */
+            #country-tabs {
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                padding-bottom: 4px;
             }
+            #country-tabs::-webkit-scrollbar { display: none; }
 
-            .song-table td:first-child>div>div>div[style*="height: 4px"],
-            .song-table td:first-child>div>div>div[style*="height:4px"] {
-                display: none !important;
-            }
+            /* Country search input full-width */
+            #country-search { width: 100% !important; }
         }
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js?v=1777754637" defer></script>
-    <script src="song-map.js?v=1777754637" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js?v=1778014159" defer></script>
+    <script src="song-map.js?v=1778014159" defer></script>
 
 </head>
 
@@ -659,10 +695,10 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js?v=1777754637" defer></script>
-    <script src="config.js?v=1777754637" defer></script>
-    <script src="spotify.js?v=1777754637" defer></script>
-    <script src="fab.js?v=1777754637" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js?v=1778014159" defer></script>
+    <script src="config.js?v=1778014159" defer></script>
+    <script src="spotify.js?v=1778014159" defer></script>
+    <script src="fab.js?v=1778014159" defer></script>
 
     <!-- Firebase Modülü: Firestore'a erişim sağlar ve window'a helper açar -->
     <script type="module">
@@ -671,7 +707,7 @@
 
         if (typeof CONFIG === 'undefined' || !CONFIG.FIREBASE) {
             console.error("config.js yüklenemedi — Firestore devre dışı.");
-            window.dispatchEvent(new Event('firestore-ready')); // streams.js?v=1777754637'in bloke olmaması için
+            window.dispatchEvent(new Event('firestore-ready')); // streams.js?v=1778014159'in bloke olmaması için
             throw new Error("CONFIG missing");
         }
         const app = initializeApp(CONFIG.FIREBASE);
@@ -691,11 +727,11 @@
             }
         };
 
-        // streams.js?v=1777754637'e "Firestore hazır" sinyali gönder
+        // streams.js?v=1778014159'e "Firestore hazır" sinyali gönder
         window.dispatchEvent(new Event('firestore-ready'));
     </script>
 
-    <script src="streams.js?v=1777754637" defer></script>
+    <script src="streams.js?v=1778014159" defer></script>
 
 <footer style="border-top:1px solid rgba(255,255,255,0.06);padding:32px 5%;text-align:center;color:rgba(255,255,255,0.25);font-size:0.78rem;letter-spacing:0.05em;">
     <div style="margin-bottom:12px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
