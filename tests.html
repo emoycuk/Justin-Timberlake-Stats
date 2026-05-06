@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timberlake Analytics — Test Suite</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: rgba(255,255,255,0.03);
+            --pass: #4ade80;
+            --fail: #ef4444;
+            --gold: #d4a853;
+            --muted: rgba(255,255,255,0.4);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Space Grotesk', monospace, sans-serif;
+            background: var(--bg);
+            color: #fff;
+            padding: 40px 5%;
+            line-height: 1.5;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { font-size: 1.8rem; margin-bottom: 6px; color: var(--gold); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 28px; }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .summary-card {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 18px 20px;
+        }
+        .summary-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 6px; }
+        .summary-value { font-size: 1.6rem; font-weight: 700; }
+        .summary-value.pass { color: var(--pass); }
+        .summary-value.fail { color: var(--fail); }
+        .summary-value.gold { color: var(--gold); }
+
+        .group {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .group-header {
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.02);
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .group-header .group-stats { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+
+        .test {
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.86rem;
+        }
+        .test:last-child { border-bottom: none; }
+        .test:hover { background: rgba(255,255,255,0.015); }
+
+        .badge {
+            font-size: 0.62rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+        }
+        .badge.pass { background: rgba(74,222,128,0.12); color: var(--pass); }
+        .badge.fail { background: rgba(239,68,68,0.12); color: var(--fail); }
+
+        .test-name { flex: 1; color: rgba(255,255,255,0.85); }
+        .test-detail {
+            font-size: 0.75rem;
+            color: var(--fail);
+            font-family: ui-monospace, monospace;
+            background: rgba(239,68,68,0.06);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 4px 20px 10px;
+            white-space: pre-wrap;
+        }
+
+        .filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .filter button {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.6);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .filter button:hover { border-color: rgba(255,255,255,0.2); color: #fff; }
+        .filter button.active { background: rgba(212,168,83,0.12); border-color: rgba(212,168,83,0.4); color: var(--gold); }
+
+        @media (max-width: 700px) {
+            .summary { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Timberlake Analytics Test Suite</h1>
+        <div class="subtitle">Unit tests for RIAA certification logic, milestone predictions, and year-end projections.</div>
+
+        <div class="summary" id="summary">
+            <div class="summary-card">
+                <div class="summary-label">Total Tests</div>
+                <div class="summary-value gold" id="sum-total">—</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Passed</div>
+                <div class="summary-value pass" id="sum-pass">—</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Failed</div>
+                <div class="summary-value fail" id="sum-fail">—</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Duration</div>
+                <div class="summary-value" id="sum-time">—</div>
+            </div>
+        </div>
+
+        <div class="filter">
+            <button class="active" data-filter="all">All</button>
+            <button data-filter="fail">Failures only</button>
+            <button data-filter="pass">Passing only</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+    // ═══════════════════════════════════════════════════════════
+    //  MICRO TEST FRAMEWORK
+    // ═══════════════════════════════════════════════════════════
+    const groups = [];
+    let current = null;
+
+    function describe(name, fn) {
+        current = { name, tests: [] };
+        groups.push(current);
+        try { fn(); } catch (e) { console.error(`Group "${name}" threw:`, e); }
+        current = null;
+    }
+
+    function it(name, fn) {
+        const test = { name, status: 'pass', error: null };
+        try {
+            fn();
+        } catch (e) {
+            test.status = 'fail';
+            test.error = e.message + (e.stack ? '\n' + e.stack.split('\n').slice(1, 3).join('\n') : '');
+        }
+        current.tests.push(test);
+    }
+
+    function expect(actual) {
+        return {
+            toBe(expected) {
+                if (actual !== expected) throw new Error(`Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+            },
+            toEqual(expected) {
+                if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+                    throw new Error(`Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+                }
+            },
+            toBeCloseTo(expected, tolerance = 0.01) {
+                if (Math.abs(actual - expected) > tolerance) {
+                    throw new Error(`Expected ~${expected} (±${tolerance}), got ${actual}`);
+                }
+            },
+            toBeGreaterThan(expected) {
+                if (!(actual > expected)) throw new Error(`Expected > ${expected}, got ${actual}`);
+            },
+            toBeLessThan(expected) {
+                if (!(actual < expected)) throw new Error(`Expected < ${expected}, got ${actual}`);
+            },
+            toBeTruthy() {
+                if (!actual) throw new Error(`Expected truthy, got ${JSON.stringify(actual)}`);
+            },
+            toContain(sub) {
+                if (!String(actual).includes(sub)) throw new Error(`Expected to contain "${sub}", got "${actual}"`);
+            }
+        };
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    //  FUNCTIONS UNDER TEST (mirror of vault.js & streams.js)
+    //  Keep these in sync with the live source.
+    // ═══════════════════════════════════════════════════════════
+
+    const CERT_MAPPINGS = {
+        "USA": { song: { "Gold": 500000, "Platinum": 1000000, "Diamond": 10000000 },
+                 album: { "Gold": 500000, "Platinum": 1000000, "Diamond": 10000000 } },
+        "UK": { song: { "Silver": 200000, "Gold": 400000, "Platinum": 600000 },
+                album: { "Silver": 60000, "Gold": 100000, "Platinum": 300000 } },
+        "Canada": { song: { "Gold": 40000, "Platinum": 80000, "Diamond": 800000 },
+                    album: { "Gold": 40000, "Platinum": 80000, "Diamond": 800000 } },
+    };
+
+    function parseCertString(certStr, country, itemType = 'song', itemId = '') {
+        if (!certStr || certStr === "None") return 0;
+        let mapping = CERT_MAPPINGS[country];
+        if (!mapping) return 0;
+        if (mapping.album && mapping.song) mapping = mapping[itemType] || mapping['song'];
+        if (country === 'Canada' && (itemId === 'Justified' || itemId === 'FutureSex/LoveSounds')) {
+            mapping = { "Gold": 50000, "Platinum": 100000, "Diamond": 1000000 };
+        }
+        const parts = certStr.split('+').map(p => p.trim());
+        let totalUnits = 0;
+        parts.forEach(part => {
+            const unitMatch = part.match(/^([\d\.]+)k?\s*units?$/i);
+            if (unitMatch) {
+                let val = parseFloat(unitMatch[1]);
+                if (part.toLowerCase().includes('k')) val *= 1000;
+                totalUnits += val;
+                return;
+            }
+            let multiplier = 1;
+            let type = part;
+            const m = part.match(/^(\d+)x\s+(.+)$/i);
+            if (m) { multiplier = parseInt(m[1]); type = m[2]; }
+            type = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+            if (mapping[type]) totalUnits += (mapping[type] * multiplier);
+        });
+        return totalUnits;
+    }
+
+    function quantizeRIAAUnits(units) {
+        if (units < 500000) return 0;
+        if (units < 1000000) return 500000;
+        return Math.floor(units / 1000000) * 1000000;
+    }
+
+    function getRiaalEligibility(units) {
+        let platCount = Math.floor(units / 1000000);
+        if (units >= 10000000) return { label: `${Math.floor(units/10000000)}x Diamond`, isDiamond: true, platCount };
+        if (units >= 1000000)  return { label: `${platCount}x Platinum`, isDiamond: false, platCount };
+        if (units >= 500000)   return { label: "Gold", isDiamond: false, platCount: 0 };
+        return { label: "None", isDiamond: false, platCount: 0 };
+    }
+
+    // From streams.js
+    function getYTDDaysElapsed(now = new Date()) {
+        const start = new Date(`${now.getFullYear()}-01-01T00:00:00Z`);
+        return Math.max(1, Math.floor((now - start) / 86400000));
+    }
+
+    // EOY projection helper (extracted from streams.js renderEOYProjection)
+    function calcEOYProjection({ careerTotal, ytdBaseline, ytdDays, snap7, snap30 }) {
+        const ytdDelta = careerTotal - ytdBaseline;
+        const ytdAvg = ytdDays > 0 ? ytdDelta / ytdDays : 0;
+        const monthlyAvg = (snap30 && careerTotal > snap30) ? (careerTotal - snap30) / 30 : null;
+        const weeklyAvg  = (snap7  && careerTotal > snap7)  ? (careerTotal - snap7)  / 7  : null;
+
+        let projectedDaily, confidence;
+        if (ytdAvg > 0 && monthlyAvg !== null && weeklyAvg !== null) {
+            projectedDaily = ytdAvg * 0.5 + monthlyAvg * 0.4 + weeklyAvg * 0.1;
+            confidence = "high";
+        } else if (ytdAvg > 0 && monthlyAvg !== null) {
+            projectedDaily = ytdAvg * 0.6 + monthlyAvg * 0.4;
+            confidence = "medium";
+        } else if (ytdAvg > 0) {
+            projectedDaily = ytdAvg;
+            confidence = "low";
+        } else {
+            projectedDaily = 0;
+            confidence = "low";
+        }
+        return { projectedDaily, confidence, ytdDelta, ytdAvg };
+    }
+
+    // Milestone calculation (mirror of calculateImprovedMilestone)
+    function calcMilestone({ trackTotal, hist7Total, hist30Total, ytdBaseline, ytdDays, dailyLive }) {
+        let projectedDaily, confidence;
+        if (hist7Total != null && hist30Total != null && trackTotal > hist7Total && trackTotal > hist30Total) {
+            const realWeeklyAvg  = (trackTotal - hist7Total)  / 7;
+            const realMonthlyAvg = (trackTotal - hist30Total) / 30;
+            if (ytdBaseline && trackTotal > ytdBaseline && ytdDays > 30) {
+                const ytdAvg = (trackTotal - ytdBaseline) / ytdDays;
+                projectedDaily = realWeeklyAvg * 0.5 + realMonthlyAvg * 0.3 + ytdAvg * 0.2;
+            } else {
+                projectedDaily = realWeeklyAvg * 0.6 + realMonthlyAvg * 0.4;
+            }
+            confidence = "high";
+        } else if (hist7Total != null && trackTotal > hist7Total) {
+            projectedDaily = (trackTotal - hist7Total) / 7;
+            confidence = "medium";
+        } else if (ytdBaseline && trackTotal > ytdBaseline) {
+            projectedDaily = (trackTotal - ytdBaseline) / ytdDays;
+            confidence = "medium";
+        } else {
+            projectedDaily = dailyLive;
+            confidence = "low";
+        }
+
+        let nextMilestone;
+        if (trackTotal >= 1000000000) {
+            nextMilestone = Math.ceil(trackTotal / 1000000000) * 1000000000;
+            if (nextMilestone === trackTotal) nextMilestone += 1000000000;
+        } else {
+            nextMilestone = Math.ceil(trackTotal / 500000000) * 500000000;
+            if (nextMilestone === trackTotal) nextMilestone += 500000000;
+        }
+        const remaining = nextMilestone - trackTotal;
+        const daysLeft = projectedDaily > 0 ? Math.ceil(remaining / projectedDaily) : null;
+        return { target: nextMilestone, remaining, daysLeft, confidence, projectedDaily };
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    //  TEST CASES
+    // ═══════════════════════════════════════════════════════════
+
+    describe('parseCertString — basic tier conversion', () => {
+        it('returns 0 for null/empty/None', () => {
+            expect(parseCertString(null, 'USA', 'song')).toBe(0);
+            expect(parseCertString('', 'USA', 'song')).toBe(0);
+            expect(parseCertString('None', 'USA', 'song')).toBe(0);
+        });
+
+        it('parses single Gold for US song', () => {
+            expect(parseCertString('Gold', 'USA', 'song')).toBe(500000);
+        });
+
+        it('parses single Platinum for US song', () => {
+            expect(parseCertString('Platinum', 'USA', 'song')).toBe(1000000);
+        });
+
+        it('parses 5x Platinum for US song', () => {
+            expect(parseCertString('5x Platinum', 'USA', 'song')).toBe(5000000);
+        });
+
+        it('parses Diamond for US song', () => {
+            expect(parseCertString('Diamond', 'USA', 'song')).toBe(10000000);
+        });
+
+        it('handles combined "Platinum + Gold"', () => {
+            expect(parseCertString('Platinum + Gold', 'USA', 'song')).toBe(1500000);
+        });
+
+        it('parses raw units format "330k units"', () => {
+            expect(parseCertString('330k units', 'USA', 'song')).toBe(330000);
+        });
+
+        it('parses raw units format "100000 units"', () => {
+            expect(parseCertString('100000 units', 'USA', 'song')).toBe(100000);
+        });
+
+        it('returns 0 for unknown country', () => {
+            expect(parseCertString('Platinum', 'Mars', 'song')).toBe(0);
+        });
+
+        it('uses album thresholds when itemType=album', () => {
+            // UK: song Platinum=600k, album Platinum=300k
+            expect(parseCertString('Platinum', 'UK', 'album')).toBe(300000);
+            expect(parseCertString('Platinum', 'UK', 'song')).toBe(600000);
+        });
+
+        it('Canada legacy rule for Justified album', () => {
+            // Justified uses 50k/100k thresholds, not 40k/80k
+            expect(parseCertString('Platinum', 'Canada', 'album', 'Justified')).toBe(100000);
+            expect(parseCertString('Gold', 'Canada', 'album', 'Justified')).toBe(50000);
+        });
+
+        it('Canada modern rule for non-Justified', () => {
+            expect(parseCertString('Platinum', 'Canada', 'album', 'Man of the Woods')).toBe(80000);
+        });
+
+        it('case-insensitive type matching', () => {
+            expect(parseCertString('platinum', 'USA', 'song')).toBe(1000000);
+            expect(parseCertString('5X PLATINUM', 'USA', 'song')).toBe(5000000);
+        });
+    });
+
+    describe('quantizeRIAAUnits — tier rounding', () => {
+        it('returns 0 below Gold threshold (499K)', () => {
+            expect(quantizeRIAAUnits(499999)).toBe(0);
+            expect(quantizeRIAAUnits(0)).toBe(0);
+            expect(quantizeRIAAUnits(100000)).toBe(0);
+        });
+
+        it('returns 500K at Gold threshold', () => {
+            expect(quantizeRIAAUnits(500000)).toBe(500000);
+            expect(quantizeRIAAUnits(750000)).toBe(500000);
+            expect(quantizeRIAAUnits(999999)).toBe(500000);
+        });
+
+        it('returns 1M at Platinum threshold', () => {
+            expect(quantizeRIAAUnits(1000000)).toBe(1000000);
+            expect(quantizeRIAAUnits(1500000)).toBe(1000000);
+            expect(quantizeRIAAUnits(1999999)).toBe(1000000);
+        });
+
+        it('returns correct multi-Platinum tier', () => {
+            expect(quantizeRIAAUnits(5000000)).toBe(5000000);
+            expect(quantizeRIAAUnits(5500000)).toBe(5000000);
+            expect(quantizeRIAAUnits(5999999)).toBe(5000000);
+            expect(quantizeRIAAUnits(6000000)).toBe(6000000);
+        });
+
+        it('handles Diamond-tier numbers (10M+)', () => {
+            expect(quantizeRIAAUnits(10000000)).toBe(10000000);
+            expect(quantizeRIAAUnits(15700000)).toBe(15000000);
+        });
+
+        it('never produces non-tier values', () => {
+            for (let n = 0; n < 12000000; n += 137000) {
+                const q = quantizeRIAAUnits(n);
+                if (q === 0 || q === 500000) continue;
+                expect(q % 1000000).toBe(0);
+            }
+        });
+    });
+
+    describe('getRiaalEligibility — tier labels', () => {
+        it('returns None below 500K', () => {
+            expect(getRiaalEligibility(499999).label).toBe('None');
+        });
+
+        it('returns Gold for 500K-999K', () => {
+            expect(getRiaalEligibility(500000).label).toBe('Gold');
+            expect(getRiaalEligibility(999999).label).toBe('Gold');
+        });
+
+        it('returns Nx Platinum correctly', () => {
+            expect(getRiaalEligibility(1000000).label).toBe('1x Platinum');
+            expect(getRiaalEligibility(3499999).label).toBe('3x Platinum');
+            expect(getRiaalEligibility(7000000).label).toBe('7x Platinum');
+        });
+
+        it('returns Diamond at 10M', () => {
+            const r = getRiaalEligibility(10000000);
+            expect(r.label).toBe('1x Diamond');
+            expect(r.isDiamond).toBe(true);
+        });
+
+        it('returns 2x Diamond at 20M+', () => {
+            expect(getRiaalEligibility(25000000).label).toBe('2x Diamond');
+        });
+
+        it('platCount tracks platinum equivalent for Diamond', () => {
+            const r = getRiaalEligibility(15000000);
+            expect(r.isDiamond).toBe(true);
+            expect(r.platCount).toBe(15);
+        });
+    });
+
+    describe('quantizeRIAAUnits — applied AFTER equivalent calc', () => {
+        // Per discussion: pure_sales + (streams/150) → quantize at end
+        it('1M pure + 600K stream-eq → 1x Platinum (1M)', () => {
+            const equivalent = 1_000_000 + Math.floor(90_000_000 / 150); // 600K
+            expect(quantizeRIAAUnits(equivalent)).toBe(1_000_000);
+        });
+
+        it('1M pure + 1.5M stream-eq → 2x Platinum (2M)', () => {
+            const equivalent = 1_000_000 + Math.floor(225_000_000 / 150);
+            expect(quantizeRIAAUnits(equivalent)).toBe(2_000_000);
+        });
+
+        it('300K pure + 250K stream-eq → still None (550K... wait that\'s Gold)', () => {
+            // Sanity: 300K pure + 37.5M streams = 300K + 250K = 550K → Gold
+            const equivalent = 300_000 + Math.floor(37_500_000 / 150);
+            expect(quantizeRIAAUnits(equivalent)).toBe(500_000);
+        });
+
+        it('200K pure + 150K stream-eq → None (350K)', () => {
+            const equivalent = 200_000 + Math.floor(22_500_000 / 150);
+            expect(quantizeRIAAUnits(equivalent)).toBe(0);
+        });
+    });
+
+    describe('Math.max(rawLive, official) preserves higher value', () => {
+        it('uses official when live is below', () => {
+            const rawLive = 4_800_000;
+            const official = parseCertString('5x Platinum', 'USA', 'album');
+            const usaMax = Math.max(rawLive, official);
+            expect(quantizeRIAAUnits(usaMax)).toBe(5_000_000);
+        });
+
+        it('uses live when it crosses next tier', () => {
+            const rawLive = 6_200_000;
+            const official = parseCertString('5x Platinum', 'USA', 'album');
+            const usaMax = Math.max(rawLive, official);
+            expect(quantizeRIAAUnits(usaMax)).toBe(6_000_000);
+        });
+
+        it('does NOT downgrade when live is below official tier', () => {
+            const rawLive = 100_000;
+            const official = parseCertString('Platinum', 'USA', 'song');
+            const usaMax = Math.max(rawLive, official);
+            expect(quantizeRIAAUnits(usaMax)).toBe(1_000_000);
+        });
+    });
+
+    describe('getYTDDaysElapsed', () => {
+        it('returns 1 minimum on Jan 1', () => {
+            const jan1 = new Date('2026-01-01T00:00:00Z');
+            expect(getYTDDaysElapsed(jan1)).toBe(1);
+        });
+
+        it('returns ~31 on Feb 1', () => {
+            const feb1 = new Date('2026-02-01T00:00:00Z');
+            expect(getYTDDaysElapsed(feb1)).toBe(31);
+        });
+
+        it('returns 365 on Dec 31 (non-leap year)', () => {
+            const dec31 = new Date('2026-12-31T00:00:00Z');
+            expect(getYTDDaysElapsed(dec31)).toBe(364);
+        });
+    });
+
+    describe('calcMilestone — predictions', () => {
+        it('high confidence with 7d + 30d data', () => {
+            const r = calcMilestone({
+                trackTotal: 950_000_000,
+                hist7Total:  945_000_000,  // +5M in 7d → 714K/day
+                hist30Total: 925_000_000,  // +25M in 30d → 833K/day
+                ytdBaseline: null, ytdDays: 0, dailyLive: 700_000
+            });
+            expect(r.confidence).toBe('high');
+            expect(r.target).toBe(1_000_000_000);
+            expect(r.remaining).toBe(50_000_000);
+            expect(r.daysLeft).toBeGreaterThan(50);
+            expect(r.daysLeft).toBeLessThan(80);
+        });
+
+        it('medium confidence with only 7d', () => {
+            const r = calcMilestone({
+                trackTotal: 700_000_000,
+                hist7Total:  693_000_000,
+                hist30Total: null,
+                ytdBaseline: null, ytdDays: 0, dailyLive: 1_000_000
+            });
+            expect(r.confidence).toBe('medium');
+            expect(r.projectedDaily).toBe(1_000_000);
+        });
+
+        it('low confidence falls back to live daily', () => {
+            const r = calcMilestone({
+                trackTotal: 500_000_000,
+                hist7Total: null, hist30Total: null,
+                ytdBaseline: null, ytdDays: 0, dailyLive: 250_000
+            });
+            expect(r.confidence).toBe('low');
+            expect(r.projectedDaily).toBe(250_000);
+        });
+
+        it('next milestone for 950M is 1B', () => {
+            const r = calcMilestone({ trackTotal: 950_000_000, hist7Total: null, hist30Total: null, ytdBaseline: null, ytdDays: 0, dailyLive: 100_000 });
+            expect(r.target).toBe(1_000_000_000);
+        });
+
+        it('next milestone for 1.4B is 2B', () => {
+            const r = calcMilestone({ trackTotal: 1_400_000_000, hist7Total: null, hist30Total: null, ytdBaseline: null, ytdDays: 0, dailyLive: 100_000 });
+            expect(r.target).toBe(2_000_000_000);
+        });
+
+        it('next milestone for exactly 1B is 2B (not 1B)', () => {
+            const r = calcMilestone({ trackTotal: 1_000_000_000, hist7Total: null, hist30Total: null, ytdBaseline: null, ytdDays: 0, dailyLive: 100_000 });
+            expect(r.target).toBe(2_000_000_000);
+        });
+
+        it('daysLeft is null when projectedDaily is 0', () => {
+            const r = calcMilestone({ trackTotal: 800_000_000, hist7Total: null, hist30Total: null, ytdBaseline: null, ytdDays: 0, dailyLive: 0 });
+            expect(r.daysLeft).toBe(null);
+        });
+    });
+
+    describe('calcEOYProjection — year-end logic', () => {
+        it('high confidence: weighted blend of YTD + 30d + 7d', () => {
+            const r = calcEOYProjection({
+                careerTotal: 18_000_000_000,
+                ytdBaseline: 17_000_000_000,
+                ytdDays: 100,           // YTD avg = 10M/day
+                snap30:     17_700_000_000, // 30d avg = 10M/day
+                snap7:      17_930_000_000  // 7d avg ≈ 10M/day
+            });
+            expect(r.confidence).toBe('high');
+            expect(r.projectedDaily).toBeCloseTo(10_000_000, 100_000);
+        });
+
+        it('medium confidence with only YTD + 30d', () => {
+            const r = calcEOYProjection({
+                careerTotal: 18_000_000_000,
+                ytdBaseline: 17_000_000_000,
+                ytdDays: 100,
+                snap30: 17_700_000_000,
+                snap7: null
+            });
+            expect(r.confidence).toBe('medium');
+        });
+
+        it('low confidence with only YTD', () => {
+            const r = calcEOYProjection({
+                careerTotal: 18_000_000_000,
+                ytdBaseline: 17_000_000_000,
+                ytdDays: 100,
+                snap30: null, snap7: null
+            });
+            expect(r.confidence).toBe('low');
+            expect(r.projectedDaily).toBe(10_000_000);
+        });
+
+        it('handles zero YTD (no growth detected yet)', () => {
+            const r = calcEOYProjection({
+                careerTotal: 17_000_000_000,
+                ytdBaseline: 17_000_000_000,
+                ytdDays: 5,
+                snap30: null, snap7: null
+            });
+            expect(r.confidence).toBe('low');
+            expect(r.projectedDaily).toBe(0);
+        });
+
+        it('weights YTD higher than recent trends', () => {
+            // If 7d shows huge spike but YTD is steady, prediction should not overreact
+            const r = calcEOYProjection({
+                careerTotal: 18_000_000_000,
+                ytdBaseline: 17_000_000_000,
+                ytdDays: 100,           // YTD = 10M/day
+                snap30:     17_700_000_000, // 30d = 10M/day
+                snap7:      17_650_000_000  // 7d = 50M/day (huge spike!)
+            });
+            // 0.5*10M + 0.4*10M + 0.1*50M = 5M + 4M + 5M = 14M
+            expect(r.projectedDaily).toBeCloseTo(14_000_000, 100_000);
+            // Still below the 7d alone (which was 50M)
+            expect(r.projectedDaily).toBeLessThan(50_000_000);
+        });
+    });
+
+    describe('integration: realistic JT track scenario', () => {
+        it('Mirrors at 1.5B: should predict 2B milestone', () => {
+            const r = calcMilestone({
+                trackTotal: 1_500_000_000,
+                hist7Total:  1_493_000_000,  // 1M/day
+                hist30Total: 1_472_000_000,  // 933K/day
+                ytdBaseline: 1_350_000_000,
+                ytdDays: 200,
+                dailyLive: 1_000_000
+            });
+            expect(r.target).toBe(2_000_000_000);
+            expect(r.remaining).toBe(500_000_000);
+            expect(r.confidence).toBe('high');
+            // Should take roughly 500K days at ~1M/day
+            expect(r.daysLeft).toBeGreaterThan(400);
+            expect(r.daysLeft).toBeLessThan(700);
+        });
+
+        it('Cry Me a River certification: should be quantized to nearest M', () => {
+            // Roughly 700M global, 27% US share, ~189M US streams / 150 = 1.26M units + pure sales
+            const streamsEquivalent = Math.floor(189_000_000 / 150); // 1,260,000
+            const pureSales = 1_500_000;
+            const total = streamsEquivalent + pureSales; // 2,760,000
+            expect(quantizeRIAAUnits(total)).toBe(2_000_000); // 2x Platinum
+        });
+    });
+
+    // ═══════════════════════════════════════════════════════════
+    //  RUNNER
+    // ═══════════════════════════════════════════════════════════
+    function render() {
+        const t0 = performance.now();
+        const resultsEl = document.getElementById('results');
+        let totalTests = 0, totalPass = 0, totalFail = 0;
+
+        groups.forEach(group => {
+            const passCount = group.tests.filter(t => t.status === 'pass').length;
+            const failCount = group.tests.length - passCount;
+            totalTests += group.tests.length;
+            totalPass += passCount;
+            totalFail += failCount;
+
+            const groupEl = document.createElement('div');
+            groupEl.className = 'group';
+            groupEl.innerHTML = `
+                <div class="group-header">
+                    <span>${group.name}</span>
+                    <span class="group-stats">${passCount}/${group.tests.length} passing${failCount ? ` · ${failCount} failed` : ''}</span>
+                </div>
+            `;
+            group.tests.forEach(t => {
+                const testEl = document.createElement('div');
+                testEl.className = 'test';
+                testEl.dataset.status = t.status;
+                testEl.innerHTML = `
+                    <span class="badge ${t.status}">${t.status}</span>
+                    <span class="test-name">${t.name}</span>
+                `;
+                groupEl.appendChild(testEl);
+                if (t.error) {
+                    const detail = document.createElement('div');
+                    detail.className = 'test-detail';
+                    detail.dataset.status = 'fail';
+                    detail.textContent = t.error;
+                    groupEl.appendChild(detail);
+                }
+            });
+            resultsEl.appendChild(groupEl);
+        });
+
+        document.getElementById('sum-total').textContent = totalTests;
+        document.getElementById('sum-pass').textContent = totalPass;
+        document.getElementById('sum-fail').textContent = totalFail;
+        const elapsed = (performance.now() - t0).toFixed(1);
+        document.getElementById('sum-time').textContent = elapsed + 'ms';
+
+        // Filter buttons
+        document.querySelectorAll('.filter button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const f = btn.dataset.filter;
+                document.querySelectorAll('.test').forEach(el => {
+                    el.style.display = (f === 'all' || el.dataset.status === f) ? '' : 'none';
+                });
+                document.querySelectorAll('.test-detail').forEach(el => {
+                    el.style.display = (f === 'pass') ? 'none' : '';
+                });
+            });
+        });
+    }
+
+    render();
+    </script>
+</body>
+</html>
