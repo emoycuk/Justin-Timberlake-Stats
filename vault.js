@@ -151,8 +151,24 @@ async function fetchRealYouTubeViews(ids) {
     try {
         const res = await fetch(url);
         const data = await res.json();
-        return data.items.reduce((sum, item) => sum + parseInt(item.statistics.viewCount), 0);
-    } catch (e) { return 0; }
+        if (data.error) {
+            console.warn('[YouTube API error]', data.error.code, data.error.message, 'ids:', ids);
+            return 0;
+        }
+        if (!data.items || data.items.length === 0) {
+            console.warn('[YouTube API] no items returned for ids:', ids);
+            return 0;
+        }
+        if (data.items.length < ids.length) {
+            const returned = new Set(data.items.map(i => i.id));
+            const missing = ids.filter(id => !returned.has(id));
+            console.warn('[YouTube API] missing/private video IDs:', missing);
+        }
+        return data.items.reduce((sum, item) => sum + parseInt(item.statistics.viewCount || 0), 0);
+    } catch (e) {
+        console.warn('[YouTube API] fetch failed:', e.message, 'ids:', ids);
+        return 0;
+    }
 }
 
 // ── 3. CALCULATION ENGINE ──

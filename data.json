@@ -12,7 +12,7 @@
       "streams": {
           "spotify": 0,
           "youtube": 1068000000,
-          "youtubeVideoIds": ["DksSPZTZES0", "FQ3slUz7Jo8", "TSVHoHyErBQ", "nJHYDkvRB2Y"]
+          "youtubeVideoIds": ["FQ3slUz7Jo8", "TSVHoHyErBQ", "nJHYDkvRB2Y"]
       }
     },
     "FutureSex/LoveSounds": {
@@ -23,7 +23,7 @@
       "streams": {
           "spotify": 0,
           "youtube": 1050000000,
-          "youtubeVideoIds": ["3gOHvDP_vCs", "TOrnUquxtwA", "QUuKvHHt8Sk", "I34ZLZOyN68", "zMaNfqfsMtE"]
+          "youtubeVideoIds": ["QUuKvHHt8Sk", "xjpe7EGyiw8", "zMaNfqfsMtE"]
       }
     },
     "The 20/20 Experience": {
@@ -34,7 +34,18 @@
       "streams": {
           "spotify": 0,
           "youtube": 1930000000,
-          "youtubeVideoIds": ["IsUsVbTj2AY", "07FYdnEawAQ", "DEzREJbln-o"]
+          "youtubeVideoIds": ["07FYdnEawAQ"]
+      }
+    },
+    "The 20/20 Experience – 2 of 2": {
+      "year": 2013,
+      "pureSales": 1912000,
+      "physicalSinglesEAS": 100,
+      "digitalSinglesEAS": 800000,
+      "streams": {
+          "spotify": 0,
+          "youtube": 190000000,
+          "youtubeVideoIds": ["FyXtoTLLcDk", "DEzREJbln-o", "Vjty080jy60"]
       }
     },
     "Man of the Woods": {
@@ -45,7 +56,7 @@
       "streams": {
           "spotify": 0,
           "youtube": 604000000,
-          "youtubeVideoIds": ["8MPbR6Cbwi4", "gA-NDZb29I4", "baj6llvgpWA", "M4vnmgZLA8s"]
+          "youtubeVideoIds": ["baj6llvgpWA", "M4vnmgZLA8s"]
       }
     },
 
