@@ -318,8 +318,9 @@ function computeAllData() {
         // Use higher of live eligibility or official certification for USA
         const officialUSA = parseCertString((a.official_certifications || {})['USA'], 'USA', 'album', a.id);
         const usaMax = Math.max(rawUsLive, officialUSA);
-        const usaFinal = quantizeRIAAUnits(usaMax);
-        
+        const usaFinal = usaMax; // raw units for totals
+        const usaCertLevel = quantizeRIAAUnits(usaMax); // quantized only for badge label
+
         cMap['USA'] = usaFinal;
         certTotal += usaFinal;
 
@@ -346,7 +347,7 @@ function computeAllData() {
         certTotal += otherVal;
         officialSum += otherVal;
 
-        return { ...a, usLive: usaFinal, global: usaFinal + officialSum, certTotal, cMap };
+        return { ...a, usLive: usaFinal, usLiveCertLevel: usaCertLevel, global: usaFinal + officialSum, certTotal, cMap };
     }).filter(a => a.global > 0 && a.id !== "Orphan");
 
     // Songs
@@ -360,8 +361,9 @@ function computeAllData() {
 
         const officialUSA = parseCertString((s.official_certifications || {})['USA'], 'USA', 'song', s.id);
         const usaMax = Math.max(rawUsLive, officialUSA);
-        const usaFinal = quantizeRIAAUnits(usaMax);
-        
+        const usaFinal = usaMax; // raw units for totals
+        const usaCertLevel = quantizeRIAAUnits(usaMax); // quantized only for badge label
+
         cMap['USA'] = usaFinal;
         certTotal += usaFinal;
 
@@ -386,7 +388,7 @@ function computeAllData() {
         certTotal += otherVal;
         officialSum += otherVal;
 
-        return { ...s, usLive: usaFinal, global: usaFinal + officialSum, certTotal, cMap };
+        return { ...s, usLive: usaFinal, usLiveCertLevel: usaCertLevel, global: usaFinal + officialSum, certTotal, cMap };
     }).filter(s => s.global > 0);
 }
 
@@ -463,7 +465,7 @@ function renderTables() {
     albumTbody.innerHTML = '';
     computedData.albums.forEach(a => {
         grandTotal += a.global;
-        let usLiveObj = getRiaalEligibility(a.usLive);
+        let usLiveObj = getRiaalEligibility(a.usLiveCertLevel);
         let cover = ALBUM_COVERS[a.id];
         let thumb = cover ? `<img src="${cover}" class="w-10 h-10 object-cover rounded shadow-md mr-4 shrink-0 border border-white/10">` 
                           : `<div class="w-10 h-10 rounded shadow-md mr-4 shrink-0" style="background:repeating-radial-gradient(#050505 0,#050505 2px,#111 3px,#111 4px);"></div>`;
