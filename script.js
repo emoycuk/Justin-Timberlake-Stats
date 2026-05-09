@@ -25,20 +25,25 @@ function getTodayUTC() {
 }
 
 // Kworb'da JT credit'i kalkan track'leri Firestore bugün snapshot'ından merge et.
-// Bu track'ler kworb'un JT sayfasında görünmediği için smartParseKworb onları atlar.
-// Dikkat: "4 Minutes" (kworb'da hâlâ var, ~480M) ile feat versiyonu (removed, ~96M)
-// karışmasın — sadece "4 minutes" + "justin timberlake" içerenleri al.
+// JT'nin kworb sayfasında sadece "&" versiyonları var (504M + 0.7M Bob Sinclar);
+// Madonna sayfasında "and" yazılan 4 versiyon JT total'ında YOK, onları ekleyeceğiz:
+//   "4 Minutes (feat. Justin Timberlake and Timbaland)"          ~98M
+//   "...and Timbaland) - Live"                                    ~1.9M
+//   "...and Timbaland) - Peter Saves New York Edit"               ~1.5M
+//   "...and Timbaland) - Junkie XL Remix Edit"                    ~1.0M
+// "&" versiyonlarını filtre dışı bırakıyoruz (zaten JT total'ında).
 function isExtraTrackTitle(title) {
     const lc = title.toLowerCase();
-    return lc.includes('4 minutes') && lc.includes('justin timberlake');
+    return lc.includes('4 minutes') &&
+           lc.includes('justin timberlake') &&
+           lc.includes('and timbaland'); // "&" versiyonu "& Timbaland" içerir, eşleşmez
 }
 
-// Fallback: Madonna'nın kworb sayfası başlık formatı değişip daily-snapshot.js
-// bu track'i bulamayabilir. Son bilinen baseline + tahmini günlük büyüme.
+// Fallback: Firestore'da bulamazsa son bilinen baseline + tahmini günlük büyüme.
 const FALLBACK_4MIN = {
     baselineDate: '2026-04-23',
-    baselineTotal: 95_658_988,
-    dailyGrowth: 170_580
+    baselineTotal: 102_400_000, // 4 versiyon toplamı (97.9M + 1.9M + 1.5M + 1.0M)
+    dailyGrowth: 175_000
 };
 
 function getEstimated4MinTotal() {
@@ -51,29 +56,35 @@ function getEstimated4MinTotal() {
 async function mergeExtraTracks(liveStats) {
     const ok = await waitForFirestore(3000);
     let total = 0;
+    let matchCount = 0;
 
     if (ok && typeof window.getHistoricalSnapshot === 'function') {
-        // Bugün, dün, ... 30 güne kadar geri git
         for (let daysBack = 0; daysBack < 30; daysBack++) {
             const d = new Date();
             d.setUTCDate(d.getUTCDate() - daysBack);
             const dateStr = d.toISOString().split('T')[0];
             const snap = await window.getHistoricalSnapshot(dateStr);
             if (!snap || !snap.tracks) continue;
+            let snapTotal = 0, snapCount = 0;
             for (const [title, vals] of Object.entries(snap.tracks)) {
                 if (!isExtraTrackTitle(title)) continue;
-                total = Number(vals.total) || 0;
+                snapTotal += Number(vals.total) || 0;
+                snapCount++;
+            }
+            if (snapTotal > 0) {
+                total = snapTotal;
+                matchCount = snapCount;
                 break;
             }
-            if (total > 0) break;
         }
     }
 
-    // Firestore'dan değer bulunamadıysa hardcoded estimate kullan
+    const fromFirestore = total > 0;
     if (total <= 0) total = getEstimated4MinTotal();
 
     liveStats.TotalSpotify += total;
     liveStats['Orphan'] += total;
+    console.log(`[mergeExtraTracks] +${total.toLocaleString('en-US')} (${fromFirestore ? `firestore: ${matchCount} tracks` : 'fallback'}) → TotalSpotify: ${liveStats.TotalSpotify.toLocaleString('en-US')}`);
 }
 
 // --- 3. AKILLI PARSER ---

@@ -160,11 +160,14 @@ function analyzeKworbData(htmlInput) {
 // ── JT credit'i kalkan ama takip edilmesi gereken şarkılar ────────
 // Kworb'dan JT featured credit'i kaldırıldığında bu listeden çekilir.
 // { title: Kworb'daki tam başlık, sourceUrl: hangi sayfadan çekilecek }
+// JT'nin kworb sayfasında sadece "&" versiyonları var; bunlar zaten total'da.
+// Madonna sayfasındaki "and" yazılan 4 versiyon JT total'ında YOK, onları ekliyoruz.
+const MADONNA_SOURCE = 'https://kworb.net/spotify/artist/6tbjWDEIzxoDsBA1FuhfPW_songs.html';
 const EXTRA_TRACKS = [
-    {
-        title: '4 Minutes (feat. Justin Timberlake and Timbaland)',
-        sourceUrl: 'https://kworb.net/spotify/artist/6tbjWDEIzxoDsBA1FuhfPW_songs.html'
-    }
+    { title: '4 Minutes (feat. Justin Timberlake and Timbaland)',                                  sourceUrl: MADONNA_SOURCE },
+    { title: '4 Minutes (feat. Justin Timberlake and Timbaland) - Live',                           sourceUrl: MADONNA_SOURCE },
+    { title: '4 Minutes (feat. Justin Timberlake and Timbaland) - Peter Saves New York Edit',      sourceUrl: MADONNA_SOURCE },
+    { title: '4 Minutes (feat. Justin Timberlake and Timbaland) - Junkie XL Remix Edit',           sourceUrl: MADONNA_SOURCE }
 ];
 
 // ── UTC Tarih String Üretici ────────────────────────────────────
