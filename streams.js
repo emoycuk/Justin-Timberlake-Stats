@@ -102,7 +102,11 @@ function getYTDDaysElapsed() {
     return Math.max(1, Math.round((now - start) / (1000 * 60 * 60 * 24)));
 }
 
+// Sadece monthly listeners icin kompakt format ("53.8M" gibi)
 function formatCompact(n) {
+    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+    if (n >= 1_000_000)     return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (n >= 1_000)         return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
     return Number(n || 0).toLocaleString('en-US');
 }
 

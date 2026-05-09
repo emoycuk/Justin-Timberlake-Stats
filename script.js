@@ -169,11 +169,48 @@ function applyKworbStats(liveStats) {
     }
 }
 
+// vault.json'daki song-level YT ID'lerini album bazli birlestir.
+// Diger chat flagship videolari (Mirrors, Cry Me a River, SexyBack vs.)
+// vault.json'a tasidi; data.json album-level listeleri eksik kaliyor.
+let _vaultYtCache = null;
+async function loadVaultSongYtIds() {
+    if (_vaultYtCache) return _vaultYtCache;
+    try {
+        const res = await fetch('data/vault.json');
+        const v = await res.json();
+        const map = {};  // albumName -> Set<videoId>
+        for (const s of (v.songs || [])) {
+            const ids = (s.streams && s.streams.youtubeVideoIds) || s.youtubeVideoIds;
+            if (!ids || !ids.length) continue;
+            let alb = s.album_id || 'Orphan';
+            if (alb === 'The 20/20 Experience – 2 of 2') alb = 'The 20/20 Experience';
+            if (!map[alb]) map[alb] = new Set();
+            for (const id of ids) map[alb].add(id);
+        }
+        _vaultYtCache = map;
+        return map;
+    } catch (e) {
+        console.warn('vault.json YT id load failed:', e);
+        _vaultYtCache = {};
+        return _vaultYtCache;
+    }
+}
+
+function getCombinedYtIds(albumName, albumData) {
+    const albumIds = (albumData.streams && albumData.streams.youtubeVideoIds) || [];
+    const vaultIds = (_vaultYtCache && _vaultYtCache[albumName]) || new Set();
+    const combined = new Set(albumIds);
+    vaultIds.forEach(id => combined.add(id));
+    return Array.from(combined);
+}
+
 async function fetchAllData() {
     try {
         // data.json'u her zaman çek (local, hızlı)
         const dataRes = await fetch('data.json');
         jtData = await dataRes.json();
+        // Vault song-level YT IDs'lerini de yükle (paralel olabilir ama kucuk dosya)
+        await loadVaultSongYtIds();
 
         // Cache kontrol: 1 saatten tazeyse hemen göster
         let cachedKworb = null;
@@ -224,11 +261,12 @@ async function fetchAllData() {
         // Arka planda YouTube'u çek, gelince EAS'ı güncelle
         // mergedStats kullan — localStorage'daki değil, 96M extra track'i içeren doğru stats
         if (YOUTUBE_API_KEY) {
-            Promise.all(Object.keys(jtData.albums).map(async id => {
-                const ids = jtData.albums[id].streams.youtubeVideoIds;
-                if (ids && ids.length > 0) {
+            Promise.all(Object.keys(jtData.albums).map(async albumName => {
+                const ids = getCombinedYtIds(albumName, jtData.albums[albumName]);
+                if (ids.length > 0) {
                     const live = await fetchRealYouTubeViews(ids);
-                    if (live > 0) jtData.albums[id].streams.youtube = live;
+                    if (live > 0) jtData.albums[albumName].streams.youtube = live;
+                    console.log(`[YT] ${albumName}: ${ids.length} videos → ${live.toLocaleString('en-US')} views`);
                 }
             })).then(() => {
                 if (mergedStats) updateCareerOverview(mergedStats);
@@ -333,9 +371,10 @@ async function playAlbum(albumName) {
     const albumData = jtData.albums[albumName];
     if (!albumData) return;
 
-    // YouTube Güncelleme (Video ID varsa)
-    if (albumData.streams.youtubeVideoIds) {
-        albumData.streams.youtube = await fetchRealYouTubeViews(albumData.streams.youtubeVideoIds);
+    // YouTube Güncelleme (data.json + vault.json song-level birlesik)
+    const ytIds = getCombinedYtIds(albumName, albumData);
+    if (ytIds.length > 0) {
+        albumData.streams.youtube = await fetchRealYouTubeViews(ytIds);
     }
 
     const stats = calculateRealCSPC(albumData);
