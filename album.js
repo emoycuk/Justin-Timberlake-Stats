@@ -101,13 +101,27 @@ function getAlbumTracks(allTracks, albumId) {
     return result.sort((a, b) => b.total - a.total);
 }
 
-// ── Number formatter ─────────────────────────────────────────
+// ── Number formatter — yuvarlama yok, tam sayi ─────────────────
 function fmt(n) {
     if (!n || isNaN(n)) return '—';
-    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'B';
-    if (n >= 1_000_000)     return (n / 1_000_000).toFixed(2) + 'M';
-    if (n >= 1_000)         return Math.round(n / 1_000) + 'K';
-    return n.toLocaleString('en-US');
+    return Number(n).toLocaleString('en-US');
+}
+
+// vault.json'dan ilgili albüme ait song-level YT ID'lerini topla
+async function getCombinedYtIds(albumId, albumData) {
+    const albumIds = albumData?.streams?.youtubeVideoIds || [];
+    const combined = new Set(albumIds);
+    try {
+        const v = await (await fetch('data/vault.json')).json();
+        for (const s of (v.songs || [])) {
+            const ids = (s.streams && s.streams.youtubeVideoIds) || s.youtubeVideoIds;
+            if (!ids || !ids.length) continue;
+            let alb = s.album_id || 'Orphan';
+            if (alb === 'The 20/20 Experience – 2 of 2') alb = 'The 20/20 Experience';
+            if (alb === albumId) ids.forEach(id => combined.add(id));
+        }
+    } catch (e) { console.warn('vault yt id load failed', e); }
+    return Array.from(combined);
 }
 
 // ── Render ────────────────────────────────────────────────────
@@ -158,12 +172,11 @@ function render(albumId, albumData, tracks) {
         </div>
     `).join('');
 
-    // Tracks
+    // Tracks — kworb-style basit tablo, bar yok, tam sayilar
     const tbody = document.getElementById('track-tbody');
     if (tracks.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="color:rgba(255,255,255,0.3);padding:40px;text-align:center;">No track data available</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="color:rgba(255,255,255,0.3);padding:40px;text-align:center;">No track data available</td></tr>`;
     } else {
-        const maxTotal = tracks[0].total;
         tbody.innerHTML = tracks.map((t, i) => {
             let displayTitle = t.title;
             if (displayTitle.toUpperCase().includes("CAN'T STOP THE FEELING!") && !displayTitle.toUpperCase().includes("FILM VERSION")) {
@@ -172,14 +185,9 @@ function render(albumId, albumData, tracks) {
             return `
             <tr>
                 <td class="track-rank">${i + 1}</td>
-                <td class="track-name">${displayTitle}</td>
+                <td class="track-name" title="${displayTitle.replace(/"/g, '&quot;')}">${displayTitle}</td>
                 <td class="track-total">${fmt(t.total)}</td>
                 <td class="track-daily">${t.daily > 0 ? '+' + t.daily.toLocaleString('en-US') : '—'}</td>
-                <td class="track-bar-cell">
-                    <div class="track-bar-bg">
-                        <div class="track-bar-fill" style="width:${Math.round((t.total / maxTotal) * 100)}%"></div>
-                    </div>
-                </td>
             </tr>
             `;
         }).join('');
@@ -220,11 +228,14 @@ async function init() {
             tracks     = getAlbumTracks(all, albumId);
         }
 
-        // Live YouTube — index.html ile aynı değeri kullan
-        const ytIds = albumData.streams?.youtubeVideoIds;
-        if (ytIds && ytIds.length > 0) {
+        // Live YouTube — data.json album-level + vault.json song-level birlestirilmis
+        const ytIds = await getCombinedYtIds(albumId, albumData);
+        if (ytIds.length > 0) {
             const liveYT = await fetchYouTubeViews(ytIds);
-            if (liveYT > 0) albumData.streams.youtube = liveYT;
+            if (liveYT > 0) {
+                if (!albumData.streams) albumData.streams = {};
+                albumData.streams.youtube = liveYT;
+            }
         }
 
         render(albumId, albumData, tracks);

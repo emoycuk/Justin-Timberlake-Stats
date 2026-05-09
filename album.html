@@ -132,7 +132,7 @@
             href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap"
             rel="stylesheet">
     </noscript>
-    <link rel="stylesheet" href="style.css?v=1778290739">
+    <link rel="stylesheet" href="style.css?v=1778290936">
     <style>
         * {
             box-sizing: border-box;
@@ -276,46 +276,51 @@
             color: #fff;
         }
 
-        /* TRACK TABLE */
+        /* TRACK TABLE — kworb-style minimal */
         .track-table {
             width: 100%;
             border-collapse: collapse;
             font-family: 'Space Grotesk', sans-serif;
+            font-variant-numeric: tabular-nums;
         }
 
         .track-table th {
             text-align: left;
-            padding: 10px 12px;
-            font-size: 0.65rem;
+            padding: 8px 10px;
+            font-size: 0.62rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255, 255, 255, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0,0,0,0.3);
         }
+        .track-table th:last-child { border-right: none; }
 
         .track-table td {
-            padding: 13px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 0.88rem;
+            padding: 7px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.78rem;
         }
+        .track-table td:last-child { border-right: none; }
 
-        .track-table tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
-        }
+        .track-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.012); }
+        .track-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
 
         .track-rank {
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.3);
             font-weight: 700;
-            min-width: 36px;
-            width: 36px;
+            min-width: 32px;
+            width: 32px;
             white-space: nowrap;
             text-align: center;
         }
 
         .track-name {
-            color: #fff;
+            color: rgba(255,255,255,0.88);
             font-weight: 500;
-            max-width: 300px;
+            max-width: 320px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -325,30 +330,14 @@
             color: var(--era-color, #d4a853);
             font-weight: 700;
             white-space: nowrap;
+            text-align: right;
         }
 
         .track-daily {
             color: #4ade80;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             white-space: nowrap;
-        }
-
-        .track-bar-cell {
-            width: 160px;
-        }
-
-        .track-bar-bg {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            height: 4px;
-            width: 100%;
-        }
-
-        .track-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            background: var(--era-color, #d4a853);
-            transition: width 0.6s ease;
+            text-align: right;
         }
 
         /* LOADING */
@@ -362,81 +351,16 @@
         @media (max-width: 768px) {
             #hero-title { font-size: 2rem; }
             #hero-cover { width: 100px; height: 100px; }
-            .track-bar-cell { display: none; }
-            .track-table td, .track-table th { padding: 10px 8px; font-size: 0.78rem; }
-            .track-name { max-width: 180px; }
+            .track-table td, .track-table th { padding: 6px 8px; font-size: 0.7rem; }
+            .track-name { max-width: 160px; }
         }
 
-        /* ── MOBİL KART DÜZENİ ── */
         @media (max-width: 540px) {
             #hero-title { font-size: 1.6rem; }
             #hero-cover { width: 80px; height: 80px; }
-
-            /* Tablo → kart listesi */
-            .track-table, .track-table tbody { display: block; width: 100%; }
-            .track-table thead { display: none; }
-
-            .track-table tbody tr {
-                display: grid;
-                grid-template-columns: 28px 1fr auto;
-                grid-template-rows: auto auto;
-                column-gap: 10px;
-                row-gap: 3px;
-                padding: 12px 4px;
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-            }
-
-            .track-table tbody tr:hover td { background: transparent; }
-
-            /* # numarası — 2 satırı kapsıyor */
-            .track-table .track-rank {
-                grid-column: 1;
-                grid-row: 1 / 3;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: auto;
-                min-width: 0;
-                padding: 0;
-                font-size: 0.72rem;
-            }
-
-            /* Şarkı adı — tam görünsün, wrap yapsın */
-            .track-table .track-name {
-                grid-column: 2;
-                grid-row: 1;
-                white-space: normal;
-                overflow: visible;
-                text-overflow: clip;
-                max-width: none;
-                font-size: 0.85rem;
-                line-height: 1.3;
-                padding: 0;
-            }
-
-            /* Total streams — sağ üst */
-            .track-table .track-total {
-                grid-column: 3;
-                grid-row: 1;
-                font-size: 0.82rem;
-                padding: 0;
-                white-space: nowrap;
-                align-self: center;
-            }
-
-            /* Daily — ikinci satır, isim + total altında */
-            .track-table .track-daily {
-                grid-column: 2 / 4;
-                grid-row: 2;
-                font-size: 0.7rem;
-                padding: 0;
-                color: rgba(74,222,128,0.7);
-            }
-
-            /* Bar gizle */
-            .track-table .track-bar-cell { display: none !important; }
-
-            /* Stats kartları 2 sütun */
+            .track-table td, .track-table th { padding: 5px 6px; font-size: 0.62rem; }
+            .track-rank { min-width: 22px; width: 22px; }
+            .track-name { max-width: 110px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
@@ -483,15 +407,14 @@
             <!-- TRACKS -->
             <div>
                 <div class="section-title">Track Performance</div>
-                <div style="overflow-x:auto;">
+                <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
                     <table class="track-table">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Track</th>
-                                <th>Total Streams</th>
-                                <th>Daily</th>
-                                <th class="track-bar-cell"></th>
+                                <th style="text-align:right;">Total Streams</th>
+                                <th style="text-align:right;">Daily</th>
                             </tr>
                         </thead>
                         <tbody id="track-tbody"></tbody>
@@ -504,9 +427,9 @@
         </div>
     </div>
 
-    <script src="config.js?v=1778290739" defer></script>
-    <script src="song-map.js?v=1778290739" defer></script>
-    <script src="album.js?v=1778290739" defer></script>
+    <script src="config.js?v=1778290936" defer></script>
+    <script src="song-map.js?v=1778290936" defer></script>
+    <script src="album.js?v=1778290936" defer></script>
 
 <footer style="border-top:1px solid rgba(255,255,255,0.06);padding:32px 5%;text-align:center;color:rgba(255,255,255,0.25);font-size:0.78rem;letter-spacing:0.05em;">
     <div style="margin-bottom:12px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
