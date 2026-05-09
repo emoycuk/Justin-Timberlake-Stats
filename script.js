@@ -43,7 +43,7 @@ function isExtraTrackTitle(title) {
 const FALLBACK_4MIN = {
     baselineDate: '2026-04-23',
     baselineTotal: 102_400_000, // 4 versiyon toplamı (97.9M + 1.9M + 1.5M + 1.0M)
-    dailyGrowth: 175_000
+    dailyGrowth: 120_000
 };
 
 function getEstimated4MinTotal() {

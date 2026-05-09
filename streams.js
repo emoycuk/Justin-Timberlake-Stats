@@ -761,7 +761,7 @@ async function initStreamsDashboard() {
         if (extraTrackTotal === 0) {
             const baselineDate = '2026-04-23';
             const baselineTotal = 102_400_000;  // 97.9M + 1.9M + 1.5M + 1.0M
-            const dailyGrowth = 175_000;
+            const dailyGrowth = 120_000;
             const days = Math.max(0, Math.round(
                 (Date.now() - new Date(baselineDate + 'T00:00:00Z').getTime()) / 86400000
             ));
