@@ -258,7 +258,7 @@ window.resetToCareer = function () {
     const bestEraNameEl = document.getElementById('best-era-name');
     const bestEraValEl = document.getElementById('best-era-val');
     if (bestEraNameEl) bestEraNameEl.textContent = s.bestEra.name;
-    if (bestEraValEl) bestEraValEl.textContent = (s.bestEra.eas / 1_000_000).toFixed(2) + 'M EAS';
+    if (bestEraValEl) bestEraValEl.textContent = s.bestEra.eas.toLocaleString('en-US') + ' EAS';
     const btn = document.getElementById('deep-analytics-btn');
     if (btn) btn.href = 'streams.html';
 };
@@ -387,11 +387,7 @@ function animateValue(obj, start, end, duration) {
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         const current = Math.floor(progress * (end - start) + start);
 
-        if (end >= 1000000000 && obj.id === 'spotify-total') {
-            obj.innerHTML = (current / 1000000000).toFixed(2) + 'B';
-        } else {
-            obj.innerHTML = current.toLocaleString('en-US');
-        }
+        obj.innerHTML = current.toLocaleString('en-US');
         if (progress < 1) window.requestAnimationFrame(step);
     };
     window.requestAnimationFrame(step);
@@ -450,11 +446,7 @@ function albumThumbHTML(name) {
 }
 
 function fmtNum(n) {
-    if (window.innerWidth >= 768) return n.toLocaleString('en-US');
-    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'B';
-    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
-    if (n >= 1_000) return Math.round(n / 1_000) + 'K';
-    return String(n);
+    return Number(n || 0).toLocaleString('en-US');
 }
 
 function renderEasTable() {

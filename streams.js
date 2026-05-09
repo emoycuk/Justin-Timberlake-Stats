@@ -92,11 +92,7 @@ function getTrackYTDBaseline(liveTitle) {
 }
 
 function fmtNum(n) {
-    if (window.innerWidth >= 768) return n.toLocaleString('en-US');
-    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'B';
-    if (n >= 1_000_000)     return (n / 1_000_000).toFixed(1) + 'M';
-    if (n >= 1_000)         return Math.round(n / 1_000) + 'K';
-    return String(n);
+    return Number(n || 0).toLocaleString('en-US');
 }
 function fmtDelta(n) { return '+' + fmtNum(n); }
 
@@ -107,10 +103,7 @@ function getYTDDaysElapsed() {
 }
 
 function formatCompact(n) {
-    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
-    if (n >= 1_000_000)     return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
-    if (n >= 1_000)         return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
-    return n.toString();
+    return Number(n || 0).toLocaleString('en-US');
 }
 
 function animateValue(obj, start, end, duration, prefix = "") {
