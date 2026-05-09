@@ -726,8 +726,9 @@ async function initStreamsDashboard() {
         // Kworb'da JT credit'i kalkan track'leri Firestore'dan merge et.
         // daily-snapshot.js Madonna gibi diger artist sayfalarindan cekip yaziyor;
         // canli parser (analyzeKworbData) JT'nin sayfasina bakiyor, onlari goremez.
+        const liveTitles = new Set(liveStats.tracks.map(t => t.title.toLowerCase()));
+        let extraTrackTotal = 0;
         if (snapToday && snapToday.tracks) {
-            const liveTitles = new Set(liveStats.tracks.map(t => t.title.toLowerCase()));
             for (const [title, vals] of Object.entries(snapToday.tracks)) {
                 if (liveTitles.has(title.toLowerCase())) continue;
                 const total = Number(vals.total) || 0;
@@ -735,6 +736,10 @@ async function initStreamsDashboard() {
                 liveStats.tracks.push({ title, total, daily });
                 liveStats.TotalSpotify += total;
                 liveStats.TotalDaily   += daily;
+                const lc = title.toLowerCase();
+                if (lc.includes('4 minutes') && lc.includes('and timbaland')) {
+                    extraTrackTotal += total;
+                }
                 let matched = false;
                 for (const key in songToAlbumMap) {
                     if (title.toLowerCase().includes(key.toLowerCase())) {
@@ -752,6 +757,28 @@ async function initStreamsDashboard() {
                     liveStats['Orphan'].daily += daily;
                 }
             }
+        }
+        // Fallback: Firestore'da "4 Minutes ... and Timbaland" varyantlari yoksa
+        // (daily-snapshot.js fail veya henuz yeni baslik formati ile yazilmadi)
+        // hardcoded estimate: 4 versiyon toplami baseline + tahmini günlük büyüme
+        if (extraTrackTotal === 0) {
+            const baselineDate = '2026-04-23';
+            const baselineTotal = 102_400_000;  // 97.9M + 1.9M + 1.5M + 1.0M
+            const dailyGrowth = 175_000;
+            const days = Math.max(0, Math.round(
+                (Date.now() - new Date(baselineDate + 'T00:00:00Z').getTime()) / 86400000
+            ));
+            const fbTotal = baselineTotal + days * dailyGrowth;
+            liveStats.tracks.push({
+                title: '4 Minutes (feat. Justin Timberlake and Timbaland)',
+                total: fbTotal,
+                daily: dailyGrowth
+            });
+            liveStats.TotalSpotify += fbTotal;
+            liveStats.TotalDaily   += dailyGrowth;
+            liveStats['Orphan'].total += fbTotal;
+            liveStats['Orphan'].daily += dailyGrowth;
+            console.log(`[streams.js fallback] +${fbTotal.toLocaleString('en-US')} for 4 Minutes (no Firestore data)`);
         }
 
         // TOP SECTION — animasyonu artik dogru deger ile baslat (extra track'ler merge edildi)
