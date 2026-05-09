@@ -33,28 +33,47 @@ function isExtraTrackTitle(title) {
     return lc.includes('4 minutes') && lc.includes('justin timberlake');
 }
 
+// Fallback: Madonna'nın kworb sayfası başlık formatı değişip daily-snapshot.js
+// bu track'i bulamayabilir. Son bilinen baseline + tahmini günlük büyüme.
+const FALLBACK_4MIN = {
+    baselineDate: '2026-04-23',
+    baselineTotal: 95_658_988,
+    dailyGrowth: 170_580
+};
+
+function getEstimated4MinTotal() {
+    const days = Math.max(0, Math.round(
+        (Date.now() - new Date(FALLBACK_4MIN.baselineDate + 'T00:00:00Z').getTime()) / 86400000
+    ));
+    return FALLBACK_4MIN.baselineTotal + days * FALLBACK_4MIN.dailyGrowth;
+}
+
 async function mergeExtraTracks(liveStats) {
     const ok = await waitForFirestore(3000);
-    if (!ok || typeof window.getHistoricalSnapshot !== 'function') return;
-    // Today's snapshot yoksa dün ki, ondan da yoksa daha eskisine kadar geri git (max 7 gün)
-    let snap = null;
-    for (let daysBack = 0; daysBack < 7; daysBack++) {
-        const d = new Date();
-        d.setUTCDate(d.getUTCDate() - daysBack);
-        const dateStr = d.toISOString().split('T')[0];
-        const candidate = await window.getHistoricalSnapshot(dateStr);
-        if (candidate && candidate.tracks) {
-            snap = candidate;
-            break;
+    let total = 0;
+
+    if (ok && typeof window.getHistoricalSnapshot === 'function') {
+        // Bugün, dün, ... 30 güne kadar geri git
+        for (let daysBack = 0; daysBack < 30; daysBack++) {
+            const d = new Date();
+            d.setUTCDate(d.getUTCDate() - daysBack);
+            const dateStr = d.toISOString().split('T')[0];
+            const snap = await window.getHistoricalSnapshot(dateStr);
+            if (!snap || !snap.tracks) continue;
+            for (const [title, vals] of Object.entries(snap.tracks)) {
+                if (!isExtraTrackTitle(title)) continue;
+                total = Number(vals.total) || 0;
+                break;
+            }
+            if (total > 0) break;
         }
     }
-    if (!snap || !snap.tracks) return;
-    for (const [title, vals] of Object.entries(snap.tracks)) {
-        if (!isExtraTrackTitle(title)) continue;
-        const total = Number(vals.total) || 0;
-        liveStats.TotalSpotify += total;
-        liveStats['Orphan'] += total;
-    }
+
+    // Firestore'dan değer bulunamadıysa hardcoded estimate kullan
+    if (total <= 0) total = getEstimated4MinTotal();
+
+    liveStats.TotalSpotify += total;
+    liveStats['Orphan'] += total;
 }
 
 // --- 3. AKILLI PARSER ---
