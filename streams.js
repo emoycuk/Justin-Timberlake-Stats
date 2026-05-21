@@ -1096,135 +1096,29 @@ window.tweetStats = function() {
 
 async function loadSpotifyArtistData() {
     const monthlyEl   = document.getElementById('jt-spotify-monthly');
-    const followersEl = document.getElementById('jt-spotify-followers');
-    const popularityEl= document.getElementById('jt-spotify-popularity');
     const statusEl    = document.getElementById('jt-spotify-status');
 
     if (typeof SpotifyAPI === 'undefined') return;
 
     try {
         const artist = await SpotifyAPI.getArtist();
+        const monthly = artist.monthly_listeners;
 
-        const monthly    = artist.monthly_listeners;
-        const followers  = artist.followers?.total ?? 0;
-        const popularity = artist.popularity ?? 0;
-
-        if (monthly && monthlyEl)   monthlyEl.textContent = formatCompact(monthly);
-        else if (monthlyEl)         monthlyEl.textContent = '—';
-
-        if (followersEl)  followersEl.textContent = followers.toLocaleString('en-US');
-        if (popularityEl) popularityEl.textContent = popularity;
-        if (statusEl)     statusEl.textContent = '● Live';
+        if (monthly && monthlyEl) {
+            monthlyEl.textContent = formatCompact(monthly);
+            if (statusEl) statusEl.textContent = '● Live';
+        } else {
+            if (monthlyEl) monthlyEl.textContent = '—';
+            if (statusEl)  statusEl.textContent = 'unavailable';
+        }
     } catch (e) {
         console.warn('Spotify artist fetch failed:', e.message);
-        const monthlyEl = document.getElementById('jt-spotify-monthly');
         if (monthlyEl) monthlyEl.textContent = '—';
         if (statusEl)  statusEl.textContent = 'unavailable';
-    }
-}
-
-// ── Country Top Tracks ────────────────────────────────────────
-const _countryCache = {};
-let   _activeMarket = 'US';
-
-async function loadCountryTracks(market) {
-    market = market.toUpperCase().slice(0, 2);
-    if (!/^[A-Z]{2}$/.test(market)) return;
-    _activeMarket = market;
-
-    // Update tab highlights
-    document.querySelectorAll('.ctry-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.market === market);
-    });
-
-    const container = document.getElementById('country-tracks-body');
-    if (!container) return;
-
-    // Show cached instantly if available
-    if (_countryCache[market]) {
-        renderCountryTracks(_countryCache[market], container);
-        return;
-    }
-
-    container.innerHTML = '<div style="text-align:center;color:#333;padding:28px;font-size:0.82rem;">Loading ' + market + '...</div>';
-
-    try {
-        const data   = await SpotifyAPI.getTopTracks(market);
-        const tracks = data.tracks ?? [];
-        // Sort by popularity descending
-        tracks.sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0));
-        _countryCache[market] = tracks;
-        if (_activeMarket === market) renderCountryTracks(tracks, container);
-    } catch (e) {
-        if (_activeMarket === market) {
-            container.innerHTML = '<div style="text-align:center;color:#555;padding:28px;font-size:0.82rem;">Failed to load ' + market + ' data.</div>';
-        }
-    }
-}
-
-function renderCountryTracks(tracks, container) {
-    if (!tracks.length) {
-        container.innerHTML = '<div style="text-align:center;color:#555;padding:28px;">No data for this market.</div>';
-        return;
-    }
-
-    container.innerHTML = tracks.map((t, i) => {
-        const popularity = t.popularity ?? 0;
-        const pctText    = popularity + '%';
-        const barWidth   = popularity + '%';
-        const barColor   = popularity >= 80 ? '#1DB954' : popularity >= 60 ? '#d4a853' : '#555';
-        const mins  = Math.floor((t.duration_ms || 0) / 60000);
-        const secs  = String(Math.floor(((t.duration_ms || 0) % 60000) / 1000)).padStart(2, '0');
-        const cover = t.album?.images?.[2]?.url || t.album?.images?.[0]?.url || '';
-        const explicit = t.explicit ? '<span style="font-size:0.58rem;background:rgba(255,255,255,0.08);color:#888;padding:1px 4px;border-radius:3px;margin-left:6px;">E</span>' : '';
-
-        return `
-        <div class="country-track-row">
-            <div style="width:22px;text-align:right;font-size:0.75rem;color:#444;flex-shrink:0;">${i + 1}</div>
-            ${cover ? `<img src="${cover}" width="36" height="36" style="border-radius:4px;flex-shrink:0;" alt="" loading="lazy">` : '<div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border-radius:4px;flex-shrink:0;"></div>'}
-            <div style="flex:1;min-width:0;">
-                <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}${explicit}</div>
-                <div style="font-size:0.68rem;color:#444;margin-top:2px;">${t.album?.name ?? ''}</div>
-            </div>
-            <div style="width:130px;flex-shrink:0;">
-                <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.65rem;color:#3a3a3a;">Popularity</span>
-                    <span style="font-size:0.72rem;font-weight:700;color:${barColor};">${pctText}</span>
-                </div>
-                <div style="height:3px;background:rgba(255,255,255,0.05);border-radius:2px;">
-                    <div style="height:3px;width:${barWidth};background:${barColor};border-radius:2px;transition:width 0.3s;"></div>
-                </div>
-            </div>
-            <div style="width:38px;text-align:right;font-size:0.75rem;color:#444;flex-shrink:0;">${mins}:${secs}</div>
-        </div>`;
-    }).join('');
-}
-
-function attachCountryTabHandlers() {
-    // Tab buttons
-    document.getElementById('country-tabs')?.addEventListener('click', e => {
-        const btn = e.target.closest('.ctry-btn');
-        if (btn) loadCountryTracks(btn.dataset.market);
-    });
-
-    // Country search input
-    const searchInput = document.getElementById('country-search');
-    if (searchInput) {
-        searchInput.addEventListener('keydown', e => {
-            if (e.key === 'Enter') {
-                const code = searchInput.value.trim().toUpperCase();
-                if (/^[A-Z]{2}$/.test(code)) {
-                    loadCountryTracks(code);
-                    searchInput.value = '';
-                }
-            }
-        });
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     initStreamsDashboard();
     loadSpotifyArtistData();
-    attachCountryTabHandlers();
-    if (typeof SpotifyAPI !== 'undefined') loadCountryTracks('US');
 });
